@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1608758275297.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "BAEF53A9",
+    "lastKnownWriteTime" : 1608759073,
+    "last_content_update" : 1608759073409,
+    "path" : "~/GitHub/shiny_workshop/lessons.Rmd",
+    "project_path" : "lessons.Rmd",
+    "properties" : {
+        "cursorPosition" : "16,44",
+        "scrollLine" : "7"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

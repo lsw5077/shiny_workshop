@@ -1,0 +1,14 @@
+---
+title: "Resources"
+description: |
+  Shiny resources.
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Resources to learn more about shiny
+
+

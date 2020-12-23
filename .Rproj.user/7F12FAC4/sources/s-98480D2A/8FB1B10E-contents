@@ -1,0 +1,35 @@
+---
+title: "Course content"
+description: "Lyndsie suggests that we should actually flip the order of the first two activities. i.e., day 1 should be Denis's overview paired with decision theory and the story board/ app design activity. That way, all the high-level concepts are together and people can determine what they need to communicate before being presented with the menu of tools to acccomplish it."
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+# February 2, 2021: Introductions and Shiny basics
+
+- Introduction to web-based tools (Denis)
+- Shiny basics: interactive data display (Lyndsie)
+- Interactive display of model results for policy (Denis)
+- Bonus! Menu of cool shiny functions (Chad)
+- Project session 1: Experimenting with Shiny 
+
+# February 9, 2021: From models to policy
+
+- Intro to Structured Decision Making (Lyndsie)
+
+
+# February 16, 2021: Enabling value-based parameters
+
+- Road routing and medical facility optimization (Denis)
+- Pheasant management app and collaborative tool development (Lyndsie)
+
+# February 23, 2021: The importance of user experience
+
+- Oyster example and usability (Chad)
+- Best practices (Lyndsie + class discussion)
+
+# March 2, 2021: Project presentations!

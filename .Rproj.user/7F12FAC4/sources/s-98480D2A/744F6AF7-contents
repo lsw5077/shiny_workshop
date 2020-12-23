@@ -1,0 +1,17 @@
+---
+title: "About the instructors"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Dr. Denis Valle
+
+
+# Lyndsie Wszola (lyndsie.wszola@huskers.unl.edu)
+
+Lyndsie is a PhD student in the School of Biological Sciences and School of Natural Resources at the University of Nebraska Lincoln. Lyndsie's work leverages large-scale fish and wildlife agency datasets to understand changing social and ecological dynamics of freshwater fisheries.
+
+
+# Chad Palmer

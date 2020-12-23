@@ -1,0 +1,34 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "About the instructors",
+      "author": [],
+      "contents": "\r\nDr. Denis Valle\r\nLyndsie Wszola (lyndsie.wszola@huskers.unl.edu)\r\nLyndsie is a PhD student in the School of Biological Sciences and School of Natural Resources at the University of Nebraska Lincoln. Lyndsie’s work leverages large-scale fish and wildlife agency datasets to understand changing social and ecological dynamics of freshwater fisheries.\r\nChad Palmer\r\n\r\n\r\n\r\n",
+      "last_modified": "2020-12-23T15:58:44-06:00"
+    },
+    {
+      "path": "index.html",
+      "title": "Welcome to the SESYNC Decision Support Tool Short Course!",
+      "author": [],
+      "contents": "\r\nThe class combines pre-recorded lectures on topics including shiny workflows and decision processes with live discussions and supported time to work on projects. Check out the Lessons tab for the course content and zoom links, the Resources tab for shiny examples, tutorials, and reading about other decision, programming, and modeling topics. Instructor bios and contanct information can be found on the About tab.\r\n\r\n\r\n\r\n",
+      "last_modified": "2020-12-23T15:58:44-06:00"
+    },
+    {
+      "path": "lessons.html",
+      "title": "Course content",
+      "description": "Lyndsie suggests that we should actually flip the order of the first two activities. i.e., day 1 should be Denis's overview paired with decision theory and the story board/ app design activity. That way, all the high-level concepts are together and people can determine what they need to communicate before being presented with the menu of tools to acccomplish it.",
+      "author": [],
+      "contents": "\r\nFebruary 2, 2021: Introductions and Shiny basics\r\nIntroduction to web-based tools (Denis)\r\nShiny basics: interactive data display (Lyndsie)\r\nInteractive display of model results for policy (Denis)\r\nBonus! Menu of cool shiny functions (Chad)\r\nProject session 1: Experimenting with Shiny\r\nFebruary 9, 2021: From models to policy\r\nIntro to Structured Decision Making (Lyndsie)\r\nFrom Models to Policy (Denis)\r\nBurkina Faso app example (Denis)\r\nMalaria example (Denis)\r\nFebruary 16, 2021: Enabling value-based parameters\r\nRoad routing and medical facility optimization (Denis)\r\nPheasant management app and collaborative tool development (Lyndsie)\r\nFebruary 23, 2021: The importance of user experience\r\nOyster example and usability (Chad)\r\nBest practices (Lyndsie + class discussion)\r\nMarch 2, 2021: Project presentations!\r\n\r\n\r\n\r\n",
+      "last_modified": "2020-12-23T15:58:45-06:00"
+    },
+    {
+      "path": "resources.html",
+      "title": "Resources",
+      "author": [],
+      "contents": "\r\nExample apps from the course\r\nOther example apps in Ecology, Conservation, and Epidemiology\r\nOther Shiny and R programming Resources\r\nThe Shiny gallery\r\nMastering Shiny book\r\nR for data science\r\nThe unofficial solutions manual to R for data science\r\nStats and modeling resources\r\n\r\n\r\n\r\n",
+      "last_modified": "2020-12-23T15:58:45-06:00"
+    }
+  ],
+  "collections": []
+}

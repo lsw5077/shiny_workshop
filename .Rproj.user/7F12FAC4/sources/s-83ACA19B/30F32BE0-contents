@@ -10,6 +10,8 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Other example apps in Ecology, Conservation, and Epidemiology 
 
+- [Recovery Explorer]( https://shiny.sesync.org/apps/RecoveryExplorer/)
+
 
 # Other Shiny and R programming Resources
 
@@ -19,6 +21,8 @@ knitr::opts_chunk$set(echo = FALSE)
 - [The unofficial solutions manual to R for data science](https://jrnold.github.io/r4ds-exercise-solutions/)
 
 # Stats and modeling resources
+
+- [Ecological Models and Data in R (A Classic!)](https://ms.mcmaster.ca/~bolker/emdbook/index.html)
 
 
 

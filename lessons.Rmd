@@ -14,6 +14,7 @@ output: distill::distill_article
 - [Shiny basics: interactive data display (Lyndsie)](shinyBasics.html)
   - Example App: [Loblolly](https://github.com/lsw5077/shiny_workshop/tree/main/exampleApps/Loblolly)
 - Interactive display of model results for policy (Denis)
+  - Example App: [msat](https://jjmillar.shinyapps.io/msat-example/) 
 - Bonus! Menu of cool shiny functions (Chad)
 - Project session 1: Experimenting with Shiny 
 
@@ -24,12 +25,15 @@ output: distill::distill_article
 - [From Models to Policy (Denis)](https://ufl.zoom.us/rec/share/JOIRsqyBhfFCNvU4lZAgtQyCQ-UKfCVwRmoSuKDNEvanqhyR-JV-3xzX0N1a9bG-.PaV43MI0ewIKhNWa) 
 - [Burkina Faso app example (Denis)](https://ufl.zoom.us/rec/share/oTGeh_7U5TFaAV65loRVpOr3Wftyd2c7mBXRLV9EfYspxRlLDK8msxmuLQBv9Bzv.18bnL5fukANOgehe)
 - [Malaria example (Denis)](https://ufl.zoom.us/rec/share/A39I_xbI_uGHyDijBWsG010aHpBimEKtU9UE2h6HSRAnNvbe6ETDhLR3HHXOmW7H.Mkgz73xSHY8yQPjo)
+  - Example App: [Malaria](https://denisvalle.shinyapps.io/burkina_faso_tool/)
 
 # Enabling value-based parameters
 
 - February 16, 2021 in the shiny workshop
 - [Road routing and medical facility optimization (Denis)](https://ufl.zoom.us/rec/share/JOIRsqyBhfFCNvU4lZAgtQyCQ-UKfCVwRmoSuKDNEvanqhyR-JV-3xzX0N1a9bG-.PaV43MI0ewIKhNWa)
+  - Example App: [Road routing](https://kokbent.shinyapps.io/hf-update/)
 - Pheasant management app and collaborative tool development (Lyndsie)
+  - Example App: [Pheasant habitat simulator](https://pheasant.shinyapps.io/pheasanthabitatsimulator/)
 
 # The importance of user experience
 

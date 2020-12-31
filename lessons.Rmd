@@ -1,11 +1,9 @@
 ---
 title: "Course content"
-description: "Lyndsie suggests that we should actually flip the order of the first two activities. i.e., day 1 should be Denis's overview paired with decision theory and the story board/ app design activity. That way, all the high-level concepts are together and people can determine what they need to communicate before being presented with the menu of tools to acccomplish it."
 output: distill::distill_article
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
@@ -13,7 +11,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 - [Introduction to web-based tools (Denis)](https://ufl.zoom.us/rec/share/ue9gpLzc3qIZH5FNxsfs8UN_wK8oLDL4T1EJK8ox0SlhuCoZHjrGce5G4b_PpBOz.FAACnTIDc3N-wMO6)
 - [Shiny basics: interactive data display (Lyndsie)](shinyBasics.html)
-  - Example App: Loblolly
+  - Example App: [Loblolly](https://github.com/lsw5077/shiny_workshop/tree/main/exampleApps/Loblolly)
 - Interactive display of model results for policy (Denis)
 - Bonus! Menu of cool shiny functions (Chad)
 - Project session 1: Experimenting with Shiny 

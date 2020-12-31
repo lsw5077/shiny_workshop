@@ -4,7 +4,7 @@ output: distill::distill_article
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+
 ```
 
 
@@ -79,23 +79,23 @@ dir.create("C:/Users/Lyndsie/Documents/GitHub/shiny_workshop/exampleApps")
 
 To start a new shiny app, we'll open RStudio and click File>New File>Shiny Web App.
 
-![screenshot of creating a new shiny app](images/newFile.PNG)
+![](images/newFile.PNG)
 
 In the new shiny web application dialog box, we're prompted to choose a name for our app. We'll call it "Loblolly" and ititate it as a single file app using the radio selector buttons. We're also given the option to place our new app in an existing directory. Click "browse" and navigate to the directory we created using `dir.create()` and initiate our app by clicking "Create."
 
-![screenshot of the app initiation dialogue](images/housingApp.PNG)
+![](images/housingApp.PNG)
 
 If we look in `~/exampleApps` the directory that we created earlier, we now see a folder called "Loblolly/" containing one file, "app.R"
 
-![screenshot of the app folder structure](images/LoblollyDir.PNG)
+![](images/LoblollyDir.PNG)
 
 New shiny apps initiate with a great example app provided by the folks at RStudio using the "Old Faithful" sample dataset. The app consists of a slider that lets us selecthte number of bins in a histogram. Let's pause briefly to play with the example app a bit. Click the "Run App" button and experiment with the slider. 
 
-![screenshot of the Old Faithful example app](images/OldFaithful.PNG)
+![](images/OldFaithful.PNG)
 
 Once you've satisfied your curiosity a little, close the browser window and delete all the code in app.R so we have a blank script. Don't worry. We won't break anything and it will work better for us to learn by building our app up from scratch. 
 
-![screenshot of a totally blank shiny app](images/blankApp.PNG)
+![](images/blankApp.PNG)
 
 ## Getting started
 
@@ -203,7 +203,7 @@ ui <- shinyUI(fluidPage("Loblolly app"
 ```
 Notice that we're indenting the parentheses on seperate lines. Even though R doesn't have semantic indenting like some other languages (i.e., R doesn't read this any different than parentheses nested on the same line), visually breaking up our code like this can make it easier for us to read and debug later. At this point, we have a totally functional, if not very interesting, shiny app. If we click "Run App" RStudio will launch a browser window that just says "Loblolly app" in the upper left hand corner.
 
-![screenshot of a mostly blank shiny app in the browser](images/blankBrowse.PNG)
+![](images/blankBrowse.PNG)
 
 Now let's get rid of our "Loblolly app" sample text and add some content to our app! We're going to use a ```sidebarLayout```, which creates a shaded a side panel and a main panel. The side panel and main panel can both hold text, plots, maps, user input widgets, videos, and whatever else we need them to hold. The advantage of using a sidebarPanel() is that it draws the user's eye, so it's a great structure for communicating instructions and introductory material. Our sidepanel will hold a brief welcome for the user and a user input widget that prompts users select the age range over which they wish to visualize pine growth. We'll also add some comments so we can remember what we were doing later. Just in case we need to say... write a tutorial explaining how to build a shiny app. One of the cool things about shiny is that you can create html outputs using a range of coding languages. We'll use just a little bit of html here by typing ```br()``` a few times strategically to create some nice visual breaks on the page. 
 
@@ -245,7 +245,7 @@ ui <- fluidPage(
         
 ```
 
-![screenshot of the sidebar with a non-functional slider](images/sidebar.PNG)
+![](images/sidebar.PNG)
 
 ## Server
 
@@ -364,4 +364,8 @@ shinyApp(ui = ui, server = server)
 
 ```
 
-![screenshot of the full Loblolly app](images/LoblollyFull.PNG)
+
+
+
+
+![](images/LoblollyFull.PNG)

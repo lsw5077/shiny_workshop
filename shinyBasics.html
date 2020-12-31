@@ -2078,25 +2078,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <p>To start a new shiny app, we’ll open RStudio and click File&gt;New File&gt;Shiny Web App.</p>
-<figure>
-<img src="images/newFile.PNG" alt="screenshot of creating a new shiny app" /><figcaption>screenshot of creating a new shiny app</figcaption>
-</figure>
+<p><img src="images/newFile.PNG" /></p>
 <p>In the new shiny web application dialog box, we’re prompted to choose a name for our app. We’ll call it “Loblolly” and ititate it as a single file app using the radio selector buttons. We’re also given the option to place our new app in an existing directory. Click “browse” and navigate to the directory we created using <code>dir.create()</code> and initiate our app by clicking “Create.”</p>
-<figure>
-<img src="images/housingApp.PNG" alt="screenshot of the app initiation dialogue" /><figcaption>screenshot of the app initiation dialogue</figcaption>
-</figure>
+<p><img src="images/housingApp.PNG" /></p>
 <p>If we look in <code>~/exampleApps</code> the directory that we created earlier, we now see a folder called “Loblolly/” containing one file, “app.R”</p>
-<figure>
-<img src="images/LoblollyDir.PNG" alt="screenshot of the app folder structure" /><figcaption>screenshot of the app folder structure</figcaption>
-</figure>
+<p><img src="images/LoblollyDir.PNG" /></p>
 <p>New shiny apps initiate with a great example app provided by the folks at RStudio using the “Old Faithful” sample dataset. The app consists of a slider that lets us selecthte number of bins in a histogram. Let’s pause briefly to play with the example app a bit. Click the “Run App” button and experiment with the slider.</p>
-<figure>
-<img src="images/oldFaithful.PNG" alt="screenshot of the Old Faithful example app" /><figcaption>screenshot of the Old Faithful example app</figcaption>
-</figure>
+<p><img src="images/oldFaithful.PNG" /></p>
 <p>Once you’ve satisfied your curiosity a little, close the browser window and delete all the code in app.R so we have a blank script. Don’t worry. We won’t break anything and it will work better for us to learn by building our app up from scratch.</p>
-<figure>
-<img src="images/blankApp.PNG" alt="screenshot of a totally blank shiny app" /><figcaption>screenshot of a totally blank shiny app</figcaption>
-</figure>
+<p><img src="images/blankApp.PNG" /></p>
 <h2 id="getting-started">Getting started</h2>
 <p>We’ll start setting up our app by loading the shiny library outside the app code itself. We put these lines outside the main app code so they’re run just once, which reduces memory needs and run time.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2191,9 +2181,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <p>Notice that we’re indenting the parentheses on seperate lines. Even though R doesn’t have semantic indenting like some other languages (i.e., R doesn’t read this any different than parentheses nested on the same line), visually breaking up our code like this can make it easier for us to read and debug later. At this point, we have a totally functional, if not very interesting, shiny app. If we click “Run App” RStudio will launch a browser window that just says “Loblolly app” in the upper left hand corner.</p>
-<figure>
-<img src="images/blankBrowse.PNG" alt="screenshot of a mostly blank shiny app in the browser" /><figcaption>screenshot of a mostly blank shiny app in the browser</figcaption>
-</figure>
+<p><img src="images/blankBrowse.PNG" /></p>
 <p>Now let’s get rid of our “Loblolly app” sample text and add some content to our app! We’re going to use a <code>sidebarLayout</code>, which creates a shaded a side panel and a main panel. The side panel and main panel can both hold text, plots, maps, user input widgets, videos, and whatever else we need them to hold. The advantage of using a sidebarPanel() is that it draws the user’s eye, so it’s a great structure for communicating instructions and introductory material. Our sidepanel will hold a brief welcome for the user and a user input widget that prompts users select the age range over which they wish to visualize pine growth. We’ll also add some comments so we can remember what we were doing later. Just in case we need to say… write a tutorial explaining how to build a shiny app. One of the cool things about shiny is that you can create html outputs using a range of coding languages. We’ll use just a little bit of html here by typing <code>br()</code> a few times strategically to create some nice visual breaks on the page.</p>
 <p>We’ll also add a main panel to go next to our side panel, defined using the <code>mainPanel()</code> function. It doesn’t have anything in it yet, which is ok. It just needs to be there so <code>sidebarLayout()</code> is satisfied that all its components have been accounted for. If we launch our app at this point, we should have a sidebar with a functional but so far useless slider bar.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2232,9 +2220,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </code></pre>
 </div>
 </div>
-<figure>
-<img src="images/sidebar.PNG" alt="screenshot of the sidebar with a non-functional slider" /><figcaption>screenshot of the sidebar with a non-functional slider</figcaption>
-</figure>
+<p><img src="images/sidebar.PNG" /></p>
 <h2 id="server">Server</h2>
 <p>Now that we have our user interface set up, we need some cool data products for it to display! Let’s bring back our Loblolly pine plot from earlier, but link it to the slider we built in UI so our hypothetical decision-maker can manipulate the displayed age visualization for themselves. We’ll set up our reactively updating plot using the <code>renderPlot({})</code> function. Notice that <code>renderPlot({})</code> uses a curly bracket nested inside the parentheses. That’s because <code>renderPlot({})</code> is reactive, meaning it needs user input to function.</p>
 <p>Reactivity is the ability of Shiny apps to receive user inputs and perform operations that are then returned to the user as updating visuals and values. This helps our Shiny app update only what’s needed at each step and keep its processing time reasonable. Even though we only receive the user’s input once, each time we use the information we receive from the user, it will need to be a <code>reactive({})</code> value because all the values “downstream” of the user’s input depend on the value of that input. It’s generally good practice to keep our reactive values simple, so that when (not if) our code breaks, we will have an easier time identifying the problem.</p>
@@ -2345,9 +2331,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </code></pre>
 </div>
 </div>
-<figure>
-<img src="images/LoblollyFull.PNG" alt="screenshot of the full Loblolly app" /><figcaption>screenshot of the full Loblolly app</figcaption>
-</figure>
+<p><img src="images/LoblollyFull.PNG" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

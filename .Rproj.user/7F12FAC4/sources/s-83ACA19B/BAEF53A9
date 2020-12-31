@@ -1,24 +1,24 @@
 {
     "collab_server" : "",
     "contents" : "",
-    "created" : 1608758154136.000,
+    "created" : 1608758275297.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
     "hash" : "0",
-    "id" : "A7C47793",
-    "lastKnownWriteTime" : 1608758243,
-    "last_content_update" : 1608758243060,
-    "path" : "~/GitHub/shiny_workshop/index.Rmd",
-    "project_path" : "index.Rmd",
+    "id" : "BAEF53A9",
+    "lastKnownWriteTime" : 1609427173,
+    "last_content_update" : 1609427173104,
+    "path" : "~/GitHub/shiny_workshop/lessons.Rmd",
+    "project_path" : "lessons.Rmd",
     "properties" : {
-        "cursorPosition" : "9,3",
+        "cursorPosition" : "3,3",
         "scrollLine" : "0"
     },
     "read_only" : false,
     "read_only_alternatives" : [
     ],
-    "relative_order" : 1,
+    "relative_order" : 3,
     "source_on_save" : false,
     "source_window" : "",
     "type" : "r_markdown"

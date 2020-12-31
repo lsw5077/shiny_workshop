@@ -7,8 +7,9 @@ output: distill::distill_article
 ```
 
 
-# February 2, 2021: Introductions and Shiny basics
+# Introductions and Shiny basics
 
+- February 2, 2021 in the shiny workshop
 - [Introduction to web-based tools (Denis)](https://ufl.zoom.us/rec/share/ue9gpLzc3qIZH5FNxsfs8UN_wK8oLDL4T1EJK8ox0SlhuCoZHjrGce5G4b_PpBOz.FAACnTIDc3N-wMO6)
 - [Shiny basics: interactive data display (Lyndsie)](shinyBasics.html)
   - Example App: [Loblolly](https://github.com/lsw5077/shiny_workshop/tree/main/exampleApps/Loblolly)
@@ -16,21 +17,24 @@ output: distill::distill_article
 - Bonus! Menu of cool shiny functions (Chad)
 - Project session 1: Experimenting with Shiny 
 
-# February 9, 2021: From models to policy
+# From models to policy
 
+- February 9, 2021 in the shiny workshop
 - Intro to Structured Decision Making (Lyndsie)
 - [From Models to Policy (Denis)](https://ufl.zoom.us/rec/share/JOIRsqyBhfFCNvU4lZAgtQyCQ-UKfCVwRmoSuKDNEvanqhyR-JV-3xzX0N1a9bG-.PaV43MI0ewIKhNWa) 
 - [Burkina Faso app example (Denis)](https://ufl.zoom.us/rec/share/oTGeh_7U5TFaAV65loRVpOr3Wftyd2c7mBXRLV9EfYspxRlLDK8msxmuLQBv9Bzv.18bnL5fukANOgehe)
 - [Malaria example (Denis)](https://ufl.zoom.us/rec/share/A39I_xbI_uGHyDijBWsG010aHpBimEKtU9UE2h6HSRAnNvbe6ETDhLR3HHXOmW7H.Mkgz73xSHY8yQPjo)
 
-# February 16, 2021: Enabling value-based parameters
+# Enabling value-based parameters
 
+- February 16, 2021 in the shiny workshop
 - [Road routing and medical facility optimization (Denis)](https://ufl.zoom.us/rec/share/JOIRsqyBhfFCNvU4lZAgtQyCQ-UKfCVwRmoSuKDNEvanqhyR-JV-3xzX0N1a9bG-.PaV43MI0ewIKhNWa)
 - Pheasant management app and collaborative tool development (Lyndsie)
 
-# February 23, 2021: The importance of user experience
+# The importance of user experience
 
+- February 23, 2021 in the shiny workshop
 - Oyster example and usability (Chad)
 - Best practices (Lyndsie + class discussion)
 
-# March 2, 2021: Project presentations!
+# Project presentations!

@@ -7,12 +7,12 @@
     "folds" : "",
     "hash" : "0",
     "id" : "BAEF53A9",
-    "lastKnownWriteTime" : 1609427173,
-    "last_content_update" : 1609427173104,
+    "lastKnownWriteTime" : 1609427286,
+    "last_content_update" : 1609427286771,
     "path" : "~/GitHub/shiny_workshop/lessons.Rmd",
     "project_path" : "lessons.Rmd",
     "properties" : {
-        "cursorPosition" : "3,3",
+        "cursorPosition" : "7,0",
         "scrollLine" : "0"
     },
     "read_only" : false,

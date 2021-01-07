@@ -1,0 +1,13 @@
+name: sofishticatedApp
+title: sofishticatedApp
+username:
+account: pheasant
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3449715
+bundleId: 4067781
+url: https://pheasant.shinyapps.io/sofishticatedApp/
+when: 1610010037.13798
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: dataCleaning.R|data/fishDat.RData|www/walleye.png

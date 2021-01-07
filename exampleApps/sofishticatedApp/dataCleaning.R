@@ -66,8 +66,11 @@ fishDat <- favFish[rep(seq(nrow(favFish)), 1+as.numeric(favFish$tmax)),] %>%
                                   t0 = t0,
                                   t = Age))
 
-write_rds(fishDat, path = "fishDat.RData")
 
+
+#write.csv(fishDat, file = "C:/Users/Lyndsie/Documents/GitHub/shiny_workshop/exampleApps/sofishticatedApp/data/fishdat.csv")
+
+write_rds(fishDat, path = "fishdat.rdata")
 
 # For good app:
 

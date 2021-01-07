@@ -3,17 +3,19 @@
 
 library(shiny)
 library(RColorBrewer)
-fishDat <- read_rds("data/fishDat.RData")
+library(tidyverse)
+
+
 
 # Let's make a custom color palette
 
 fishPal <- c("Walleye" = "#000000",
-              "Lake trout" = "#E69F00",
-              "Yellow perch" = "#56B4E9",
-              "Northern pike" = "#009E73",
+              "Lake_trout" = "#E69F00",
+              "Yellow_perch" = "#56B4E9",
+              "Northern_pike" = "#009E73",
               "Muskellunge" = "#0072B2",
               "Burbot" = "#D55E00",
-              "Lake sturgeon" = "#CC79A7")
+              "Lake_sturgeon" = "#CC79A7")
 
 ui <- fluidPage(
   
@@ -44,12 +46,12 @@ ui <- fluidPage(
       inputId = "fishChoices",
                  label = "",
                  choices = c("Walleye",
-                 "Lake trout",
-                 "Yellow perch",
-                 "Northern pike",
+                 "Lake_trout",
+                 "Yellow_perch",
+                 "Northern_pike",
                  "Muskellunge",
                  "Burbot",
-                 "Lake sturgeon"))),
+                 "Lake_sturgeon"))),
     
     mainPanel(plotOutput("lengthPlot"))
     )
@@ -58,14 +60,27 @@ ui <- fluidPage(
 
   
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   
   # Define a reactive value called fishLengths
   # by filtering the fishDat variable we loaded up above
   # to include only records whose common names are in the user selection
   
   
+  # choices <- reactive({
+  #   
+  #            spp = c(input$fishChoices)
+  #            
+  #            })
+  
+  #output$ptext <- renderText(c({choices()}))
+  
+  fishDat <- read.csv("data/fishdat.csv")
+  
+    
   fishLengths <- reactive({
+    
+    #fishSpp <- choices()
     
     fishLengths <- fishDat %>% 
                    filter(Common_Name %in% input$fishChoices)

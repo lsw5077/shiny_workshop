@@ -45,13 +45,14 @@ ui <- fluidPage(
 
       inputId = "fishChoices",
                  label = "",
-                 choices = c("Walleye",
-                 "Lake_trout",
-                 "Yellow_perch",
-                 "Northern_pike",
-                 "Muskellunge",
-                 "Burbot",
-                 "Lake_sturgeon"))),
+                 choices = 
+                c("Walleye"= "Walleye",
+                  "Lake trout" = "Lake_trout",
+                  "Yellow perch" = "Yellow_perch",
+                  "Northern pike" = "Northern_pike",
+                 "Muskellunge" = "Muskellunge",
+                 "Burbot" ="Burbot",
+                 "Lake sturgeon" = "Lake_sturgeon"))),
     
     mainPanel(plotOutput("lengthPlot"))
     )

@@ -1,0 +1,252 @@
+# Environment
+
+
+library(tidyverse)
+library(viridis)
+library(rjags)
+library(jagsUI)
+library(lubridate)
+library(rphylopic)
+
+setwd("C:/Users/Lyndsie/Documents/Creel_data_backup/inProgressClean")
+ 
+
+simpleTheme <- theme_bw()+
+  theme(panel.grid = element_blank(),
+        axis.text = element_text(size = 16, color = "black"),
+        axis.title = element_text(size = 20, color = "black"))
+
+vermCreel <- read_rds("MN_Creel_Fish.rds") %>%
+            mutate(Date = as.Date(Date),
+                   Study_Year = year(Date),
+                   Catch = 1) %>%
+            filter(Waterbody_ID == 'lake_vermilion_27_137',
+                   Species == "Walleye", !is.na(Length_cm),
+                   year(Date) >= 2003)
+
+vermStandard <- read_rds("MN_Standard_Clean.rds") %>%
+                mutate(Study_Year = year(Date),
+                       Catch = 0) %>%
+                filter(Waterbody_ID == 'lake_vermilion_27_137', Species == "Walleye",
+                       year(Date) >= 2003)
+
+LotWCreel <- read_rds("MN_Creel_Fish.rds") %>%
+             filter(grepl('lake_of_the_woods', Waterbody_ID), Species == "Walleye") %>%
+             mutate(Study_Year = year(Date),
+                     Catch = 1)
+
+
+LotWStandard <- read_rds("MN_Standard_Clean.rds") %>%
+                filter(grepl('lake_of_the_woods', Waterbody_ID),
+                       Species == "Walleye") %>%
+                mutate(Study_Year = year(Date),
+                       Catch = 0)
+
+# Let's explore the structure a little.
+# 
+# dim(LotWStandard) # 4621 fish
+# table(LotWStandard$Sex) # Yes sexes from LotW
+# summary(LotWStandard$Age) # No ages from LotW
+# table(LotW$Stage) # Yes stages from LotW
+# summary(LotWStandard$Mass_g) # Yes masses from LotW
+# table(LotWStandard$Mark_ID) # No marks
+# 
+# dim(vermStandard) # 4098 fish
+# table(vermStandard$Sex) # No sex
+# summary(vermStandard$Age) # Yes age
+# table(vermStandard$Stage) # No stage
+# summary(vermStandard$Mass_g) # Yes mass
+# table(vermStandard$Mark_ID) # Yes marks
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# dim(vermCreel)
+# table(vermCreel$Sex)
+# summary(vermCreel$Length_cm)
+# summary(vermCreel$Stage)
+# summary(vermCreel$Age)
+# summary(vermCreel$Mass_g)
+# summary(vermCreel$Mark_ID)
+# 
+# dim(LotWCreel)
+# summary(LotWCreel$Sex)
+# summary(LotWCreel$Age)
+# summary(LotWCreel$Stage)
+# summary(LotWCreel$Mass_g)
+# summary(LotWCreel$Length_cm)
+# table(LotWCreel$Kept)
+# table(vermCreel$Kept)
+
+#Both creels: lengths and kept status. Actually quite nice.
+
+# Let's check out Wini
+
+
+winiCreel <- read_rds("MN_Creel_Fish.rds") %>%
+  mutate(Date = as.Date(Date),
+         Study_Year = year(Date),
+         Catch = 1) %>%
+  filter(Waterbody_ID == 'lake_winnibigoshish_27_61',
+         Species == "Walleye", !is.na(Length_cm))
+
+
+winiStandard <- read_rds("MN_Standard_Clean.rds") %>%
+                mutate(Date = as.Date(Date),
+                       Study_Year = year(Date),
+                       Catch = 0) %>%
+                filter(Waterbody_ID == 'lake_winnibigoshish_27_61',
+                       Species == "Walleye", !is.na(Length_cm))
+
+
+# plot(winiStandard$Study_Year, winiStandard$Length_cm)
+# plot(winiCreel$Study_Year, winiCreel$Length_cm)
+# 
+# table(winiCreel$Kept)
+# table(winiStandard$Sex)
+# table(winiStandard$Age)
+# table(winiStandard$Stage)
+
+# 32436 creel fish
+# 8554 standard fish
+
+
+leechCreel <- read_rds("MN_Creel_Fish.rds") %>%
+  mutate(Date = as.Date(Date),
+         Study_Year = year(Date),
+         Catch = 1) %>%
+  filter(Waterbody_ID == 'leech_lake_27_21',
+         Species == "Walleye", !is.na(Length_cm))
+
+
+leechStandard <- read_rds("MN_Standard_Clean.rds") %>%
+  mutate(Date = as.Date(Date),
+         Study_Year = year(Date),
+         Catch = 0) %>%
+  filter(Waterbody_ID == 'leech_lake_27_21',
+         Species == "Walleye", !is.na(Length_cm))
+
+
+# dim(leechCreel) # 212990
+# dim(leechStandard) # 8668
+# 
+# table(leechCreel$Kept) # Nice mix of kept and discarded
+# 
+# mean(leechCreel$Length_cm[leechCreel$Kept == 0]) # 46.60333
+# mean(leechCreel$Length_cm[leechCreel$Kept == 1]) # 40.48448
+# mean(leechStandard$Length_cm) # 38.95249
+# 
+# 
+# 
+# table(leechStandard$Sex) # Male and females distinguished in gillnets
+# table(leechStandard$Age) # We  have ages!
+# table(leechStandard$Stage) # fish staged.
+
+
+# Ok, so we're going to use leech!
+# 221658 total fish
+# caught and released
+# Regulation: Walleye limit 4, only 1 over 20 inches
+
+# mean(leechCreel$Length_cm[leechCreel$Kept == 0])
+# mean(leechCreel$Length_cm[leechCreel$Kept == 1])
+# 
+# 
+# ggplot() +
+#   geom_histogram(aes(x = Length_cm), data = leechStandard, adjust = 2, fill = 'grey', size = 1) +
+#   geom_histogram(aes(x = Length_cm), data = leechCreel, adjust = 2, fill = 'green', alpha = 0.5, size = 1) +
+#   geom_histogram(aes(x = Length_cm), data = leechCreel[leechCreel$Kept == 1,], adjust = 2, fill = 'orange', alpha = 0.5, size = 1) +
+#   labs (x = "Length (cm)", y = "Density") +
+#   coord_cartesian(expand = F) +
+#   theme_bw() +
+#   theme(axis.text = element_text(size = 24, color = 'black'),
+#         axis.title = element_text(size = 30),
+#         panel.grid = element_blank())
+# 
+# 
+# ggplot() +
+#   geom_density(aes(x = Length_cm), data = leechStandard, adjust = 2, fill = 'grey', size = 1) +
+#   geom_density(aes(x = Length_cm), data = leechCreel, adjust = 2, fill = 'green', alpha = 0.5, size = 1) +
+#   #geom_density(aes(x = Length_cm), data = leechCreel[leechCreel$Kept == 1,], adjust = 2, fill = 'orange', alpha = 0.5, size = 1) +
+#   labs (x = "Length (cm)", y = "Density") +
+#   coord_cartesian(expand = F) +
+#   theme_bw() +
+#   theme(axis.text = element_text(size = 24, color = 'black'),
+#         axis.title = element_text(size = 30),
+#         panel.grid = element_blank())
+# 
+# 
+# ggplot() +
+#   geom_density(aes(x = Length_cm), data = leechStandard, adjust = 2, fill = 'grey', size = 1) +
+#   #geom_density(aes(x = Length_cm), data = leechCreel, adjust = 2, fill = 'green', alpha = 0.5, size = 1) +
+#   #geom_density(aes(x = Length_cm), data = leechCreel[leechCreel$Kept == 1,], adjust = 2, fill = 'orange', alpha = 0.5, size = 1) +
+#   labs (x = "Length (cm)", y = "Density") +
+#   coord_cartesian(expand = F) +
+#   theme_bw() +
+#   theme(axis.text = element_text(size = 24, color = 'black'),
+#         axis.title = element_text(size = 30),
+#         panel.grid = element_blank())
+# 
+# 
+# wall <- png::readPNG("D:/Documents/manuscripts/LakeVerm/Analysis/wall.png")
+# 
+# 
+# for (i in 1:nrow(mtcars)) {
+#   p <- p + add_phylopic(img, 1, mtcars$drat[i], mtcars$wt[i], ysize = 0.3)
+# }
+# p
+# 
+# 
+# 
+# 
+# leechRecruit <- leechStandard %>%
+#                 filter(Age > 0) %>%
+#                 group_by(Study_Year, Age) %>%
+#                 summarise(N = n(),
+#                           propMature = mean(ifelse(Stage == "Mature", 1, 0), na.rm = T)) 
+#                 
+#   
+# leechRecruit %>%
+# ggplot() +
+#      geom_point(aes(x = Study_Year, y = Age, size = N, color = propMature)) +
+#      labs(x = "Study Year", y = "Age", color = "Proportion mature") +
+#      scale_size(range = c(1, 10), name="N") +
+#      coord_cartesian(xlim = c(1989, 2022)) + 
+#      simpleTheme +
+#      theme(legend.text = element_text(size = 24),
+#            legend.title = element_text(size = 30))
+# 
+# 
+# 
+# 
+# leechRecruit %>%
+#   filter(Sex == "Male") %>%
+#   ggplot() +
+#   geom_point(aes(x = Study_Year, y = Age, size = N, color = propMature)) +
+#   labs(x = "Study Year", y = "Age", color = "Proportion mature") +
+#   scale_size(range = c(1, 10), name="N") +
+#   coord_cartesian(xlim = c(1989, 2022)) + 
+#   simpleTheme +
+#   theme(legend.text = element_text(size = 24),
+#         legend.title = element_text(size = 30))
+# 
+# 
+# 
+# 
+# 
+# for(i in 1:nrow(leechRecruit)) {
+# 
+#  l <- l + add_phylopic(wall, 
+#                        x = leechRecruit$Study_Year[i], 
+#                        y = leechRecruit$Age[i],
+#                        ysize = log(leechRecruit$N[i] + 1)/9,
+#                        color = "darkgreen",
+#                        alpha = 1)
+# 
+# }
+# 
+# l

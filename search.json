@@ -2,10 +2,9 @@
   "articles": [
     {
       "path": "about.html",
-      "title": "About the instructors",
       "author": [],
       "contents": "\r\n\r\n  .col2 {\r\n    columns: 2 200px;         /* number of columns and width in pixels*/\r\n    -webkit-columns: 2 200px; /* chrome, safari */\r\n    -moz-columns: 2 200px;    /* firefox */\r\n  }\r\n  .col3 {\r\n    columns: 3 100px;\r\n    -webkit-columns: 3 100px;\r\n    -moz-columns: 3 100px;\r\n  }\r\n\r\nDr. Denis Valle\r\n\r\n\r\n\r\n\r\n(drvalle@ufl.edu)\r\n\r\n\r\nDenis is a quantitative scientist broadly interested in problems in developing countries and Bayesian models. His work has focused predominantly in developing next-generation models for highly multivariate biodiversity data, determining the impact of large-scale anthropogenic stressors in the Amazon region, and developing models and decision support tools for malaria epidemiology.\r\n\r\n\r\nLyndsie Wszola\r\n\r\n\r\n\r\n\r\n(lyndsie.wszola@huskers.unl.edu)\r\n\r\n\r\nLyndsie is a PhD student in the School of Biological Sciences and School of Natural Resources at the University of Nebraska Lincoln. Lyndsie’s work leverages large-scale fish and wildlife agency datasets to understand changing social and ecological dynamics of freshwater fisheries.\r\n\r\nChad Palmer\r\n\r\n\r\n\r\n",
-      "last_modified": "2020-12-31T12:15:30-06:00"
+      "last_modified": "2020-12-31T12:20:21-06:00"
     },
     {
       "path": "index.html",

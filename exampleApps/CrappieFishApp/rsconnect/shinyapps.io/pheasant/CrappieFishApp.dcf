@@ -5,9 +5,9 @@ account: pheasant
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3449749
-bundleId: 4068622
+bundleId: 4068719
 url: https://pheasant.shinyapps.io/CrappieFishApp/
-when: 1610029253.22195
+when: 1610031368.92741
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: Readme.md

@@ -1,0 +1,40 @@
+---
+title: "Course content"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+```
+
+
+# Introductions and Shiny basics
+
+- February 2, 2021 in the shiny workshop
+- [Introduction to web-based tools (Denis)](https://ufl.zoom.us/rec/share/ue9gpLzc3qIZH5FNxsfs8UN_wK8oLDL4T1EJK8ox0SlhuCoZHjrGce5G4b_PpBOz.FAACnTIDc3N-wMO6)
+- [Shiny basics: interactive data display (Lyndsie)](shinyBasics.html)
+  - Example App: [Loblolly](https://github.com/lsw5077/shiny_workshop/tree/main/exampleApps/Loblolly)
+- [Interactive display of model results for policy: context for app (Denis)](https://ufl.zoom.us/rec/share/WhIxqo4eg1hiVd-y8rMvPEqFDGwmSMzT3KXPCvqABBv2VsNUEh7S4bV9voJQuLKA.jZoJfNji4IYqysVY)
+- [Interactive display of model results for policy: code for app (Denis)](https://ufl.zoom.us/rec/share/A39I_xbI_uGHyDijBWsG010aHpBimEKtU9UE2h6HSRAnNvbe6ETDhLR3HHXOmW7H.Mkgz73xSHY8yQPjo)
+
+- Bonus! Menu of cool shiny functions (Chad)
+- Project session 1: Experimenting with Shiny 
+
+# From models to policy
+
+- February 9, 2021 in the shiny workshop
+- Intro to Structured Decision Making (Lyndsie)
+- [From Models to Policy (Denis)](https://ufl.zoom.us/rec/share/JOIRsqyBhfFCNvU4lZAgtQyCQ-UKfCVwRmoSuKDNEvanqhyR-JV-3xzX0N1a9bG-.PaV43MI0ewIKhNWa)
+
+# Enabling value-based parameters
+
+- February 16, 2021 in the shiny workshop
+- [Value-based parameters (Denis)](https://ufl.zoom.us/rec/share/dMR7RaNlRbHC1Z-VF-T2IZCnSYhRfDKcAEtLlaShX2Xc_2KKs2x_zUoOboKTQS93.AzigM0mReKuCjljt)
+- Pheasant management app and collaborative tool development (Lyndsie)
+
+# The importance of user experience
+
+- February 23, 2021 in the shiny workshop
+- Oyster example and usability (Chad)
+- Best practices (Lyndsie + class discussion)
+
+# Project presentations!

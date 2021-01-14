@@ -1,0 +1,22 @@
+---
+title: "Module 1: Introductions and Shiny basics"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+- February 2, 2021 in the shiny workshop
+- [Introduction to web-based tools (Denis)](https://ufl.zoom.us/rec/share/ue9gpLzc3qIZH5FNxsfs8UN_wK8oLDL4T1EJK8ox0SlhuCoZHjrGce5G4b_PpBOz.FAACnTIDc3N-wMO6)
+- [Shiny basics: interactive data display (Lyndsie)](shinyBasics.html)
+  - Example App: [Loblolly](https://github.com/lsw5077/shiny_workshop/tree/main/exampleApps/Loblolly)
+- [Interactive display of model results for policy: context for app (Denis)](https://ufl.zoom.us/rec/share/WhIxqo4eg1hiVd-y8rMvPEqFDGwmSMzT3KXPCvqABBv2VsNUEh7S4bV9voJQuLKA.jZoJfNji4IYqysVY)
+  - [Interactive display of model results for policy: code for app (Denis)](https://ufl.zoom.us/rec/share/A39I_xbI_uGHyDijBWsG010aHpBimEKtU9UE2h6HSRAnNvbe6ETDhLR3HHXOmW7H.Mkgz73xSHY8yQPjo)
+- [Shiny basics: interactive data display (Lyndsie)](shinyBasics.html)
+  - [Video tutorial 1](https://youtu.be/igncXjXIB9Q)
+  - [Video tutorial 2](https://youtu.be/Gi3neH7Lw4U)
+  - Example App: [Loblolly](https://github.com/lsw5077/shiny_workshop/tree/main/exampleApps/Loblolly)
+
+- Bonus! Menu of cool shiny functions (Chad)
+- Project session 1: Experimenting with Shiny 

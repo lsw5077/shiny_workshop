@@ -1,0 +1,14 @@
+---
+title: "Module 3: Enabling value-based parameters"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+- February 16, 2021 in the shiny workshop
+- [Road routing and medical facility optimization (Denis)](https://ufl.zoom.us/rec/share/JOIRsqyBhfFCNvU4lZAgtQyCQ-UKfCVwRmoSuKDNEvanqhyR-JV-3xzX0N1a9bG-.PaV43MI0ewIKhNWa)
+  - Example App: [Road routing](https://kokbent.shinyapps.io/hf-update/)
+- [Pheasant management app and collaborative tool development (Lyndsie)](https://youtu.be/SPVE2XwU9Vg)
+  - Example App: [Pheasant habitat simulator](https://pheasant.shinyapps.io/pheasanthabitatsimulator/)

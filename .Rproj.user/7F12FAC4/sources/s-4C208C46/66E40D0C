@@ -1,25 +1,25 @@
 {
     "collab_server" : "",
     "contents" : "",
-    "created" : 1610601559988.000,
+    "created" : 1610629246155.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
     "hash" : "0",
-    "id" : "679BBDD3",
-    "lastKnownWriteTime" : 1610602236,
-    "last_content_update" : 1610602236651,
-    "path" : "~/GitHub/shiny_workshop/_site.yml",
-    "project_path" : "_site.yml",
+    "id" : "66E40D0C",
+    "lastKnownWriteTime" : 1610629636,
+    "last_content_update" : 1610629636889,
+    "path" : "~/GitHub/shiny_workshop/mod2.Rmd",
+    "project_path" : "mod2.Rmd",
     "properties" : {
-        "cursorPosition" : "19,23",
+        "cursorPosition" : "13,0",
         "scrollLine" : "0"
     },
     "read_only" : false,
     "read_only_alternatives" : [
     ],
-    "relative_order" : 1,
+    "relative_order" : 3,
     "source_on_save" : false,
     "source_window" : "",
-    "type" : "yaml"
+    "type" : "r_markdown"
 }

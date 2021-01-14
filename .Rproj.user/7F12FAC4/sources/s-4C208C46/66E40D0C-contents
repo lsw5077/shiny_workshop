@@ -11,7 +11,4 @@ knitr::opts_chunk$set(echo = FALSE)
 - [Intro to Structured Decision Making (Lyndsie)](https://youtu.be/jy6Lyu4jDGQ)
   - Optional Reading: [Humpback chub structured decision] making(https://pubs.usgs.gov/of/2011/1012/)
 - [From Models to Policy (Denis)](https://ufl.zoom.us/rec/share/JOIRsqyBhfFCNvU4lZAgtQyCQ-UKfCVwRmoSuKDNEvanqhyR-JV-3xzX0N1a9bG-.PaV43MI0ewIKhNWa) 
-- [Burkina Faso app example (Denis)](https://ufl.zoom.us/rec/share/oTGeh_7U5TFaAV65loRVpOr3Wftyd2c7mBXRLV9EfYspxRlLDK8msxmuLQBv9Bzv.18bnL5fukANOgehe)
-- [Malaria example (Denis)](https://ufl.zoom.us/rec/share/A39I_xbI_uGHyDijBWsG010aHpBimEKtU9UE2h6HSRAnNvbe6ETDhLR3HHXOmW7H.Mkgz73xSHY8yQPjo)
-  - Example App: [Malaria](https://denisvalle.shinyapps.io/burkina_faso_tool/)
 

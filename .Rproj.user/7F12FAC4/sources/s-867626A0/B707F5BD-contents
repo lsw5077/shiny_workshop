@@ -1,0 +1,55 @@
+library(shiny)
+
+#get calculated stuff
+#setwd('U:\\uf\\sesync course\\1c shiny basics policy D\\burkina_faso_tool')
+dat=read.csv('calc all.csv',as.is=T)
+source('visualize functions.R')
+coord=read.csv('coordinates regions.csv',as.is=T)
+
+# Define server logic required to summarize and view the selected dataset
+shinyServer(function(input, output) {
+
+  #mimick user data
+  # input=list();
+  # input$fever2wk='Yes'
+  # input$gender='Yes'
+  # input$region="Centre-Ouest"
+    
+  #create plot with vertical lines
+  output$plot1 <- renderPlot({
+    fever=ifelse(input$fever2wk=='Yes',1,0)
+    male=ifelse(input$gender=='Yes',1,0)
+
+    par(mfrow=c(1,2),mar=rep(0,4),oma=c(5,5,3,1))
+    for (urb in c(1,0)){
+      #subset the data specified by the user
+      cond=dat$reg==input$region & dat$urb==urb & dat$male==male & dat$fever2wk==fever
+      dat1=dat[cond,]
+      
+      #draw graph
+      yaxis=xaxis=T
+      if (urb==0) yaxis=F
+      panel.graph(dat1,xaxis,yaxis,margin1=0.05,margin2=0.05)
+      if (urb==1) text(0,0.95,'Urban',cex=2)
+      if (urb==0) text(0,0.95,'Rural',cex=2)
+    }
+    mtext(side=1,'Age groups',outer=T,line=3,cex=2)
+    mtext(side=2,'Probability of infection',outer=T,line=3,cex=2)
+  })
+  #plot map with the region selected by the user highlighted in red
+  output$map <- renderPlot({
+    par(mfrow=c(1,1),mar=c(0,0,0,0))
+    plot(NA,NA,xlim=range(coord$x),ylim=range(coord$y),xlab='',ylab='',main='')
+    nomes1=unique(coord$region)
+    
+    #display all regions in grey
+    for (i in 1:length(nomes1)){
+      tmp=coord[coord$region==nomes1[i],]
+      lines(tmp$x,tmp$y,col='grey')
+    }
+    
+    #display selected region in red
+    tmp=coord[coord$region==input$region,]
+    lines(tmp$x,tmp$y,col='red')
+  })
+})

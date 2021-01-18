@@ -7,13 +7,13 @@
     "folds" : "",
     "hash" : "0",
     "id" : "99DF5CBB",
-    "lastKnownWriteTime" : 1610605311,
-    "last_content_update" : 1610605311,
+    "lastKnownWriteTime" : 1610997432,
+    "last_content_update" : 1610997432024,
     "path" : "~/GitHub/shiny_workshop/resources.Rmd",
     "project_path" : "resources.Rmd",
     "properties" : {
-        "cursorPosition" : "4,0",
-        "scrollLine" : "0"
+        "cursorPosition" : "24,46",
+        "scrollLine" : "9"
     },
     "read_only" : false,
     "read_only_alternatives" : [

@@ -16,7 +16,11 @@ knitr::opts_chunk$set(echo = FALSE)
 
 
 - February 9, 2021 in the shiny workshop
+
 - [Intro to Structured Decision Making (Lyndsie)](https://youtu.be/jy6Lyu4jDGQ)
   - Optional Reading: [Humpback chub structured decision making](https://pubs.usgs.gov/of/2011/1012/)
+  
 - [From Models to Policy (Denis)](https://ufl.zoom.us/rec/share/JOIRsqyBhfFCNvU4lZAgtQyCQ-UKfCVwRmoSuKDNEvanqhyR-JV-3xzX0N1a9bG-.PaV43MI0ewIKhNWa) 
+  - [MSAT vs MDA example app](https://jjmillar.shinyapps.io/msat-example/)
+  - [MSAT vs MDA code](https://github.com/justinmillar/mda-msat)
 

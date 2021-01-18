@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "2217741000",
+    "hash" : "0",
     "id" : "E0F89223",
-    "lastKnownWriteTime" : 1610994463,
-    "last_content_update" : 1610994463440,
+    "lastKnownWriteTime" : 1610999194,
+    "last_content_update" : 1610999194386,
     "path" : "~/GitHub/shiny_workshop/mod2.Rmd",
     "project_path" : "mod2.Rmd",
     "properties" : {
-        "cursorPosition" : "20,33",
-        "scrollLine" : "4"
+        "cursorPosition" : "20,101",
+        "scrollLine" : "7"
     },
     "read_only" : false,
     "read_only_alternatives" : [

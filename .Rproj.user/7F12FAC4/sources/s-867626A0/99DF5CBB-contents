@@ -19,6 +19,12 @@ knitr::opts_chunk$set(echo = FALSE)
 - [Mastering Shiny book](https://mastering-shiny.org/)
 - [R for data science](https://r4ds.had.co.nz/)
 - [The unofficial solutions manual to R for data science](https://jrnold.github.io/r4ds-exercise-solutions/)
+- [The Shiny cheatsheet](images/shinyCheatsheet.pdf)
+- [The data wrangling cheatsheet](images/dataWrangling.pdf)
+- [The ggplot cheatsheet](images/ggplot2Cheatsheet.pdf)
+- [The Rmarkdown cheatsheet](images/rmarkdownCheatsheet.pdf)
+- [The lubridate cheatsheet](images/lubridateCheatsheet.pdf)
+
 
 # Stats and modeling resources
 

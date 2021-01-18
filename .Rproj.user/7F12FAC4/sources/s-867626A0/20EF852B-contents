@@ -18,5 +18,5 @@ knitr::opts_chunk$set(echo = FALSE)
   - [Video tutorial 2](https://youtu.be/Gi3neH7Lw4U)
   - Example App: [Loblolly](https://github.com/lsw5077/shiny_workshop/tree/main/exampleApps/Loblolly)
 
-- Bonus! Menu of cool shiny functions (Chad)
+- [Bonus! Menu of cool shiny functions (Chad)](https://ufl.zoom.us/rec/share/N87POMMST9c73DIisSOyeIWOydIkX8PAM-kbS8fsvBWzgZCHf412gJrrHL5k_bX3.yp9n0_s8l3y8GR5P)
 - Project session 1: Experimenting with Shiny 

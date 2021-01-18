@@ -4,8 +4,8 @@
       "path": "about.html",
       "title": "About the instructors",
       "author": [],
-      "contents": "\r\n\r\n  .col2 {\r\n    columns: 2 200px;         /* number of columns and width in pixels*/\r\n    -webkit-columns: 2 200px; /* chrome, safari */\r\n    -moz-columns: 2 200px;    /* firefox */\r\n  }\r\n  .col3 {\r\n    columns: 3 100px;\r\n    -webkit-columns: 3 100px;\r\n    -moz-columns: 3 100px;\r\n  }\r\n\r\nDr. Denis Valle\r\n\r\n\r\n\r\n\r\n(drvalle@ufl.edu)\r\n\r\n\r\nDenis is a quantitative scientist broadly interested in problems in developing countries and Bayesian models. His work has focused predominantly in developing next-generation models for highly multivariate biodiversity data, determining the impact of large-scale anthropogenic stressors in the Amazon region, and developing models and decision support tools for malaria epidemiology.\r\n\r\n\r\nLyndsie Wszola\r\n\r\n\r\n\r\n\r\n(lyndsie.wszola@huskers.unl.edu)\r\n\r\n\r\nLyndsie is a PhD student in the School of Biological Sciences and School of Natural Resources at the University of Nebraska Lincoln. Lyndsie’s work leverages large-scale fish and wildlife agency datasets to understand changing social and ecological dynamics of freshwater fisheries.\r\n\r\nChad Palmer\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-01-14T07:07:27-06:00"
+      "contents": "\r\n\r\n  .col2 {\r\n    columns: 2 200px;         /* number of columns and width in pixels*/\r\n    -webkit-columns: 2 200px; /* chrome, safari */\r\n    -moz-columns: 2 200px;    /* firefox */\r\n  }\r\n  .col3 {\r\n    columns: 3 100px;\r\n    -webkit-columns: 3 100px;\r\n    -moz-columns: 3 100px;\r\n  }\r\n\r\nDr. Denis Valle\r\n\r\n\r\n\r\n\r\n(drvalle@ufl.edu)\r\n\r\n\r\nDenis is a quantitative scientist broadly interested in problems in developing countries and Bayesian models. His work has focused predominantly in developing next-generation models for highly multivariate biodiversity data, determining the impact of large-scale anthropogenic stressors in the Amazon region, and developing models and decision support tools for malaria epidemiology.\r\n\r\n\r\nLyndsie Wszola\r\n\r\n\r\n\r\n\r\n(lyndsie.wszola@huskers.unl.edu)\r\n\r\n\r\nLyndsie is a PhD student in the School of Biological Sciences and School of Natural Resources at the University of Nebraska Lincoln. Lyndsie’s work leverages large-scale fish and wildlife agency datasets to understand changing social and ecological dynamics of freshwater fisheries.\r\n\r\n\r\nChad Palmer\r\n\r\n\r\n\r\n\r\n(palmer.cr@ufl.edu)\r\n\r\n\r\nChad is a MS student at the University of Florida’s School of Forest Resources and Conservation. His past work has involved partnering with stakeholders to develop tools to help natural resource users communicate their regulatory preferences to resource managers.\r\n\r\n\r\n\r\n\r\n",
+      "last_modified": "2021-01-18T10:42:16-06:00"
     },
     {
       "path": "index.html",
@@ -26,7 +26,7 @@
       "title": "Module 1: Introductions and Shiny basics",
       "author": [],
       "contents": "\r\nFebruary 2, 2021 in the shiny workshop\r\nIntroduction to web-based tools (Denis)\r\nShiny basics: interactive data display (Lyndsie)\r\nExample App: Loblolly\r\n\r\nInteractive display of model results for policy: context for app (Denis)\r\nInteractive display of model results for policy: code for app (Denis)\r\n\r\nShiny basics: interactive data display (Lyndsie)\r\nVideo tutorial 1\r\nVideo tutorial 2\r\nExample App: Loblolly\r\n\r\nBonus! Menu of cool shiny functions (Chad)\r\nProject session 1: Experimenting with Shiny\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-01-14T07:07:29-06:00"
+      "last_modified": "2021-01-18T10:44:41-06:00"
     },
     {
       "path": "mod2.html",

@@ -221,5 +221,13 @@ calc_egg_eff <- function(bird_df, # function arguments with no defaults. Bird da
 
 Much cleaner! If you want to take developing your own functions a step further (your should!), you can write all your functions in a seperate script and source it or write [your own R package. It's easier than you might expect!](https://r-pkgs.org/) But for right now, we'll just write ourselves one egg efficiency function and appreciate our cleaned-up code.
 
-
 # Accessibility
+
+Best practices for R graphics takes up [entire books](https://r-graphics.org/). We're just going to touch briefly on graphics here to provide some guidance for accessibility. Specifically, we'll deal with making graphics color-blind safe and making our graphics and code in general screen-reader-friendly. 
+
+First, let's address colors. Color can be an important tool for data visualization, but we need to make sure our great colors are actually interpretable to everyone. Colors are composed of hues (the wavelength of light) and value (the ammount of black in the color). By choosing colors that contrast values as well as hues, we can make sure that color-blind audience members can interpret our visuals.  
+
+The other element of accessibility we're going to deal with is screen-reader and magnifier compatibility. Screen readers are programs used by blind and visually impaired computer users to translate text into audio. That means we need to give the screen reader something to read. Some quick screen reader tips include
+
+- No pictures of text or equations. Even if it takes more time, write it out.
+- Include descriptive text whenever possible. Alt text, captions, tool tips. Use it the way you write comments in your own code.

@@ -7,14 +7,14 @@
     "folds" : "",
     "hash" : "0",
     "id" : "952DC832",
-    "lastKnownWriteTime" : 1611202235,
-    "last_content_update" : 1611202235347,
+    "lastKnownWriteTime" : 1611210679,
+    "last_content_update" : 1611210679253,
     "path" : "~/GitHub/shiny_workshop/RBestPractices.Rmd",
     "project_path" : "RBestPractices.Rmd",
     "properties" : {
-        "cursorPosition" : "26,0",
+        "cursorPosition" : "229,29",
         "last_setup_crc32" : "4E036A65c4e2d899",
-        "scrollLine" : "16"
+        "scrollLine" : "223"
     },
     "read_only" : false,
     "read_only_alternatives" : [

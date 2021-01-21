@@ -1,2 +1,0 @@
-library(shiny)
-runApp('U:\\uf\\sesync course\\1c shiny basics policy D\\burkina_faso_tool')

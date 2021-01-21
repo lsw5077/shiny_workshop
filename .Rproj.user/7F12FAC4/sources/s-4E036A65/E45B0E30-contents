@@ -1,0 +1,14 @@
+---
+title: "A very crappie fish app"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+It's time to put our best practices to the test!
+
+Download the [fishApps](exampleApps/fishApps.zip) zip file and open the crappieFishApp/app.R. Identify three ways the Crappie fish app fails to employ R or shiny best practices in the code and the user interface. Suggest solutions to each of the problems you identify and then check out the sofishticated app to see whether our solutions matched yours (multiple good ways of coding an app exist!). 
+
+

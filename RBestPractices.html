@@ -86,24 +86,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_meta_tags-->
   <title>Shiny Workshop: Some best practices</title>
   
+  <meta property="description" itemprop="description" content="Any fool can write code that a computer can understand. Good programmers write code that humans can understand. -- Martin Fowler, 2008."/>
   
   
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Shiny Workshop: Some best practices"/>
   <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Any fool can write code that a computer can understand. Good programmers write code that humans can understand. -- Martin Fowler, 2008."/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Shiny Workshop"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content="Shiny Workshop: Some best practices"/>
+  <meta property="twitter:description" content="Any fool can write code that a computer can understand. Good programmers write code that humans can understand. -- Martin Fowler, 2008."/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title"]}},"value":[{"type":"character","attributes":{},"value":["Some best practices"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["Some best practices"]},{"type":"character","attributes":{},"value":["Any fool can write code that a computer can understand. Good programmers write code that humans can understand. -- Martin Fowler, 2008."]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2000,7 +2003,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Some best practices","authors":[]}
+{"title":"Some best practices","description":"Any fool can write code that a computer can understand. Good programmers write code that humans can understand. -- Martin Fowler, 2008.","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2012,6 +2015,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <div class="nav-right">
 <a href="index.html">Home</a>
+<a href="mod0.html">Module 0</a>
 <a href="mod1.html">Module 1</a>
 <a href="mod2.html">Module 2</a>
 <a href="mod3.html">Module 3 </a>
@@ -2031,12 +2035,262 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h1>Some best practices</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-
+<p>Any fool can write code that a computer can understand. Good programmers write code that humans can understand. – Martin Fowler, 2008.</p>
 </div>
 
 
 <div class="d-article">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>This is a short overview of some R best practices. All of these points pertain to writing R code in general beyond Shiny apps. We bring them up as part of the Shiny course because Shiny apps have many moving parts. Keeping our code as human-readable as possible will help us spend less of our time debugging and more of our time communicating science.</p>
+<h1 id="before-we-begin">Before we begin</h1>
+<p>If we’re going to chat about a dry subject like optimizing code, we might as well have a little fun. For this tutorial, we’re going to use the <code>wingspan</code> package, which contains data from the delightful wingspan board game, wherein you win points through various bird-related challenges. We’ll also need the <code>remotes</code> package to install <code>wingspan</code> from github. In addition, we’ll need the <code>tidyverse</code> package, so go ahead and install that too if you haven’t already.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># install remotes and tidyverse if you need them  </span>
+
+<span class='co'>#install.packages(c('remotes', 'tidyverse'))</span>
+
+<span class='co'># Install wingspan from github</span>
+
+<span class='fu'>remotes</span><span class='fu'>::</span><span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>'coolbutuseless/wingspan'</span><span class='op'>)</span>
+
+<span class='co'># load our other libraries</span>
+
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>wingspan</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h1 id="naming-conventions">Naming conventions</h1>
+<p>When choosing names for data, we have to balance the needs to be concise, descriptive, and consistent. Let’s assume we want to make two dataframes, one containing information on platform-nesting birds, and one containing information on cavity-nesting birds. We could name our two dataframes Data1 and data_2.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>Data1</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span>
+<span class='va'>data_2</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>These names are concise and they work just fine from the computer’s perspective . However, it will be easier for us as humans to organize our code and our thoughts if our data structures and modeling components follow one framework for naming. Some popular frameworks include <code>camelCase/CamelCase</code> where we use capital letters to mark breaks between words or <code>snake_case</code> where we use underscores to separate words. Since we’re focusing on human readability, you should go with whatever format works for you as long as you use it to build a consistent naming convention:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>data_1</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span>
+<span class='va'>data_2</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Now our names are concise and follow a similar style, but they’re not terribly descriptive. This might be fine if we just have one or two dataframes, but having lots of similarly-named dataframes can make it hard for us to keep our data straight later when we start building more complex data structures or when we hand off the project to someone else. Let’s give our dataframes some more descriptive names reflecting their content:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>platform_nesters</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span>
+<span class='va'>cavity_nesters</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h1 id="comments">Comments</h1>
+<p>At this point, our code making a dataframe of platform-nesting bird data and a dataframe of cavity-nesting bird data is nice and clear. To us. Today. But what if we want to share it with someone who didn’t get our lovely introduction above? Or what if we need to put it down for a few months (life happens) and pick it up later?</p>
+<p>One of the kindest things we can do for ourselves is to liberally annotate our code with comments. A good comment can accomplish many things. It can include useful metadata and information on the code developers. Crucially, comments give us a way to track dependencies, changes, and developments in our code so we can save time debugging when things go wrong later. Especially important to us as scientists, we can use comments to record our objectives and explain how our code meets them.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># Make a dataframe of platform nesters and a dataframe of cavity nesters</span>
+<span class='co'># using the birds data from the wingspan package and the filter()</span>
+<span class='co'># function from the dplyr package.</span>
+
+<span class='va'>platform_nesters</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span>
+<span class='va'>cavity_nesters</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h1 id="text-wrapping-and-visual-layouts">Text wrapping and visual layouts</h1>
+<p>In addition to supplementing our code with abundant, descriptive comments, we can make our coding lives much easier with some strategic text wrapping and visual layouts. Unlike some other languages, R doesn’t have semantic indenting. That means we can arrange our code with line breaks and spacing to make it easy to read and scan for mistakes. Let’s update our code using the <code>select()</code> function from the dplyr package to select several columns. If we keep everything on one line like we did above, it quickly gets overwhelming (note our new comment reflecting our update!):</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># Make a dataframe of platform nesters and a dataframe of cavity nesters</span>
+<span class='co'># using the birds data from the wingspan package and the filter()</span>
+<span class='co'># function from the dplyr package.</span>
+
+<span class='co'># Update: added select function to select several columns</span>
+
+<span class='va'>platform_nesters</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>common_name</span>, <span class='va'>scientific_name</span>, <span class='va'>nest_type</span>, <span class='va'>egg_capacity</span>, <span class='va'>wingspan</span>, <span class='va'>forest</span>, <span class='va'>grassland</span>, <span class='va'>wetland</span>, <span class='va'>invertebrate</span>, <span class='va'>seed</span>, <span class='va'>fish</span>, <span class='va'>fruit</span>, <span class='va'>rodent</span>, <span class='va'>nectar</span>, <span class='va'>any_food</span><span class='op'>)</span>
+<span class='va'>cavity_nesters</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span><span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>common_name</span>, <span class='va'>scientific_name</span>, <span class='va'>nest_type</span>, <span class='va'>egg_capacity</span>, <span class='va'>wingspan</span>, <span class='va'>forest</span>, <span class='va'>grassland</span>, <span class='va'>wetland</span>, <span class='va'>invertebrate</span>, <span class='va'>seed</span>, <span class='va'>fish</span>, <span class='va'>fruit</span>, <span class='va'>rodent</span>, <span class='va'>nectar</span>, <span class='va'>any_food</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Breaking up our code over several lines at the pipes <code>%&gt;%</code> and commas between selected columns gives us a much cleaner code block that’s easier to navigate. From here forward, we’ll use the platform_nesters and cavity_nesters dataframes and add on to them.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># Make a dataframe of platform nesters and a dataframe of cavity nesters</span>
+<span class='co'># using the birds data from the wingspan package and the filter()</span>
+<span class='co'># function from the dplyr package.</span>
+
+<span class='co'># Update: added select function to select several columns</span>
+
+<span class='va'>platform_nesters</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span>
+                    <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+                    <span class='fu'>select</span><span class='op'>(</span><span class='va'>common_name</span>,
+                           <span class='va'>scientific_name</span>,
+                           <span class='va'>nest_type</span>,
+                           <span class='va'>egg_capacity</span>,
+                           <span class='va'>wingspan</span>,
+                           <span class='va'>forest</span>,
+                           <span class='va'>grassland</span>,
+                           <span class='va'>wetland</span>,
+                           <span class='va'>invertebrate</span>,
+                           <span class='va'>seed</span>,
+                           <span class='va'>fish</span>,
+                           <span class='va'>fruit</span>,
+                           <span class='va'>rodent</span>,
+                           <span class='va'>nectar</span>,
+                           <span class='va'>any_food</span><span class='op'>)</span>
+
+
+<span class='va'>cavity_nesters</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span>
+                  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span><span class='op'>%&gt;%</span> 
+                  <span class='fu'>select</span><span class='op'>(</span><span class='va'>common_name</span>,
+                         <span class='va'>scientific_name</span>,
+                         <span class='va'>nest_type</span>,
+                         <span class='va'>egg_capacity</span>,
+                         <span class='va'>wingspan</span>,
+                         <span class='va'>forest</span>,
+                         <span class='va'>grassland</span>,
+                         <span class='va'>wetland</span>,
+                         <span class='va'>invertebrate</span>,
+                         <span class='va'>seed</span>,
+                         <span class='va'>fish</span>,
+                         <span class='va'>fruit</span>,
+                         <span class='va'>rodent</span>,
+                         <span class='va'>nectar</span>,
+                         <span class='va'>any_food</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h1 id="functions">Functions</h1>
+<p>As soon as we progress beyond very basic operations in R, we’ll find ourselves having to do the same operation multiple times. Functions allow us to automate these kinds of repetitive tasks. Let’s say we really want to win at wingspan by collecting the most eggs possible. Given that food is a limited resource in the game, we might want to play the birds with the highest return of eggs per unit food item. We can update our code blocks to give us only birds above a critical efficiency threshold, let’s say 3 eggs per food item. We won’t save our observations just yet. Instead, we’ll select a few columns to look at and just print the dataframes.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code>              <span class='va'>platform_nesters</span> <span class='op'>%&gt;%</span> 
+                    <span class='fu'>mutate</span><span class='op'>(</span>egg_efficiency <span class='op'>=</span> <span class='co'># calculate return of eggs/ unit food</span>
+                           <span class='va'>egg_capacity</span><span class='op'>/</span>
+                           <span class='op'>(</span><span class='va'>seed</span> <span class='op'>+</span> <span class='va'>fish</span> <span class='op'>+</span>
+                            <span class='va'>fruit</span> <span class='op'>+</span> <span class='va'>rodent</span> <span class='op'>+</span>
+                            <span class='va'>nectar</span> <span class='op'>+</span> <span class='va'>any_food</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+                    <span class='fu'>arrange</span><span class='op'>(</span><span class='fu'>desc</span><span class='op'>(</span><span class='va'>egg_efficiency</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='co'># arrange in descending order</span>
+                    <span class='fu'>select</span><span class='op'>(</span><span class='va'>common_name</span>, <span class='va'>egg_efficiency</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+                    <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>egg_efficiency</span> <span class='op'>&gt;=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='co'># keep only birds with efficiency &gt;= 3</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 10 x 2
+   common_name           egg_efficiency
+   &lt;chr&gt;                          &lt;dbl&gt;
+ 1 Griffon Vulture                  Inf
+ 2 Mourning Dove                      5
+ 3 Ruddy Duck                         5
+ 4 Crested Pigeon                     4
+ 5 Peaceful Dove                      4
+ 6 Pied-Billed Grebe                  4
+ 7 Common Little Bittern              3
+ 8 Eurasian Magpie                    3
+ 9 Green Heron                        3
+10 King Rail                          3</code></pre>
+<div class="sourceCode">
+<pre><code>                <span class='va'>cavity_nesters</span> <span class='op'>%&gt;%</span> 
+                    <span class='fu'>mutate</span><span class='op'>(</span>egg_efficiency <span class='op'>=</span> <span class='co'># calculate return of eggs/ unit food</span>
+                           <span class='va'>egg_capacity</span><span class='op'>/</span>
+                           <span class='op'>(</span><span class='va'>seed</span> <span class='op'>+</span> <span class='va'>fish</span> <span class='op'>+</span>
+                            <span class='va'>fruit</span> <span class='op'>+</span> <span class='va'>rodent</span> <span class='op'>+</span>
+                            <span class='va'>nectar</span> <span class='op'>+</span> <span class='va'>any_food</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+                    <span class='fu'>arrange</span><span class='op'>(</span><span class='fu'>desc</span><span class='op'>(</span><span class='va'>egg_efficiency</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='co'># arrange in descending order</span>
+                    <span class='fu'>select</span><span class='op'>(</span><span class='va'>common_name</span>, <span class='va'>egg_efficiency</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+                    <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>egg_efficiency</span> <span class='op'>&gt;=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='co'># keep only birds with efficiency &gt;= 3</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 39 x 2
+   common_name          egg_efficiency
+   &lt;chr&gt;                         &lt;dbl&gt;
+ 1 Black Vulture                   Inf
+ 2 Common Swift                    Inf
+ 3 European Bee-Eater              Inf
+ 4 House Wren                      Inf
+ 5 Purple Martin                   Inf
+ 6 Turkey Vulture                  Inf
+ 7 Vaux&#39;s Swift                    Inf
+ 8 Violet-Green Swallow            Inf
+ 9 White-Throated Swift            Inf
+10 Coal Tit                          6
+# ... with 29 more rows</code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># Let's look at the first </span>
+</code></pre>
+</div>
+</div>
+<p>Again, this works fine. BUT, there’s no reason for us to do the same work twice. Instead, let’s write a function that lets us calculate egg efficiency and retain only birds with egg efficiency above a threshold. This will work exactly like any other r function like <code>mean()</code> etc. We just have to write out our summary code as we did above, substituting a flexible argument name, and then run the lines. This is called “sourcing.” When we source a function, it should appear in our environment pane. Again, we’ll just print the dataframes to inspect them rather than saving them to new objects.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># Writing a function to calculate egg efficiency and keep only birds above a critical</span>
+<span class='co'># egg efficiency value</span>
+
+<span class='va'>calc_egg_eff</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>bird_df</span>, <span class='co'># function arguments with no defaults. Bird dataframe</span>
+                         <span class='va'>egg_threshold</span><span class='op'>)</span><span class='op'>{</span> <span class='co'># work just like any other function. Critical egg threshold.</span>
+  
+  
+  <span class='va'>bird_df</span> <span class='op'>&lt;-</span> <span class='va'>bird_df</span> <span class='op'>%&gt;%</span>
+             <span class='fu'>mutate</span><span class='op'>(</span>egg_efficiency <span class='op'>=</span> <span class='co'># calculate return of eggs/ unit food</span>
+                    <span class='va'>egg_capacity</span><span class='op'>/</span>
+                    <span class='op'>(</span><span class='va'>seed</span> <span class='op'>+</span> <span class='va'>fish</span> <span class='op'>+</span>
+                     <span class='va'>fruit</span> <span class='op'>+</span> <span class='va'>rodent</span> <span class='op'>+</span>
+                     <span class='va'>nectar</span> <span class='op'>+</span> <span class='va'>any_food</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+                     <span class='fu'>arrange</span><span class='op'>(</span><span class='fu'>desc</span><span class='op'>(</span><span class='va'>egg_efficiency</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='co'># arrange in descending order</span>
+                     <span class='fu'>select</span><span class='op'>(</span><span class='va'>common_name</span>, <span class='va'>egg_efficiency</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+                     <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>egg_efficiency</span> <span class='op'>&gt;=</span> <span class='va'>egg_threshold</span><span class='op'>)</span>
+  
+  <span class='co'># what to return when the function is called.</span>
+  
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>bird_df</span><span class='op'>)</span>
+  
+  <span class='op'>}</span>
+
+<span class='co'># make a summary dataframe of platform nesters including only birds with egg efficiency greater than 3.</span>
+
+          <span class='fu'>calc_egg_eff</span><span class='op'>(</span>bird_df <span class='op'>=</span> <span class='va'>platform_nesters</span>,
+                                 egg_threshold <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>  <span class='co'># keep only birds with efficiency &gt;= 3</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 10 x 2
+   common_name           egg_efficiency
+   &lt;chr&gt;                          &lt;dbl&gt;
+ 1 Griffon Vulture                  Inf
+ 2 Mourning Dove                      5
+ 3 Ruddy Duck                         5
+ 4 Crested Pigeon                     4
+ 5 Peaceful Dove                      4
+ 6 Pied-Billed Grebe                  4
+ 7 Common Little Bittern              3
+ 8 Eurasian Magpie                    3
+ 9 Green Heron                        3
+10 King Rail                          3</code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># And make a summary dataframe for cavity nesters</span>
+
+          <span class='fu'>calc_egg_eff</span><span class='op'>(</span>bird_df <span class='op'>=</span> <span class='va'>cavity_nesters</span>,
+                               egg_threshold <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> 
+</code></pre>
+</div>
+<pre><code># A tibble: 39 x 2
+   common_name          egg_efficiency
+   &lt;chr&gt;                         &lt;dbl&gt;
+ 1 Black Vulture                   Inf
+ 2 Common Swift                    Inf
+ 3 European Bee-Eater              Inf
+ 4 House Wren                      Inf
+ 5 Purple Martin                   Inf
+ 6 Turkey Vulture                  Inf
+ 7 Vaux&#39;s Swift                    Inf
+ 8 Violet-Green Swallow            Inf
+ 9 White-Throated Swift            Inf
+10 Coal Tit                          6
+# ... with 29 more rows</code></pre>
+</div>
+<p>Much cleaner! If you want to take developing your own functions a step further (your should!), you can write all your functions in a seperate script and source it or write <a href="https://r-pkgs.org/">your own R package. It’s easier than you might expect!</a> But for right now, we’ll just write ourselves one egg efficiency function and appreciate our cleaned-up code.</p>
+<h1 id="accessibility">Accessibility</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

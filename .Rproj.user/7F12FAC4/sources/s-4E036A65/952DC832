@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1611176388884.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "952DC832",
+    "lastKnownWriteTime" : 1611202235,
+    "last_content_update" : 1611202235347,
+    "path" : "~/GitHub/shiny_workshop/RBestPractices.Rmd",
+    "project_path" : "RBestPractices.Rmd",
+    "properties" : {
+        "cursorPosition" : "26,0",
+        "last_setup_crc32" : "4E036A65c4e2d899",
+        "scrollLine" : "16"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

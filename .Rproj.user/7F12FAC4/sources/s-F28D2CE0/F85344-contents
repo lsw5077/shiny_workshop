@@ -1,0 +1,31 @@
+---
+title: "Module 3: Enabling value-based parameters (February 16, 2021)"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+<div class = "boxBorder">
+
+## Upon completion of this module, learners should be able to:
+
+-	### Describe how interactive web applications can enable the use of value-based parameters and how these parameters are critical to solve “wicked” problems
+
+-	### Explain what is collaborative tool development and why it is important
+
+
+</div>
+
+
+- [Value-based parameters: a road routing example (Denis)](https://ufl.zoom.us/rec/share/dMR7RaNlRbHC1Z-VF-T2IZCnSYhRfDKcAEtLlaShX2Xc_2KKs2x_zUoOboKTQS93.AzigM0mReKuCjljt)
+  - [Road routing app](https://kokbent.shinyapps.io/hf-update/)
+  - [Road routing code](exampleApps/road_routing_tool.zip)
+
+- Best practices (Lyndsie + class discussion)
+  - [Basic R best practices](RBestPractices.html)
+  - Shiny-specific Best practices  
+
+- [Activity 3: A very crappie fish app](Activity_3.html)
+  

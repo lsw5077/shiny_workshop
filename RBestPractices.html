@@ -445,8 +445,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     top: 0;
   }
   
+  /* adjust viewport for navbar height */
+  /* helps vertically center bootstrap (non-distill) content */
+  .min-vh-100 {
+    min-height: calc(100vh - 100px) !important;
+  }
+  
   </style>
   
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -554,19 +561,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
             var results = fuse.search(query, searchOptions);
             callback(results
               .map(function(result) { return result.item; })
-              .filter(function(item) { return !!item.description; })
             );
           },
           templates: {
             suggestion: function(suggestion) {
+              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
               var html = `
                 <div class="search-item">
                   <h3>${suggestion.title}</h3>
                   <div class="search-item-description">
-                    ${suggestion.description}
+                    ${suggestion.description || ''}
                   </div>
                   <div class="search-item-preview">
-                    <img src="${suggestion.preview ? offsetURL(suggestion.preview) : ''}"</img>
+                    ${img}
                   </div>
                 </div>
               `;
@@ -589,6 +598,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
   
   <style type="text/css">
+  
+  .nav-search {
+    font-size: x-small;
+  }
   
   /* Algolioa Autocomplete */
   
@@ -664,6 +677,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   }
   
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    font-size: 1rem;
     margin-block-start: 0;
     margin-block-end: 5px;
   }
@@ -891,6 +905,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     text-decoration: underline;
   }
   
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+  
   @media(min-width: 768px) {
   
   d-article pre,
@@ -1045,6 +1064,17 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   
   div.hanging-indent{
     margin-left: 1em; text-indent: -1em;
+  }
+  
+  /* Citation hover box */
+  
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+  
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
   }
   
   
@@ -1712,7 +1742,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       var layout = $(this).attr('data-layout');
   
       // apply layout to markdown level block elements
-      var elements = $(this).children().not('div.sourceCode, pre, script');
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
         var layout_div = $('<div class="' + layout + '"></div>');
         if (layout_div.hasClass('shaded')) {
@@ -1827,6 +1857,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
+  
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
   
       // clear polling timer
       clearInterval(tid);
@@ -1987,14 +2031,109 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
   
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
   <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
+  <style type="text/css">
+  
+  /* base variables */
+  
+  /* Edit the CSS properties in this file to create a custom
+     Distill theme. Only edit values in the right column
+     for each row; values shown are the CSS defaults.
+     To return any property to the default,
+     you may set its value to: unset
+     All rows must end with a semi-colon.                      */
+  
+  /* Optional: embed custom fonts here with `@import`          */
+  /* This must remain at the top of this file.                 */
+  
+  
+  
+  html {
+    /*-- Main font sizes --*/
+    --title-size:      50px;
+    --body-size:       1.06rem;
+    --code-size:       14px;
+    --aside-size:      12px;
+    --fig-cap-size:    13px;
+    /*-- Main font colors --*/
+    --title-color:     #000000;
+    --header-color:    rgba(0, 0, 0, 0.8);
+    --body-color:      rgba(0, 0, 0, 0.8);
+    --aside-color:     rgba(0, 0, 0, 0.6);
+    --fig-cap-color:   rgba(0, 0, 0, 0.6);
+    /*-- Specify custom fonts ~~~ must be imported above   --*/
+    --heading-font:    sans-serif;
+    --mono-font:       monospace;
+    --body-font:       sans-serif;
+    --navbar-font:     sans-serif;  /* websites + blogs only */
+  }
+  
+  /*-- ARTICLE METADATA --*/
+  d-byline {
+    --heading-size:    0.6rem;
+    --heading-color:   rgba(0, 0, 0, 0.5);
+    --body-size:       0.8rem;
+    --body-color:      rgba(0, 0, 0, 0.8);
+  }
+  
+  /*-- ARTICLE TABLE OF CONTENTS --*/
+  .d-contents {
+    --heading-size:    18px;
+    --contents-size:   13px;
+  }
+  
+  /*-- ARTICLE APPENDIX --*/
+  d-appendix {
+    --heading-size:    15px;
+    --heading-color:   rgba(0, 0, 0, 0.65);
+    --text-size:       0.8em;
+    --text-color:      rgba(0, 0, 0, 0.5);
+  }
+  
+  /*-- WEBSITE HEADER + FOOTER --*/
+  /* These properties only apply to Distill sites and blogs  */
+  
+  .distill-site-header {
+    --title-size:       18px;
+    --text-color:       rgba(255, 255, 255, 0.8);
+    --text-size:        15px;
+    --hover-color:      white;
+    --bkgd-color:       #0F2E3D;
+  }
+  
+  .distill-site-footer {
+    --text-color:       rgba(255, 255, 255, 0.8);
+    --text-size:        15px;
+    --hover-color:      white;
+    --bkgd-color:       #0F2E3D;
+  }
+  
+  /*-- Additional custom styles --*/
+  /* Add any additional CSS rules below                      */
+  
+  .boxBorder {
+       border: 5px solid #0F2E3D;
+       padding: 12px;
+       color: #0F2E3D;
+     }
+     
+  .grayBox {
+       background-color: #D7D6D6;
+       padding: 12px;
+       color: #0F2E3D;
+     }
+  </style>
   <!--/radix_placeholder_site_in_header-->
 
+  <link rel="stylesheet" href="objective-blocks.css" type="text/css"/>
 
 </head>
 
@@ -2040,90 +2179,85 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
 <div class="d-article">
-<p>This is a short overview of some R best practices. All of these points pertain to writing R code in general beyond Shiny apps. We bring them up as part of the Shiny course because Shiny apps have many moving parts. Keeping our code as human-readable as possible will help us spend less of our time debugging and more of our time communicating science.</p>
+<p>The purpose of this tutorial is to illustrate R best practices that facilitate efficient Shiny app development and debugging. All of these best practices pertain to writing R code in general beyond Shiny apps. We bring them up as part of the Shiny course because Shiny apps have many moving parts. Keeping our code as human-readable, automated, and compartmentalized as possible will help us spend less of our time debugging and more of our time communicating science.</p>
 <h1 id="before-we-begin">Before we begin</h1>
-<p>If we’re going to chat about a dry subject like optimizing code, we might as well have a little fun. For this tutorial, we’re going to use the <code>wingspan</code> package, which contains data from the delightful wingspan board game, wherein you win points through various bird-related challenges. We’ll also need the <code>remotes</code> package to install <code>wingspan</code> from github. In addition, we’ll need the <code>tidyverse</code> package, so go ahead and install that too if you haven’t already.</p>
+<p>If we’re going to chat about a dry subject like optimizing code, we might as well have a little fun. If you want to code along with this tutorial, you’ll need the <code>wingspan</code> package, which contains data from the delightful wingspan board game, wherein you win points through various bird-related challenges. We’ll also need the <code>colorblinr</code> package for some accessibility testing and the <code>remotes</code> package to install <code>wingspan</code> and <code>colorblindr</code> from github. In addition, we’ll need the <code>tidyverse</code> package, so go ahead and install that too if you haven’t already.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre><code><span class='co'># install remotes and tidyverse if you need them  </span>
 
-<span class='co'>#install.packages(c('remotes', 'tidyverse'))</span>
-
-<span class='co'># Install wingspan from github</span>
-
-<span class='fu'>remotes</span><span class='fu'>::</span><span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>'coolbutuseless/wingspan'</span><span class='op'>)</span>
-
-<span class='co'># load our other libraries</span>
-
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>wingspan</span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
-</code></pre>
-</div>
 </div>
 <h1 id="naming-conventions">Naming conventions</h1>
 <p>When choosing names for data, we have to balance the needs to be concise, descriptive, and consistent. Let’s assume we want to make two dataframes, one containing information on platform-nesting birds, and one containing information on cavity-nesting birds. We could name our two dataframes Data1 and data_2.</p>
+<p>We’ll create our dataframes using the <code>filter()</code> function from the <code>dplyr</code> package, which comes as a part of the tidyverse. <code>filter()</code> keeps only rows that match the conditions in the parentheses, here that nest_type equals “Platform” and “Cavity,” respectively. The <code>%&gt;%</code> is called a “pipe,” and it essentially means “take everything from the left side of the pipe and apply this series of operations to it.” It saves us from having to make a new data frame each time we want to apply a new function or calculation.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='va'>Data1</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span>
-<span class='va'>data_2</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>birds</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span>
+
+
+<span class='va'>Data1</span> <span class='op'>&lt;-</span> <span class='va'>birds</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span>
+<span class='va'>data_2</span> <span class='op'>&lt;-</span> <span class='va'>birds</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
-<p>These names are concise and they work just fine from the computer’s perspective . However, it will be easier for us as humans to organize our code and our thoughts if our data structures and modeling components follow one framework for naming. Some popular frameworks include <code>camelCase/CamelCase</code> where we use capital letters to mark breaks between words or <code>snake_case</code> where we use underscores to separate words. Since we’re focusing on human readability, you should go with whatever format works for you as long as you use it to build a consistent naming convention:</p>
+<p>These names are concise and they work just fine from the computer’s perspective. However, it will be easier for us as humans to organize our code and our thoughts if our data structures and modeling components follow one framework for naming. Some popular frameworks include <code>camelCase/CamelCase</code> where we use capital letters to mark breaks between words or <code>snake_case</code> where we use underscores to separate words. Since we’re focusing on human readability, you should go with whatever format works for you as long as you use it to build a consistent naming convention. The <a href="http://adv-r.had.co.nz/">Advanced R book</a> suggests using lower-case nouns for variables and dataframes, so that’s what we’ll do here:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='va'>data_1</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span>
-<span class='va'>data_2</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>birds</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span>
+<span class='va'>data_1</span> <span class='op'>&lt;-</span> <span class='va'>birds</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span>
+<span class='va'>data_2</span> <span class='op'>&lt;-</span> <span class='va'>birds</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <p>Now our names are concise and follow a similar style, but they’re not terribly descriptive. This might be fine if we just have one or two dataframes, but having lots of similarly-named dataframes can make it hard for us to keep our data straight later when we start building more complex data structures or when we hand off the project to someone else. Let’s give our dataframes some more descriptive names reflecting their content:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='va'>platform_nesters</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span>
-<span class='va'>cavity_nesters</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>birds</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span>
+<span class='va'>platform_nesters</span> <span class='op'>&lt;-</span> <span class='va'>birds</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span>
+<span class='va'>cavity_nesters</span> <span class='op'>&lt;-</span> <span class='va'>birds</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <h1 id="comments">Comments</h1>
 <p>At this point, our code making a dataframe of platform-nesting bird data and a dataframe of cavity-nesting bird data is nice and clear. To us. Today. But what if we want to share it with someone who didn’t get our lovely introduction above? Or what if we need to put it down for a few months (life happens) and pick it up later?</p>
-<p>One of the kindest things we can do for ourselves is to liberally annotate our code with comments. A good comment can accomplish many things. It can include useful metadata and information on the code developers. Crucially, comments give us a way to track dependencies, changes, and developments in our code so we can save time debugging when things go wrong later. Especially important to us as scientists, we can use comments to record our objectives and explain how our code meets them.</p>
+<p>One of the kindest things we can do for ourselves is to liberally annotate our code with comments. A good comment can accomplish many things. It can include useful metadata and information on the code developers. Crucially, comments also give us a way to track dependencies, changes, and developments in our code so we can save time debugging when things go wrong later. Especially important to us as scientists, we can use comments to record our objectives and explain how our code meets them.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='co'># Make a dataframe of platform nesters and a dataframe of cavity nesters</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Make a dataframe of platform nesters and a dataframe of cavity nesters</span>
 <span class='co'># using the birds data from the wingspan package and the filter()</span>
 <span class='co'># function from the dplyr package.</span>
 
-<span class='va'>platform_nesters</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span>
-<span class='va'>cavity_nesters</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span>
+<span class='va'>birds</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span>
+<span class='va'>platform_nesters</span> <span class='op'>&lt;-</span> <span class='va'>birds</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span>
+<span class='va'>cavity_nesters</span> <span class='op'>&lt;-</span> <span class='va'>birds</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <h1 id="text-wrapping-and-visual-layouts">Text wrapping and visual layouts</h1>
-<p>In addition to supplementing our code with abundant, descriptive comments, we can make our coding lives much easier with some strategic text wrapping and visual layouts. Unlike some other languages, R doesn’t have semantic indenting. That means we can arrange our code with line breaks and spacing to make it easy to read and scan for mistakes. Let’s update our code using the <code>select()</code> function from the dplyr package to select several columns. If we keep everything on one line like we did above, it quickly gets overwhelming (note our new comment reflecting our update!):</p>
+<p>In addition to supplementing our code with abundant, descriptive comments, we can make our coding lives much easier with some strategic text wrapping and visual layouts. One of the nice things about R is that we can arrange our code with line breaks and spacing to make it easy to read and scan for mistakes. Let’s update our code using the <code>select()</code> function from the dplyr package to select several columns. If we keep everything on one line like we did above, it quickly gets overwhelming (note our new comment reflecting our update!):</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='co'># Make a dataframe of platform nesters and a dataframe of cavity nesters</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Make a dataframe of platform nesters and a dataframe of cavity nesters</span>
 <span class='co'># using the birds data from the wingspan package and the filter()</span>
 <span class='co'># function from the dplyr package.</span>
 
 <span class='co'># Update: added select function to select several columns</span>
-
-<span class='va'>platform_nesters</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>common_name</span>, <span class='va'>scientific_name</span>, <span class='va'>nest_type</span>, <span class='va'>egg_capacity</span>, <span class='va'>wingspan</span>, <span class='va'>forest</span>, <span class='va'>grassland</span>, <span class='va'>wetland</span>, <span class='va'>invertebrate</span>, <span class='va'>seed</span>, <span class='va'>fish</span>, <span class='va'>fruit</span>, <span class='va'>rodent</span>, <span class='va'>nectar</span>, <span class='va'>any_food</span><span class='op'>)</span>
-<span class='va'>cavity_nesters</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span><span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>common_name</span>, <span class='va'>scientific_name</span>, <span class='va'>nest_type</span>, <span class='va'>egg_capacity</span>, <span class='va'>wingspan</span>, <span class='va'>forest</span>, <span class='va'>grassland</span>, <span class='va'>wetland</span>, <span class='va'>invertebrate</span>, <span class='va'>seed</span>, <span class='va'>fish</span>, <span class='va'>fruit</span>, <span class='va'>rodent</span>, <span class='va'>nectar</span>, <span class='va'>any_food</span><span class='op'>)</span>
+<span class='va'>birds</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span>
+<span class='va'>platform_nesters</span> <span class='op'>&lt;-</span> <span class='va'>birds</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>common_name</span>, <span class='va'>scientific_name</span>, <span class='va'>nest_type</span>, <span class='va'>egg_capacity</span>, <span class='va'>wingspan</span>, <span class='va'>forest</span>, <span class='va'>grassland</span>, <span class='va'>wetland</span>, <span class='va'>invertebrate</span>, <span class='va'>seed</span>, <span class='va'>fish</span>, <span class='va'>fruit</span>, <span class='va'>rodent</span>, <span class='va'>nectar</span>, <span class='va'>any_food</span><span class='op'>)</span>
+<span class='va'>cavity_nesters</span> <span class='op'>&lt;-</span> <span class='va'>birds</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span><span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>common_name</span>, <span class='va'>scientific_name</span>, <span class='va'>nest_type</span>, <span class='va'>egg_capacity</span>, <span class='va'>wingspan</span>, <span class='va'>forest</span>, <span class='va'>grassland</span>, <span class='va'>wetland</span>, <span class='va'>invertebrate</span>, <span class='va'>seed</span>, <span class='va'>fish</span>, <span class='va'>fruit</span>, <span class='va'>rodent</span>, <span class='va'>nectar</span>, <span class='va'>any_food</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
-<p>Breaking up our code over several lines at the pipes <code>%&gt;%</code> and commas between selected columns gives us a much cleaner code block that’s easier to navigate. From here forward, we’ll use the platform_nesters and cavity_nesters dataframes and add on to them.</p>
+<p>Breaking up our code over several lines at the pipes <code>%&gt;%</code> and commas between selected columns gives us a much cleaner code block that’s easier to navigate. Advanced R recommends limiting lines to 80 characters or fewer as a rule of thumb. From here forward, we’ll use the platform_nesters and cavity_nesters dataframes and add on to them.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='co'># Make a dataframe of platform nesters and a dataframe of cavity nesters</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Make a dataframe of platform nesters and a dataframe of cavity nesters</span>
 <span class='co'># using the birds data from the wingspan package and the filter()</span>
 <span class='co'># function from the dplyr package.</span>
 
 <span class='co'># Update: added select function to select several columns</span>
 
-<span class='va'>platform_nesters</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span>
+<span class='va'>birds</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span>
+
+<span class='va'>platform_nesters</span> <span class='op'>&lt;-</span> <span class='va'>birds</span> <span class='op'>%&gt;%</span>
                     <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
                     <span class='fu'>select</span><span class='op'>(</span><span class='va'>common_name</span>,
                            <span class='va'>scientific_name</span>,
@@ -2142,7 +2276,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
                            <span class='va'>any_food</span><span class='op'>)</span>
 
 
-<span class='va'>cavity_nesters</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span> <span class='op'>%&gt;%</span>
+<span class='va'>cavity_nesters</span> <span class='op'>&lt;-</span> <span class='va'>birds</span> <span class='op'>%&gt;%</span>
                   <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span><span class='op'>%&gt;%</span> 
                   <span class='fu'>select</span><span class='op'>(</span><span class='va'>common_name</span>,
                          <span class='va'>scientific_name</span>,
@@ -2166,7 +2300,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>As soon as we progress beyond very basic operations in R, we’ll find ourselves having to do the same operation multiple times. Functions allow us to automate these kinds of repetitive tasks. Let’s say we really want to win at wingspan by collecting the most eggs possible. Given that food is a limited resource in the game, we might want to play the birds with the highest return of eggs per unit food item. We can update our code blocks to give us only birds above a critical efficiency threshold, let’s say 3 eggs per food item. We won’t save our observations just yet. Instead, we’ll select a few columns to look at and just print the dataframes.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code>              <span class='va'>platform_nesters</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r">              <span class='va'>platform_nesters</span> <span class='op'>%&gt;%</span> 
                     <span class='fu'>mutate</span><span class='op'>(</span>egg_efficiency <span class='op'>=</span> <span class='co'># calculate return of eggs/ unit food</span>
                            <span class='va'>egg_capacity</span><span class='op'>/</span>
                            <span class='op'>(</span><span class='va'>seed</span> <span class='op'>+</span> <span class='va'>fish</span> <span class='op'>+</span>
@@ -2191,7 +2325,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
  9 Green Heron                        3
 10 King Rail                          3</code></pre>
 <div class="sourceCode">
-<pre><code>                <span class='va'>cavity_nesters</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r">                <span class='va'>cavity_nesters</span> <span class='op'>%&gt;%</span> 
                     <span class='fu'>mutate</span><span class='op'>(</span>egg_efficiency <span class='op'>=</span> <span class='co'># calculate return of eggs/ unit food</span>
                            <span class='va'>egg_capacity</span><span class='op'>/</span>
                            <span class='op'>(</span><span class='va'>seed</span> <span class='op'>+</span> <span class='va'>fish</span> <span class='op'>+</span>
@@ -2216,15 +2350,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
  9 White-Throated Swift            Inf
 10 Coal Tit                          6
 # ... with 29 more rows</code></pre>
-<div class="sourceCode">
-<pre><code><span class='co'># Let's look at the first </span>
-</code></pre>
 </div>
-</div>
-<p>Again, this works fine. BUT, there’s no reason for us to do the same work twice. Instead, let’s write a function that lets us calculate egg efficiency and retain only birds with egg efficiency above a threshold. This will work exactly like any other r function like <code>mean()</code> etc. We just have to write out our summary code as we did above, substituting a flexible argument name, and then run the lines. This is called “sourcing.” When we source a function, it should appear in our environment pane. Again, we’ll just print the dataframes to inspect them rather than saving them to new objects.</p>
+<p>Again, this works fine. BUT, there’s no reason for us to do the same work twice. Instead, let’s write a function that lets us calculate egg efficiency and retain only birds with egg efficiency above a threshold. This will work exactly like any other R function like <code>mean()</code> etc. We just have to write out our summary code as we did above, substituting flexible argument names, and then run the function in the console. This is called “sourcing.” When we source a function, it should appear in our environment pane. Once we source our new function, called <code>calc_egg_eff</code>, using lower-case verbs as suggested by Advanced R, we’ll just print the dataframes to inspect them rather than saving them to new objects.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre><code><span class='co'># Writing a function to calculate egg efficiency and keep only birds above a critical</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Writing a function to calculate egg efficiency and keep only birds above a critical</span>
 <span class='co'># egg efficiency value</span>
 
 <span class='va'>calc_egg_eff</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>bird_df</span>, <span class='co'># function arguments with no defaults. Bird dataframe</span>
@@ -2250,7 +2380,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span class='co'># make a summary dataframe of platform nesters including only birds with egg efficiency greater than 3.</span>
 
           <span class='fu'>calc_egg_eff</span><span class='op'>(</span>bird_df <span class='op'>=</span> <span class='va'>platform_nesters</span>,
-                                 egg_threshold <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>  <span class='co'># keep only birds with efficiency &gt;= 3</span>
+                       egg_threshold <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>  <span class='co'># keep only birds with efficiency &gt;= 3</span>
 </code></pre>
 </div>
 <pre><code># A tibble: 10 x 2
@@ -2267,10 +2397,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
  9 Green Heron                        3
 10 King Rail                          3</code></pre>
 <div class="sourceCode">
-<pre><code><span class='co'># And make a summary dataframe for cavity nesters</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># And make a summary dataframe for cavity nesters</span>
 
           <span class='fu'>calc_egg_eff</span><span class='op'>(</span>bird_df <span class='op'>=</span> <span class='va'>cavity_nesters</span>,
-                               egg_threshold <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> 
+                       egg_threshold <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> 
 </code></pre>
 </div>
 <pre><code># A tibble: 39 x 2
@@ -2288,8 +2418,88 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 10 Coal Tit                          6
 # ... with 29 more rows</code></pre>
 </div>
-<p>Much cleaner! If you want to take developing your own functions a step further (your should!), you can write all your functions in a seperate script and source it or write <a href="https://r-pkgs.org/">your own R package. It’s easier than you might expect!</a> But for right now, we’ll just write ourselves one egg efficiency function and appreciate our cleaned-up code.</p>
+<p>Much cleaner! If you want to take developing your own functions a step further (your should!), you can write all your functions in a seperate script and source it or write <a href="https://r-pkgs.org/">your own R package. It’s easier than you might expect!</a>. For right now, we’ll just write ourselves one egg efficiency function and appreciate our cleaned-up code. I could say a lot more about function development that I will leave out here for the sake of simplicity, but I absolutely encourage you to check out R for Data Science and Advanced R.</p>
 <h1 id="accessibility">Accessibility</h1>
+<p>Best practices for R graphics take up <a href="https://r-graphics.org/">entire books</a>. We’re just going to touch briefly on graphics here to provide some guidance for accessibility. Specifically, we’ll deal with making graphics color-blind safe. We’ll talk more about accessibility in the Shiny-specific Best Practices section.</p>
+<p>First, let’s address colors. Color can be an important tool for data visualization, but we need to make sure our great colors are actually interpretable to everyone. Colors are composed of hues (the slice of the color wheel a color occupies) and value (the ammount of black in the color). By choosing colors that contrast values as well as hues, we can make sure that color-blind audience members can interpret our visuals. To see the impact of using hues and values strategically in practice, let’s make a plot of some of our wingspan data using the <code>ggplot</code> package. Using <code>ggplot()</code>, we’ll make a scatter plot with birds’ wingspan on the x axis and victory points on the y axis, with color determined by whether or not a bird is a predator via the <code>scale_color_manual()</code> function.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Make a scatter plot called victory_point</span>
+<span class='co'># displaying wingspan on the x axis and victory points on the y axis</span>
+<span class='co'># Make non-predators dark red and predators green</span>
+
+<span class='va'>victory_plot</span> <span class='op'>&lt;-</span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='va'>birds</span><span class='op'>)</span> <span class='op'>+</span>
+                 <span class='fu'>geom_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wingspan</span>,
+                                y <span class='op'>=</span> <span class='va'>victory_points</span>, 
+                                color <span class='op'>=</span> <span class='va'>predator</span><span class='op'>)</span>,
+                            size <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span>
+                 <span class='fu'>scale_color_manual</span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"FALSE"</span> <span class='op'>=</span> <span class='st'>"darkred"</span>,
+                                    <span class='st'>"TRUE"</span> <span class='op'>=</span> <span class='st'>"darkgreen"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+                 <span class='fu'>theme_bw</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'># print victory_plot</span>
+
+<span class='va'>victory_plot</span>
+</code></pre>
+</div>
+<p><img src="RBestPractices_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
+</div>
+<p>Assuming you’re not colorblind, this plot looks ok. Now we’ll use the <code>cvd_grid()</code> function from the <code>colorblindr</code> package to simulate what the plot would look like to people with different forms of colorblindness.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Simulate what victory_plot would look like to people with different</span>
+<span class='co'># kinds of color blindness.</span>
+
+<span class='fu'><a href='https://rdrr.io/pkg/colorblindr/man/cvd_grid.html'>cvd_grid</a></span><span class='op'>(</span><span class='va'>victory_plot</span><span class='op'>)</span>
+</code></pre>
+</div>
+<img src="RBestPractices_files/figure-html5/unnamed-chunk-11-1.png" width="624" />
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Hard to distinguish between predators and non-predators.</span>
+</code></pre>
+</div>
+</div>
+<p>It’s much harder to distinguish the difference between predators and non-predators! That’s because even though the darkred and darkgreen colors have different hues, they have similar values. Let’s try distinguishing between predators and non-predators using colors that differ in value as well as hue. We’ll call our revised plot victory_plot_cbf for “colorblind friendly.”</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Make a scatter plot called victory_point</span>
+<span class='co'># displaying wingspan on the x axis and victory points on the y axis</span>
+<span class='co'># Make non-predators light blue and predators dark green</span>
+
+<span class='va'>victory_plot_cbf</span> <span class='op'>&lt;-</span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='va'>birds</span><span class='op'>)</span> <span class='op'>+</span>
+                 <span class='fu'>geom_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wingspan</span>,
+                                y <span class='op'>=</span> <span class='va'>victory_points</span>, 
+                                color <span class='op'>=</span> <span class='va'>predator</span><span class='op'>)</span>,
+                                size <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span>
+                 <span class='fu'>scale_color_manual</span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"FALSE"</span> <span class='op'>=</span> <span class='st'>"#67a9cf"</span>,
+                                    <span class='st'>"TRUE"</span> <span class='op'>=</span> <span class='st'>"#016c59"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+                 <span class='fu'>theme_bw</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'># print victory_plot</span>
+
+<span class='va'>victory_plot_cbf</span>
+</code></pre>
+</div>
+<img src="RBestPractices_files/figure-html5/unnamed-chunk-12-1.png" width="624" />
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Simulate what victory_plot would look like to people with different</span>
+<span class='co'># kinds of color blindness.</span>
+
+<span class='fu'><a href='https://rdrr.io/pkg/colorblindr/man/cvd_grid.html'>cvd_grid</a></span><span class='op'>(</span><span class='va'>victory_plot_cbf</span><span class='op'>)</span>
+</code></pre>
+</div>
+<img src="RBestPractices_files/figure-html5/unnamed-chunk-12-2.png" width="624" />
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Much more colorblind friendly!</span>
+</code></pre>
+</div>
+</div>
+<p>Our revised plot is much easier to interpret! We retain contrast when we simulate what our plot would look like to people with different kinds of color-blindness. If you want to try different combinations of colorblind-friendly colors, check out <a href="https://colorbrewer2.org/#type=sequential&amp;scheme=PuBuGn&amp;n=6">color brewer</a></p>
+<p><strong>Disclaimer:</strong></p>
+<p>Like many ecologists who write R code, I am largely self-taught. Some of my style choices will therefore be different than what you might see if you read source code and recommendations from an actual software engineer because I’m still learning too. There is also a lot more to writing R code that “smells and feels good,” as Jenny Bryan would say, than we’ve covered in this quick and dirty introduction.</p>
+<p>These best practices are based on the Advanced R and R for Data Science books. If you want more exposure to best practices from the experts, I would absolutely check out those books, as well as recorded plenary talks from conferences like UseR and Rstudio::conf.</p>
+<hr />
+<p>Article by Lyndsie Wszola</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

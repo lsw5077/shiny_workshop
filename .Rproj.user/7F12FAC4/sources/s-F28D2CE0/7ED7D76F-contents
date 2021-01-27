@@ -1,0 +1,34 @@
+---
+title: "Untitled"
+description: |
+  A new article created using the Distill format.
+author:
+  - name: Nora Jones 
+    url: https://example.com/norajones
+    affiliation: Spacely Sprockets
+    affiliation_url: https://example.com/spacelysprokets
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Distill is a publication format for scientific and technical writing, native to the web. 
+
+Learn more about using Distill for R Markdown at <https://rstudio.github.io/distill>.
+
+
+
+
+
+The other element of accessibility we're going to deal with is screen-reader and magnifier compatibility. Screen readers are programs used by blind and visually impaired computer users to translate text into audio. That means we need to give the screen reader something to read. Some quick screen reader tips include
+
+- No pictures of text or equations. Even if it takes more time, write it out.
+- Include descriptive text whenever possible. Alt text, captions, tool tips. Use it the way you write comments in your own code.
+- Also: no pictures of code!
+
+
+_________________________________________________________________________________________________
+Article by Lyndsie Wszola

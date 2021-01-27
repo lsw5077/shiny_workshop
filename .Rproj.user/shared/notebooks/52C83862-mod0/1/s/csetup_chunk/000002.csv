@@ -1,0 +1,11 @@
+"0","knitr::opts_chunk$set(echo = FALSE)"
+"0","library(kableExtra)"
+"2","
+Attaching package: ‘kableExtra’
+
+"
+"2","The following object is masked from ‘package:dplyr’:
+
+    group_rows
+
+"

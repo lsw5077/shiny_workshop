@@ -1,0 +1,6 @@
+"0","
+
+          calc_egg_eff(bird_df = platform_nesters,
+                       egg_threshold = 3)  # keep only birds with efficiency >= 3
+"
+"0",""

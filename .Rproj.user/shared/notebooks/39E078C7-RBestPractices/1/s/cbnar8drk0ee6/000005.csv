@@ -1,0 +1,13 @@
+"0","
+                cavity_nesters %>% 
+                    mutate(egg_efficiency = # calculate return of eggs/ unit food
+                           egg_capacity/
+                           (seed + fish +
+                            fruit + rodent +
+                            nectar + any_food)) %>%
+                    arrange(desc(egg_efficiency)) %>% # arrange in descending order
+                    select(common_name, egg_efficiency) %>%
+                    filter(egg_efficiency >= 3) # keep only birds with efficiency >= 3
+"
+"0",""
+"0",""

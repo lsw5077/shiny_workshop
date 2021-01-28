@@ -7,13 +7,13 @@
     "folds" : "",
     "hash" : "0",
     "id" : "16DAB9CD",
-    "lastKnownWriteTime" : 1611806683,
-    "last_content_update" : 1611806683,
+    "lastKnownWriteTime" : 1611807319,
+    "last_content_update" : 1611807319093,
     "path" : "~/GitHub/shiny_workshop/mod3.Rmd",
     "project_path" : "mod3.Rmd",
     "properties" : {
-        "cursorPosition" : "15,76",
-        "scrollLine" : "9"
+        "cursorPosition" : "20,8",
+        "scrollLine" : "5"
     },
     "read_only" : false,
     "read_only_alternatives" : [

@@ -13,8 +13,6 @@ knitr::opts_chunk$set(echo = FALSE)
 
 -	### Describe how interactive web applications can enable the use of value-based parameters and how these parameters are critical to solve “wicked” problems
 
--	### Explain what is collaborative tool development and why it is important
-
 - ### Describe and use R best practices
 
 - ### Describe and use Shiny-specific best practices

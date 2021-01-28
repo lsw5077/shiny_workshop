@@ -11,7 +11,10 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Upon completion of this module, learners should be able to:
 
+-	### Explain what is collaborative tool development and why it is important
+
 - ### Illustrate the iterative process of creating an interactive web application
+
 - ### Explain the main options for shiny hosting and for long-term app maintenance
 
 

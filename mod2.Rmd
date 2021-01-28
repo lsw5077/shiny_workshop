@@ -28,6 +28,6 @@ knitr::opts_chunk$set(echo = FALSE)
   - [MSAT vs MDA example app](https://jjmillar.shinyapps.io/msat-example/)
   - [MSAT vs MDA code](https://github.com/justinmillar/mda-msat)
 
-- ### [Activity 2: group formation and app brainstorming](Activity_2.html)
+- ### [Activity 2: App brainstorming](Activity_2.html)
 
 </div>

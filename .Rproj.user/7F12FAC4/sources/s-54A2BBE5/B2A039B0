@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1611803155233.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "B2A039B0",
+    "lastKnownWriteTime" : 1611788642,
+    "last_content_update" : 1611788642,
+    "path" : "~/GitHub/shiny_workshop/exampleApps/CrappieFishApp/app.R",
+    "project_path" : "exampleApps/CrappieFishApp/app.R",
+    "properties" : {
+        "cursorPosition" : "6,17",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

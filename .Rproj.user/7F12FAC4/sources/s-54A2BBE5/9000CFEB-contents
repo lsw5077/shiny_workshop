@@ -1,0 +1,15 @@
+library(tidyverse)
+library(lme4)
+library(readr)
+
+ratWeights <- read_rds("data/ratWeights.rds")
+genus <- read_rds("data/genus.rds")
+
+
+ratTest <- lm(weight ~ hindfoot_length*genus, data = ratWeights)
+summary(ratTest)
+
+data.frame(genus = genus,
+           intercept = 8.2 + c(0, -51.55536, -145.36919,
+           -168.19806, 0, 0, 0, 0, -39.14099),
+           hind_foot = c())

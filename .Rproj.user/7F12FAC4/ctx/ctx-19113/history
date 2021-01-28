@@ -1,0 +1,512 @@
+foot = foot,
+weight = weight)
+spp <- as.numeric(as.factor(ratWeights$Name))
+genus <- as.numeric(droplevels(as.factor(ratWeights$genus)))
+foot <- ratWeights$hindfoot_length
+weight <- ratWeights$weight
+sex <- as.numeric(as.factor(ratWeights$sex))
+N <- rnrow(ratWeights)
+spp <- as.numeric(as.factor(ratWeights$Name))
+genus <- as.numeric(droplevels(as.factor(ratWeights$genus)))
+foot <- ratWeights$hindfoot_length
+weight <- ratWeights$weight
+sex <- as.numeric(as.factor(ratWeights$sex))
+N <- nrow(ratWeights)
+ratMat <-
+nimbleCode({
+for (i in 1:N) {
+weight[i] ~ dnorm(mu[i])
+mu[i] <-  mu0[genus[i]] + mu1[genus[i]]*foot[i]
+}
+# some really simple priors
+mu0[1] ~ dnorm(0,0.0001)
+mu0[2] ~ dnorm(0,0.0001)
+mu0[3] ~ dnorm(0,0.0001)
+mu0[4] ~ dnorm(0,0.0001)
+mu0[5] ~ dnorm(0,0.0001)
+mu0[6] ~ dnorm(0,0.0001)
+mu0[7] ~ dnorm(0,0.0001)
+mu0[8] ~ dnorm(0,0.0001)
+mu0[9] ~ dnorm(0,0.0001)
+mu0[10] ~ dnorm(0,0.0001)
+mu1[1] ~ dnorm(0,0.0001)
+mu1[2] ~ dnorm(0,0.0001)
+mu1[3] ~ dnorm(0,0.0001)
+mu1[4] ~ dnorm(0,0.0001)
+mu1[5] ~ dnorm(0,0.0001)
+mu1[6] ~ dnorm(0,0.0001)
+mu1[7] ~ dnorm(0,0.0001)
+mu1[8] ~ dnorm(0,0.0001)
+mu1[9] ~ dnorm(0,0.0001)
+mu1[10] ~ dnorm(0,0.0001)
+# and a derived measure for T50
+})
+# Define constants, things we don't want to gain information about
+constants <- list(N = N)
+# Data: things we're using to gain insight
+data <- list(genus = genus,
+foot = foot,
+weight = weight)
+# Going to set inits here to 0.1 to avoid taking logs of 0
+inits1 <- list(mu0 = rep(10, 10),
+mu1 = rep(10, 10))
+inits2 <- list(theta0 = c(0.1, 0.1),
+theta1 = c(0.1, 0.1))
+inits3 <- list(theta0 = c(0.1, 0.1),
+theta1 = c(0.1, 0.1))
+inits <- list(inits1, inits2, inits3)
+# Parameters to model: intercept and age effect of each sex
+params <- c("mu0",
+"mu1")
+# Run maturation model
+rat.nimble <- nimbleMCMC(code = ratMat,
+constants = constants,
+data = data,
+inits = inits1,
+monitors = params,
+niter = 10200,
+thin = 10,
+nchains = 1,
+nburnin = 200,
+samplesAsCodaMCMC = TRUE)
+ratMat <-
+nimbleCode({
+for (i in 1:N) {
+weight[i] ~ dnorm(mu[i], tau)
+mu[i] <-  mu0[genus[i]] + mu1[genus[i]]*foot[i]
+}
+# some really simple priors
+mu0[1] ~ dnorm(0,0.0001)
+mu0[2] ~ dnorm(0,0.0001)
+mu0[3] ~ dnorm(0,0.0001)
+mu0[4] ~ dnorm(0,0.0001)
+mu0[5] ~ dnorm(0,0.0001)
+mu0[6] ~ dnorm(0,0.0001)
+mu0[7] ~ dnorm(0,0.0001)
+mu0[8] ~ dnorm(0,0.0001)
+mu0[9] ~ dnorm(0,0.0001)
+mu0[10] ~ dnorm(0,0.0001)
+mu1[1] ~ dnorm(0,0.0001)
+mu1[2] ~ dnorm(0,0.0001)
+mu1[3] ~ dnorm(0,0.0001)
+mu1[4] ~ dnorm(0,0.0001)
+mu1[5] ~ dnorm(0,0.0001)
+mu1[6] ~ dnorm(0,0.0001)
+mu1[7] ~ dnorm(0,0.0001)
+mu1[8] ~ dnorm(0,0.0001)
+mu1[9] ~ dnorm(0,0.0001)
+mu1[10] ~ dnorm(0,0.0001)
+# and a derived measure for T50
+tau ~ dgamma(0.01, 0.01)
+})
+# Define constants, things we don't want to gain information about
+constants <- list(N = N)
+# Data: things we're using to gain insight
+data <- list(genus = genus,
+foot = foot,
+weight = weight)
+# Going to set inits here to 0.1 to avoid taking logs of 0
+inits1 <- list(mu0 = rep(10, 10),
+mu1 = rep(10, 10))
+inits2 <- list(theta0 = c(0.1, 0.1),
+theta1 = c(0.1, 0.1))
+inits3 <- list(theta0 = c(0.1, 0.1),
+theta1 = c(0.1, 0.1))
+inits <- list(inits1, inits2, inits3)
+# Parameters to model: intercept and age effect of each sex
+params <- c("mu0",
+"mu1")
+# Run maturation model
+rat.nimble <- nimbleMCMC(code = ratMat,
+constants = constants,
+data = data,
+inits = inits1,
+monitors = params,
+niter = 10200,
+thin = 10,
+nchains = 1,
+nburnin = 200,
+samplesAsCodaMCMC = TRUE)
+summary(rat.nimble)
+rgamma(1000, 0.1, 0.1)
+genus
+ratMat <-
+nimbleCode({
+for (i in 1:N) {
+weight[i] ~ dnorm(mu[i], tau)
+mu[i] <-  mu0[genus[i]] + mu1[genus[i]]*foot[i]
+}
+# some really simple priors
+mu0[1] ~ dnorm(5,0.0001)
+mu0[2] ~ dnorm(5,0.0001)
+mu0[3] ~ dnorm(5,0.0001)
+mu0[4] ~ dnorm(5,0.0001)
+mu0[5] ~ dnorm(5,0.0001)
+mu0[6] ~ dnorm(5,0.0001)
+mu0[7] ~ dnorm(5,0.0001)
+mu0[8] ~ dnorm(5,0.0001)
+mu0[9] ~ dnorm(5,0.0001)
+mu0[10] ~ dnorm(5,0.0001)
+mu1[1] ~ dnorm(10,0.0001)
+mu1[2] ~ dnorm(10,0.0001)
+mu1[3] ~ dnorm(10,0.0001)
+mu1[4] ~ dnorm(10,0.0001)
+mu1[5] ~ dnorm(10,0.0001)
+mu1[6] ~ dnorm(10,0.0001)
+mu1[7] ~ dnorm(10,0.0001)
+mu1[8] ~ dnorm(10,0.0001)
+mu1[9] ~ dnorm(10,0.0001)
+mu1[10] ~ dnorm(10,0.0001)
+# and a derived measure for T50
+tau ~ dgamma(0.01, 0.01)
+})
+# Define constants, things we don't want to gain information about
+constants <- list(N = N)
+# Data: things we're using to gain insight
+data <- list(genus = genus,
+foot = foot,
+weight = weight)
+# Going to set inits here to 0.1 to avoid taking logs of 0
+inits1 <- list(mu0 = rep(10, 10),
+mu1 = rep(10, 10))
+inits2 <- list(theta0 = c(0.1, 0.1),
+theta1 = c(0.1, 0.1))
+inits3 <- list(theta0 = c(0.1, 0.1),
+theta1 = c(0.1, 0.1))
+inits <- list(inits1, inits2, inits3)
+# Parameters to model: intercept and age effect of each sex
+params <- c("mu0",
+"mu1")
+# Run maturation model
+rat.nimble <- nimbleMCMC(code = ratMat,
+constants = constants,
+data = data,
+inits = inits1,
+monitors = params,
+niter = 10200,
+thin = 10,
+nchains = 1,
+nburnin = 200,
+samplesAsCodaMCMC = TRUE)
+constants <- list(genus = genus,
+N = N)
+# Data: things we're using to gain insight
+data <- list(foot = foot,
+weight = weight)
+# Going to set inits here to 0.1 to avoid taking logs of 0
+inits1 <- list(mu0 = rep(10, 10),
+mu1 = rep(10, 10))
+inits2 <- list(theta0 = c(0.1, 0.1),
+theta1 = c(0.1, 0.1))
+inits3 <- list(theta0 = c(0.1, 0.1),
+theta1 = c(0.1, 0.1))
+inits <- list(inits1, inits2, inits3)
+# Parameters to model: intercept and age effect of each sex
+params <- c("mu0",
+"mu1")
+# Run maturation model
+rat.nimble <- nimbleMCMC(code = ratMat,
+constants = constants,
+data = data,
+inits = inits1,
+monitors = params,
+niter = 10200,
+thin = 10,
+nchains = 1,
+nburnin = 200,
+samplesAsCodaMCMC = TRUE)
+summary(rats.nimble)
+summary(rat.nimble)
+ratMat <-
+nimbleCode({
+for (i in 1:N) {
+weight[i] ~ dnorm(mu[i], tau)
+mu[i] <-  mu0[genus[i]] + mu1[genus[i]]*foot[i]
+}
+# some really simple priors
+mu0[1] ~ T(dnorm(5,0.0001), 0.0001)
+mu0[2] ~ T(dnorm(5,0.0001), 0.0001)
+mu0[3] ~ T(dnorm(5,0.0001), 0.0001)
+mu0[4] ~ T(dnorm(5,0.0001), 0.0001)
+mu0[5] ~ T(dnorm(5,0.0001), 0.0001)
+mu0[6] ~ T(dnorm(5,0.0001), 0.0001)
+mu0[7] ~ T(dnorm(5,0.0001), 0.0001)
+mu0[8] ~ T(dnorm(5,0.0001), 0.0001)
+mu0[9] ~ T(dnorm(5,0.0001), 0.0001)
+mu0[10] ~ T(dnorm(5,0.0001), 0.0001)
+mu1[1] ~ T(dnorm(5,0.0001), 0.0001)
+mu1[2] ~ T(dnorm(5,0.0001), 0.0001)
+mu1[3] ~ T(dnorm(5,0.0001), 0.0001)
+mu1[4] ~ T(dnorm(5,0.0001), 0.0001)
+mu1[5] ~ T(dnorm(5,0.0001), 0.0001)
+mu1[6] ~ T(dnorm(5,0.0001), 0.0001)
+mu1[7] ~ T(dnorm(5,0.0001), 0.0001)
+mu1[8] ~ T(dnorm(5,0.0001), 0.0001)
+mu1[9] ~ T(dnorm(5,0.0001), 0.0001)
+mu1[10] ~ T(dnorm(5,0.0001), 0.0001)
+# and a derived measure for T50
+tau ~ dgamma(0.01, 0.01)
+})
+# Define constants, things we don't want to gain information about
+constants <- list(genus = genus,
+N = N)
+# Data: things we're using to gain insight
+data <- list(foot = foot,
+weight = weight)
+# Going to set inits here to 0.1 to avoid taking logs of 0
+inits1 <- list(mu0 = rep(10, 10),
+mu1 = rep(10, 10))
+inits2 <- list(theta0 = c(0.1, 0.1),
+theta1 = c(0.1, 0.1))
+inits3 <- list(theta0 = c(0.1, 0.1),
+theta1 = c(0.1, 0.1))
+inits <- list(inits1, inits2, inits3)
+# Parameters to model: intercept and age effect of each sex
+params <- c("mu0",
+"mu1")
+# Run maturation model
+rat.nimble <- nimbleMCMC(code = ratMat,
+constants = constants,
+data = data,
+inits = inits1,
+monitors = params,
+niter = 10200,
+thin = 10,
+nchains = 1,
+nburnin = 200,
+samplesAsCodaMCMC = TRUE)
+warnings()
+rat.nimble
+ratMat <-
+nimbleCode({
+for (i in 1:N) {
+weight[i] ~ dnorm(mu[i], tau)
+mu[i] <-  mu0[genus[i]] + mu1[genus[i]]*foot[i]
+}
+# some really simple priors
+mu0[1] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[2] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[3] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[4] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[5] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[6] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[7] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[8] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[9] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[10] ~ T(dnorm(5,0.0001), 0.0001,)
+mu1[1] ~ T(dnorm(5,0.0001), 0.0001,)
+mu1[2] ~ T(dnorm(5,0.0001), 0.0001,)
+mu1[3] ~ T(dnorm(5,0.0001), 0.0001,)
+mu1[4] ~ T(dnorm(5,0.0001), 0.0001,)
+mu1[5] ~ T(dnorm(5,0.0001), 0.0001,)
+mu1[6] ~ T(dnorm(5,0.0001), 0.0001,)
+mu1[7] ~ T(dnorm(5,0.0001), 0.0001,)
+mu1[8] ~ T(dnorm(5,0.0001), 0.0001,)
+mu1[9] ~ T(dnorm(5,0.0001), 0.0001,)
+mu1[10] ~ T(dnorm(5,0.0001), 0.0001,)
+# and a derived measure for T50
+tau ~ dgamma(0.01, 0.01)
+})
+# Define constants, things we don't want to gain information about
+constants <- list(genus = genus,
+N = N)
+# Data: things we're using to gain insight
+data <- list(foot = foot,
+weight = weight)
+# Going to set inits here to 0.1 to avoid taking logs of 0
+inits1 <- list(mu0 = rep(5, 10),
+mu1 = rep(5, 10))
+inits2 <- list(theta0 = c(0.1, 0.1),
+theta1 = c(0.1, 0.1))
+inits3 <- list(theta0 = c(0.1, 0.1),
+theta1 = c(0.1, 0.1))
+inits <- list(inits1, inits2, inits3)
+# Parameters to model: intercept and age effect of each sex
+params <- c("mu0",
+"mu1")
+# Run maturation model
+rat.nimble <- nimbleMCMC(code = ratMat,
+constants = constants,
+data = data,
+inits = inits1,
+monitors = params,
+niter = 10200,
+thin = 10,
+nchains = 1,
+nburnin = 200,
+samplesAsCodaMCMC = TRUE)
+summary(rat.nimble)
+rnorm(1000, mean = 5,sd = sqrt(1/0.0001))
+rnorm(1000, mean = 5,sd = sqrt(1/0.01))
+rnorm(1000, mean = 5,sd = sqrt(1/0.0001))
+ratMat <-
+nimbleCode({
+for (i in 1:N) {
+weight[i] ~ dnorm(mu[i], tau)
+mu[i] <-  mu0[genus[i]] + mu1[genus[i]]*foot[i]
+}
+# some really simple priors
+mu0[1] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[2] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[3] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[4] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[5] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[6] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[7] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[8] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[9] ~ T(dnorm(5,0.0001), 0.0001,)
+mu0[10] ~ T(dnorm(5,0.0001), 0.0001,)
+mu1[1] ~ T(dnorm(5,0.01), 0.0001,)
+mu1[2] ~ T(dnorm(5,0.01), 0.0001,)
+mu1[3] ~ T(dnorm(5,0.01), 0.0001,)
+mu1[4] ~ T(dnorm(5,0.01), 0.0001,)
+mu1[5] ~ T(dnorm(5,0.01), 0.0001,)
+mu1[6] ~ T(dnorm(5,0.01), 0.0001,)
+mu1[7] ~ T(dnorm(5,0.01), 0.0001,)
+mu1[8] ~ T(dnorm(5,0.01), 0.0001,)
+mu1[9] ~ T(dnorm(5,0.01), 0.0001,)
+mu1[10] ~ T(dnorm(5,0.01), 0.0001,)
+# and a derived measure for T50
+tau ~ dgamma(0.01, 0.01)
+})
+# Define constants, things we don't want to gain information about
+constants <- list(genus = genus,
+N = N)
+# Data: things we're using to gain insight
+data <- list(foot = foot,
+weight = weight)
+# Going to set inits here to 0.1 to avoid taking logs of 0
+inits1 <- list(mu0 = rep(5, 10),
+mu1 = rep(5, 10))
+inits2 <- list(theta0 = c(0.1, 0.1),
+theta1 = c(0.1, 0.1))
+inits3 <- list(theta0 = c(0.1, 0.1),
+theta1 = c(0.1, 0.1))
+inits <- list(inits1, inits2, inits3)
+# Parameters to model: intercept and age effect of each sex
+params <- c("mu0",
+"mu1")
+# Run maturation model
+rat.nimble <- nimbleMCMC(code = ratMat,
+constants = constants,
+data = data,
+inits = inits1,
+monitors = params,
+niter = 10200,
+thin = 10,
+nchains = 1,
+nburnin = 200,
+samplesAsCodaMCMC = TRUE)
+rat.nimble
+genus
+foot
+str(foot)
+str(weight)
+str(sex)
+as.factor(ratWeights$sex)
+ratTest <- lm(weight ~ hindfoot_length + genus, data = ratWeights)
+summary(ratTest)
+ratTest <- lm(weight ~ hindfoot_length*genus, data = ratWeights)
+summary(ratTest)
+ratWeight$genus
+ratWeights$genus
+ratdat::surveys %>%
+filter(!is.na(weight)) %>%
+left_join(ratdat::species, by = "species_id") %>%
+left_join(ratdat::plots, by = "plot_id") %>%
+mutate(Date = as.Date(paste(year, month, day, sep = "-")),
+Name = paste(genus, species),
+genus = droplevels(factor(genus)))
+ratWeights <- ratdat::surveys %>%
+filter(!is.na(weight)) %>%
+left_join(ratdat::species, by = "species_id") %>%
+left_join(ratdat::plots, by = "plot_id") %>%
+mutate(Date = as.Date(paste(year, month, day, sep = "-")),
+Name = paste(genus, species),
+genus = droplevels(factor(genus)))
+ratTest <- lm(weight ~ hindfoot_length*genus, data = ratWeights)
+summary(ratTest)
+table(ratWeights$genus)
+arm::sim(ratTest, nsim = 5000)
+arm::sim(ratTest)
+?arm::sim
+arm::sim(ratTest, n.sims = 5000)
+ratSims <- arm::sim(ratTest, n.sims = 5000)
+coef(ratSims)
+ratWeights
+getwd()
+write.csv(ratWeights, file = "rats/data/ratWeights.csv")
+write_csv(ratWeights, file = "rats/data/ratWeights.csv")
+write_csv(ratWeights, file = "exampleApps/rats/data/ratWeights.csv")
+ratWeights$genus
+unique(ratWeights$genus)
+genus <- unique(ratWeights$genus)
+write_csv(genus, file = "exampleApps/rats/data/genus.csv")
+genus <- unique(ratWeights$genus)
+write_csv(genus, file = "exampleApps/rats/data/genus.csv")
+genus
+write_rds(ratWeights, file = "exampleApps/rats/data/ratWeights.rds")
+genus <- unique(ratWeights$genus)
+write_rds(genus, file = "exampleApps/rats/data/genus.rds")
+summary(ratTest)
+as.data.frame(summary(ratTest))
+read_rds("data/genus.rds")
+genus
+data.frame(genus = genus)
+data.frame(genus = genus,
+intercept = 8.2 + c(0, -51.55536, -145.36919,
+-168.19806, 0, 0, 0, 0, -39.14099))
+8.2 + c(0, -51.55536, -145.36919,
+-168.19806, 0, 0, 0, 0, -39.14099)
+data.frame(genus = genus,
+intercept = 8.2 + c( -51.55536, -145.36919,
+-168.19806, 0, 0, 0, 0, -39.14099))
+8.2 + c(0, -51.55536, -145.36919,
+-168.19806, 0, 0, 0, 0, -39.14099)
+genus
+summary(ratTest)
+genus
+levels(genus)
+table(ratWeights$genus)
+ratWeights <- ratdat::surveys %>%
+filter(!is.na(weight), genus != "Spermophilus") %>%
+left_join(ratdat::species, by = "species_id") %>%
+left_join(ratdat::plots, by = "plot_id") %>%
+mutate(Date = as.Date(paste(year, month, day, sep = "-")),
+Name = paste(genus, species),
+genus = droplevels(factor(genus)))
+library(tidyverse)
+library(ratdat)
+ratdat::surveys %>%
+filter(!is.na(weight), genus != "Spermophilus") %>%
+left_join(ratdat::species, by = "species_id") %>%
+left_join(ratdat::plots, by = "plot_id") %>%
+mutate(Date = as.Date(paste(year, month, day, sep = "-")),
+Name = paste(genus, species),
+genus = droplevels(factor(genus)))
+ratdat::surveys
+ratdat::surveys %>%
+filter(!is.na(weight), genus != "Spermophilus")
+ratdat::surveys %>%
+left_join(ratdat::species, by = "species_id") %>%
+left_join(ratdat::plots, by = "plot_id") %>%
+filter(!is.na(weight), genus != "Spermophilus") %>%
+mutate(Date = as.Date(paste(year, month, day, sep = "-")),
+Name = paste(genus, species),
+genus = droplevels(factor(genus)))
+ratWeights <- ratdat::surveys %>%
+left_join(ratdat::species, by = "species_id") %>%
+left_join(ratdat::plots, by = "plot_id") %>%
+filter(!is.na(weight), genus != "Spermophilus") %>%
+mutate(Date = as.Date(paste(year, month, day, sep = "-")),
+Name = paste(genus, species),
+genus = droplevels(factor(genus)))
+write_rds(ratWeights, file = "exampleApps/rats/data/ratWeights.rds")
+genus <- unique(ratWeights$genus)
+write_rds(genus, file = "exampleApps/rats/data/genus.rds")
+ratTest <- lm(weight ~ hindfoot_length*genus, data = ratWeights)
+summary(ratTest)
+data.frame(genus = genus,
+intercept = 8.2 + c(0, -51.55536, -145.36919,
+-168.19806, 0, 0, 0, 0, -39.14099))
+runApp('exampleApps/rats')

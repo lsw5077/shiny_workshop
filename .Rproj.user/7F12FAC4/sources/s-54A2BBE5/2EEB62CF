@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1611789608154.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "2EEB62CF",
+    "lastKnownWriteTime" : 1611800757,
+    "last_content_update" : 1611800757936,
+    "path" : "~/GitHub/shiny_workshop/ShinyBestPractices.Rmd",
+    "project_path" : "ShinyBestPractices.Rmd",
+    "properties" : {
+        "cursorPosition" : "40,6",
+        "scrollLine" : "32"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 13,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -84,33 +84,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>Shiny Workshop: Untitled</title>
-  
-  <meta property="description" itemprop="description" content="A new article created using the Distill format."/>
+  <title>Shiny Workshop: Do things once: some shiny best practices</title>
   
   
-  <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2021-01-26"/>
-  <meta property="article:created" itemprop="dateCreated" content="2021-01-26"/>
-  <meta name="article:author" content="Nora Jones"/>
+  
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Shiny Workshop: Untitled"/>
+  <meta property="og:title" content="Shiny Workshop: Do things once: some shiny best practices"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="A new article created using the Distill format."/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Shiny Workshop"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Shiny Workshop: Untitled"/>
-  <meta property="twitter:description" content="A new article created using the Distill format."/>
+  <meta property="twitter:title" content="Shiny Workshop: Do things once: some shiny best practices"/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Untitled"]},{"type":"character","attributes":{},"value":["A new article created using the Distill format.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Nora Jones"]},{"type":"character","attributes":{},"value":["https://example.com/norajones"]},{"type":"character","attributes":{},"value":["Spacely Sprockets"]},{"type":"character","attributes":{},"value":["https://example.com/spacelysprokets"]}]}]},{"type":"character","attributes":{},"value":["2021-01-26"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Do things once: some shiny best practices"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2146,7 +2139,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Untitled","description":"A new article created using the Distill format.","authors":[{"author":"Nora Jones","authorURL":"https://example.com/norajones","affiliation":"Spacely Sprockets","affiliationURL":"https://example.com/spacelysprokets","orcidID":""}],"publishedDate":"2021-01-26T00:00:00.000-06:00","citationText":"Jones, 2021"}
+{"title":"Do things once: some shiny best practices","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2175,21 +2168,36 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Untitled</h1>
+<h1>Do things once: some shiny best practices</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>A new article created using the Distill format.</p></p>
+
 </div>
 
-<div class="d-byline">
-  Nora Jones <a href="https://example.com/norajones" class="uri">https://example.com/norajones</a> (Spacely Sprockets)<a href="https://example.com/spacelysprokets" class="uri">https://example.com/spacelysprokets</a>
-  
-<br/>2021-01-26
-</div>
 
 <div class="d-article">
-<p>Distill is a publication format for scientific and technical writing, native to the web.</p>
-<p>Learn more about using Distill for R Markdown at <a href="https://rstudio.github.io/distill" class="uri">https://rstudio.github.io/distill</a>.</p>
+<p>Our ruling strategy for engineering shiny app code will be “do things once.” Designing our apps to limit the number and types of opperations they perform will help us create fast code that conserves precious hosting time and creates an engaging user experience.</p>
+<p>Our Shiny-specific best practices flow naturally from our basic R best practices. As we discussed in our first best practices tutorial, we will endeavor to make code and outputs that are concise, well-documented, and widely accessible.</p>
+<h1 id="organization-and-workflow">Organization and workflow</h1>
+<p>Just as we considered the conceptual and visual arrangement of our code in the basic R best practices tutorial, we will now consider the conceptual and visual arrangement of the components of our shiny app. One of the best things we can do for ourselves and any future readers or users of our code is to develop a stable workflow and a robust organizational framework. Creating a defined home for source data, custom functions, images and videos, and our actual app code will help us create effective and appealing apps.</p>
+<h2 id="functions">Functions</h2>
+<p>As we discussed in the functions section of our R best practices, whenever we have to do something more than once in a script or app, we should write a function to limit repetition in our code. In shiny apps, we often find ourselves needing to write several custom functions. The best way to deal with this eventuality is to place all of our functions in their own functions.R script inside the app directory and then source it in our app.</p>
+<h2 id="data-prep">Data prep</h2>
+<p>Preparing our data ahead of time will save us code, processing time, and headaches.</p>
+<h1 id="compartmentalization">Compartmentalization</h1>
+<ul>
+<li>Organization
+<ul>
+<li>Function</li>
+<li>Modules</li>
+<li>Packages</li>
+</ul></li>
+<li>Do things once</li>
+<li>Compartmentalize for debugging</li>
+<li>Accessibility: tool tips, appropriate colors, no pictures of text</li>
+<li>Efficiency: prep data ahead of time</li>
+<li>citations</li>
+</ul>
 <p>The other element of accessibility we’re going to deal with is screen-reader and magnifier compatibility. Screen readers are programs used by blind and visually impaired computer users to translate text into audio. That means we need to give the screen reader something to read. Some quick screen reader tips include</p>
 <ul>
 <li>No pictures of text or equations. Even if it takes more time, write it out.</li>

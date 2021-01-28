@@ -1,0 +1,963 @@
+# Leech Maturation and growth models
+# Need tidyverse for data manipulation and plotting
+# And Nimble for Bayesian models
+
+library(tidyverse)
+library(nimble)
+
+# Set up an inverse logit and logit function
+# for model predictions and plotting
+
+invLogit <- function(p) {
+  
+  prob = exp(p)/(1+exp(p))
+  
+  return(prob)
+  
+}
+
+logit <- function(p) {
+  
+  logOdds = log(p/(1-p))
+  
+  return(logOdds)
+  
+}
+
+# And a simple ggplot theme 
+
+simpleTheme <- theme_bw()+
+                theme(panel.grid = element_blank(),
+                      axis.text = element_text(size = 40, color = "black"),
+                      axis.title = element_text(size = 48, color = "black"),
+                      legend.text = element_text(size = 30),
+                      legend.title = element_text(size = 46))
+
+# Just making sure our leechStandard data doesn't have any missing values
+# That can snarl up our models/cause indexing issues.
+
+leechStandard <- leechStandard %>%
+                 filter(!is.na(Stage),
+                        !is.na(Length_cm),
+                        !is.na(Sex)) %>%
+                 mutate(yearClass = Study_Year - Age)
+
+#################
+# For co-authors:
+#################
+
+#write.csv(leechStandard, file = "D:/Documents/manuscripts/LakeVerm/Analysis/leechStandard.csv")
+
+# Set your working directory to wherever you put the .csv and this script 
+
+#leechStandard <- read.csv("leechStandard.csv")
+
+
+# Make ourselves a little summary dataframe for plotting
+
+leechSum <- leechStandard %>%
+            group_by(Age, Sex) %>%
+            summarise(propMature = mean(ifelse(Stage == "Mature", 1, 0)))
+
+# Put data in NIMBLE-friendly formats
+
+# Number of fish
+
+N <- length(leechStandard$Length_cm)
+
+# Turn stage into logical variable
+
+stage <- ifelse(leechStandard$Stage == "Immature", 0, 1)
+
+# Fish lenght in cm
+
+lt <- leechStandard$Length_cm
+
+# Sex as a numeric index of factor level (Female = 1, male = 2)
+
+sex <- as.numeric(as.factor(leechStandard$Sex))
+
+# Age in years
+
+age <- leechStandard$Age
+
+
+# Mass in grams
+
+mass <- leechStandard$Mass_g
+
+
+# This is not a numeric/factor error. Basically getting years since study start:
+#yearClass <- as.numeric(as.factor(leechStandard$yearClass))
+
+
+# yearClass <- leechStandard$yearClass
+
+# 1 = female, # 2 = male
+# Maturity and growth are fine as 2 seperate models
+# I am still kind of curious about yearclass but it's not relevant right now.
+
+# Maturity model:
+
+LeechMat <-    
+  nimbleCode({
+    
+    # For each fish
+    
+    for (i in 1:N) { 
+      
+      # predict stage as a function of a bernoulli distribution
+      # with parameter theta
+
+        stage[i] ~ dbern(theta[i])
+      
+      # predict theta as a logit function of sex and age
+      # with age effect including a random effect of sex
+        
+        theta[i] <-  ilogit(theta0[sex[i]] + theta1[sex[i]]*age[i]) 
+   
+         }
+    
+    # some really simple priors
+
+       theta0[1] ~ dnorm(0,0.0001)
+       theta0[2] ~ dnorm(0,0.0001)
+    
+       theta1[1] ~ dnorm(0,0.0001)
+       theta1[2] ~ dnorm(0,0.0001)
+       
+    # and a derived measure for T50
+       
+       
+    
+  })
+
+# Define constants, things we don't want to gain information about
+
+constants <- list(N = N,
+                  sex = sex)
+
+# Data: things we're using to gain insight
+
+data <- list(age = age, 
+             stage = stage)
+
+# Going to set inits here to 0.1 to avoid taking logs of 0
+
+inits1 <- list(theta0 = c(0.1, 0.1),
+              theta1 = c(0.1, 0.1))
+
+
+inits2 <- list(theta0 = c(0.1, 0.1),
+               theta1 = c(0.1, 0.1))
+
+
+inits3 <- list(theta0 = c(0.1, 0.1),
+               theta1 = c(0.1, 0.1))
+
+inits <- list(inits1, inits2, inits3)
+
+# Parameters to model: intercept and age effect of each sex
+
+params <- c("theta0",
+            "theta1")
+
+
+# Run maturation model
+
+mat.mod.nimble <- nimbleMCMC(code = LeechMat,
+                              constants = constants,
+                              data = data,
+                              inits = inits,
+                              monitors = params,
+                              niter = 102000,
+                              thin = 10,
+                              nchains = 3,
+                              nburnin = 2000,
+                              samplesAsCodaMCMC = TRUE)
+
+
+# Bind sims for predictions
+
+matSims <- do.call(rbind, list(mat.mod.nimble$chain1,
+                            mat.mod.nimble$chain2,
+                            mat.mod.nimble$chain3)) %>%
+           as.data.frame() %>% sample_n(10000) %>%
+           rename("theta0.1" = `theta0[1]`,
+                  "theta0.2" = `theta0[2]`,
+                  "theta1.1" = `theta1[1]`,
+                  "theta1.2" = `theta1[2]`)
+
+# Make empty prediction dataframe
+
+matPred <- data.frame(age = seq(0, 20, 0.1),
+                      probF = NA,
+                      LCIF = NA,
+                      UCIF = NA,
+                      probM = NA,
+                      LCIM = NA,
+                      UCIM = NA)
+
+# predict likelihood of maturity at each age for males and females.
+
+for (i in 1:nrow(matPred)) {
+  
+  matSims <- matSims %>%
+             mutate(predF = invLogit(theta0.1 + theta1.1*matPred$age[i] ),
+                    predM = invLogit(theta0.2 + theta1.2*matPred$age[i]))
+  
+  matPred$probF[i] = mean(matSims$predF)
+  matPred$LCIF[i] = quantile(matSims$predF, prob = 0.025)
+  matPred$UCIF[i] = quantile(matSims$predF, prob = 0.975)
+  
+  matPred$probM[i] = mean(matSims$predM)
+  matPred$LCIM[i] = quantile(matSims$predM, prob = 0.025)
+  matPred$UCIM[i] = quantile(matSims$predM, prob = 0.975)
+  
+}
+
+
+# Need to get T50, age when 50% of each sex are expected to be mature
+# Assuming logit(t0 + t1*age) = 0.5, -> age = -t0/t1
+
+matSims <- matSims %>%
+       select(-predF, -predM) %>%
+       mutate(t50F = -theta0.1/theta1.1,
+              t50M = -theta0.2/theta1.2)
+
+# Make a 2-element T50 vector for the female and male mean age at maturity.
+
+T50 <- c(mean(matSims$t50F),
+         mean(matSims$t50M))
+
+
+mean(matSims$t50F) #3.93
+quantile(matSims$t50F, prob = 0.025) # 3.87
+quantile(matSims$t50F, prob = 0.975) # 3.99
+
+
+mean(matSims$t50M) #2.59
+quantile(matSims$t50M, prob = 0.025) # 2.54
+quantile(matSims$t50M, prob = 0.975) # 2.64
+
+sexPal <- c("Female" = "black", "Male" = "grey")
+
+# Makes a beautiful plot
+
+ggplot() +
+   geom_line(aes(x = age, y = probF*100), color = "black", data = matPred, size = 2) +
+  geom_line(aes(x = age, y = LCIF*100), color = "black", data = matPred,  size = 2,  linetype = 2) +
+  geom_line(aes(x = age, y = UCIF*100), color = "black", data = matPred,  size = 2,  linetype = 2) +
+  geom_line(aes(x = age, y = probM*100), color = "grey", data = matPred, size = 2) +
+  geom_line(aes(x = age, y = LCIM*100), color = "grey", data = matPred,  linetype = 2, size = 1.5) +
+  geom_line(aes(x = age, y = UCIM*100), color = "grey", data = matPred, linetype = 2, size =  1.5) +
+  # geom_point(aes(x = Age, y = propMature*100, color = Sex),
+  #            data = leechSum, size = 8, alpha = 0.5) +
+  scale_color_manual(values = sexPal) +
+  coord_cartesian(xlim = c(0, 10)) +
+  scale_x_continuous(breaks = seq(0, 10, 2)) +
+  geom_label(aes(x = Age, y = propMature*100, label = Age, color = Sex),
+            data = leechSum[leechSum$Age < 8,], size = 10) +
+  geom_text(aes(x = 1.9, y = 80), label = "Male", color = "grey", size = 20) +
+  geom_text(aes(x = 5.1, y = 40), label = "Female", color = "black", size = 20) +
+  labs (x = "Age (years)", y = "Probability of Maturity") +
+  simpleTheme +
+  theme(legend.position = "none")
+
+
+# Biphasic growth model
+
+LeechBi <-    
+  nimbleCode({
+    
+    for (i in 1:N) { 
+      
+      # Adding in mass
+      
+      mass[i] ~ dnorm(massMean[i], massTau)
+        
+      
+      massMean[i] <- a[sex[i]] * lt[i]^b[sex[i]]
+
+      # length at time t is defined by a normal distribution with
+      # mean = predicted mean and precision = to 1/cv*mean
+      # so mean and variance are correlated?
+      
+      lt[i] ~ T(dnorm(pred[i], sd = pred[i]*size.cv),0,)
+      
+      # Predict growth as if fish is a juvenile
+      
+      juv[i] <- h[sex[i]]*(age[i] - t1[sex[i]])
+      
+      # predict growth as if fish is an adult
+      # recasting vb params in units of h and g
+      
+      
+      adult[i] <- (3*h[sex[i]]/g[sex[i]])*
+        (1-exp(-(log(1 + g[sex[i]]/3))*
+                 (age[i]-(T50Long[i]+log(1-g[sex[i]]*
+                 (T50Long[i]-t1[sex[i]])/3)/
+                  log(1+g[sex[i]]/3)))))
+      
+      
+      # Decide whether adult or juvenile length prediction contributes to lt
+      
+      pred[i] <- juv[i]*juvIndicator[i] + adult[i]*adultIndicator[i]
+      
+    }
+    
+    # priors
+    # Look maybe a little informative
+    # I set them up like this b/c I was having lots of issues
+    # with invalid prior and initial values and logs creating
+    # Inf/ -Inf values
+    # Maybe evaluate prior sensitivity later.
+    
+    a[1] ~ dnorm(0,0.001)
+    a[2] ~ dnorm(0,0.001)
+
+    b[1] ~ T(dnorm(3,0.1), 0.001,)
+    b[2] ~ T(dnorm(3,0.1), 0.001,)
+    
+    
+    h[1] ~ T(dnorm(7,0.01), 0.001,)
+    h[2] ~ T(dnorm(7,0.01), 0.001,)
+    
+    t1[1] ~ dnorm(0,0.1)
+    t1[2] ~ dnorm(0,0.1)
+    
+    g[1] ~ dunif(0.001, 3/(T50Long[1]-t1[1]))
+    g[2] ~ dunif(0.001, 3/(T50Long[2]-t1[2]))
+    
+    size.cv ~ dgamma(0.01, 0.01)
+    massTau ~ dgamma(0.01, 0.01)
+    
+    
+  })
+
+# Make T50Long, a vector of T50's by sex
+
+T50Long <- T50[sex]
+
+# Bc we can't readily do an if-else function in NIMBLE,
+# We'll instead use adult and juvenile indicator variables
+
+juvIndicator <- ifelse(leechStandard$Age < T50[1] & leechStandard$Sex == "Female" |
+                       leechStandard$Age < T50[2] & leechStandard$Sex == "Male", 1, 0)
+
+adultIndicator <- ifelse(leechStandard$Age >= T50[1] & leechStandard$Sex == "Female" |
+                         leechStandard$Age >= T50[2] & leechStandard$Sex == "Male", 1, 0)
+
+# List constants, aka things we don't want to alter/predict
+
+constants <- list(N = N,
+                  sex = sex)
+
+# List data, still not 100% on the difference btw. constants and data
+
+data <- list(age = age, 
+             lt = lt,
+             T50Long = T50Long,
+             juvIndicator = juvIndicator,
+             adultIndicator = adultIndicator,
+             mass = mass)
+
+# make list of parameters to monitor
+
+params <- c('h',
+            'g',
+            't1',
+            'a',
+            'b',
+            'size.cv',
+            'massTau')
+
+# Make list of inits.
+# We're going to just define these as reasonable values
+# b/c the model seems very sensitive to initial values
+# we can very easily end up accidentally taking a log (0)
+
+inits1 <- list(h = c(5, 5),
+               g = c(0.1, 0.1),
+               t1 = c(-1, -1),
+               a = c(-10, -10),
+               b = c(3, 3),
+               size.cv = 0.15,
+               massTau = 0.01)
+
+
+
+inits2 <- list(h = c(5, 5),
+               g = c(0.1, 0.1),
+               t1 = c(-1, -1),
+               a = c(-10, -10),
+               b = c(3, 3),
+               size.cv = 0.15,
+               massTau = 0.01)
+
+inits3 <- list(h = c(5, 5),
+               g = c(0.1, 0.1),
+               t1 = c(-1, -1),
+               a = c(-10, -10),
+               b = c(3, 3),
+               size.cv = 0.15,
+               massTau = 0.01)
+
+inits <- list(inits1, inits2, inits3)
+
+# Run the model
+
+grow.mod.all <- nimbleMCMC(code = LeechBi,
+                         constants = constants,
+                         data = data,
+                         inits = inits,
+                         monitors = params,
+                         niter = 612000,
+                         thin = 60,
+                         nchains = 3,
+                         nburnin = 12000,
+                         samplesAsCodaMCMC = TRUE)
+
+
+
+
+
+# Bind predictions into dataframe, subsample to 10000 iterations
+# going to do a little post-processing since we're still having convergence issues
+
+allSim <- do.call(rbind, list(grow.mod.all$chain1,
+                              grow.mod.all$chain2,
+                              grow.mod.all$chain3)) %>%
+           as.data.frame() %>%
+           mutate(chain = c(rep(1, 10000), rep(2, 10000), rep(3, 10000)),
+                  n = rep(seq(1, 10000), 3)) %>%
+          # filter(n > 2000) %>%
+          sample_n(10000) 
+
+allSim %>%
+  pivot_longer(cols = colnames(allSim[1:11])) %>%
+  ggplot() +
+  geom_line(aes(x = n, y = value, group = as.factor(chain), color = as.factor(chain))) +
+  theme_bw() +
+  facet_wrap(~name, scales = "free_y")
+
+
+ 
+
+# There's some autocorrelation but it's not terrible.
+# We'll just do a little post-processing on allSim and
+# call it good.
+
+# Rename columns to human-readable names
+
+# colnames(allSim)[1:12] <- c("aF",
+#                             "aM",
+#                             "bF",
+#                             "bM",
+#                             "gF", 
+#                             "gM", 
+#                             "hF",
+#                             "hM",
+#                             "massTau",
+#                             "size.cv",
+#                             "t1F",
+#                             "t1M")
+# 
+
+# Make a prediction dataframe
+
+write.csv(allSim, file = "D:/Documents/manuscripts/LakeVerm/Analysis/allSim.csv")
+
+allSim <- read.csv("D:/Documents/manuscripts/LakeVerm/Analysis/allSim.csv") %>%
+  select(aF, aM, bF, bM, gF, gM, hF, hM, t1F, t1M, massTau, size.cv)
+
+
+
+
+BiPred <- data.frame(age = seq(0, 20, 0.1),
+                     lJF = NA,
+                     LCIJF = NA,
+                     UCIJF = NA,
+                     lMF = NA,
+                     LCIMF = NA,
+                     UCIMF = NA,
+                     massF = NA,
+                     LCImassF = NA,
+                     UCImassF = NA,
+                     lJM = NA,
+                     LCIJM = NA,
+                     UCIJM = NA,
+                     lMM = NA,
+                     LCIMM = NA,
+                     UCIMM = NA,
+                     massM = NA,
+                     LCImassM = NA,
+                     UCImassM = NA)
+
+# Predict for both sexes for 0-20 years
+
+
+for (i in 1:nrow(BiPred)) {
+  
+  allSim <- allSim %>%
+    mutate(lJM = hM*(BiPred$age[i]-t1M),
+           lMM = (3*hM/gM)*
+             (1-exp(-(log(1+gM/3))*
+              (BiPred$age[i]-(T50[2]+log(1-gM*
+               (T50[2]-t1M)/3)/log(1+gM/3))))),
+           massM = aM*ifelse(BiPred$age[i] < T50[2], lJM, lMM)^bM,
+           lJF = hF*(BiPred$age[i]-t1F),
+           lMF = (3*hF/gF)*
+             (1-exp(-(log(1+gF/3))*
+              (BiPred$age[i]-(T50[1]+log(1-gF*
+              (T50[1]-t1F)/3)/log(1+gF/3))))),
+            massF = aF*ifelse(BiPred$age[i] < T50[1], lJF, lMF)^bF)
+  
+  # Females
+  
+  BiPred$lJF[i] = mean(allSim$lJF)
+  BiPred$LCIJF[i] = quantile(allSim$lJF, prob = 0.025)
+  BiPred$UCIJF[i] = quantile(allSim$lJF, prob = 0.975)
+  
+  BiPred$lMF[i] = mean(allSim$lMF)
+  BiPred$LCIMF[i] = quantile(allSim$lMF, prob = 0.025)
+  BiPred$UCIMF[i] = quantile(allSim$lMF, prob = 0.975)
+  
+  BiPred$massF[i] = mean(allSim$massF)
+  BiPred$LCImassF[i] = quantile(allSim$massF, prob = 0.025)
+  BiPred$UCImassF[i] = quantile(allSim$massF, prob = 0.975)
+  
+  # Males
+  
+  BiPred$lJM[i] = mean(allSim$lJM)
+  BiPred$LCIJM[i] = quantile(allSim$lJM, prob = 0.025)
+  BiPred$UCIJM[i] = quantile(allSim$lJM, prob = 0.975)
+  
+  BiPred$lMM[i] = mean(allSim$lMM)
+  BiPred$LCIMM[i] = quantile(allSim$lMM, prob = 0.025)
+  BiPred$UCIMM[i] = quantile(allSim$lMM, prob = 0.975)
+  
+  BiPred$massM[i] = mean(allSim$massM)
+  BiPred$LCImassM[i] = quantile(allSim$massM, prob = 0.025)
+  BiPred$UCImassM[i] = quantile(allSim$massM, prob = 0.975)
+  
+
+}
+
+# Plot!
+# Looks lovely.
+
+
+  ggplot(BiPred) +
+  #geom_vline(aes(xintercept = 4), color = "grey", size = 2) +
+  geom_point(aes(x =Age, y = Length_cm, color = Sex), data = leechStandard, alpha = 0.25, size = 5) +
+  geom_line(aes(x = age, y = lJF), color = "black", size = 1.5) +
+  geom_line(aes(x = age, y = LCIJF), linetype = 2, color = "black", size = 1.5) +
+  geom_line(aes(x = age, y = UCIJF), linetype = 2, color = "black", size = 1.5) +
+  geom_line(aes(x = age, y = lMF), color = "black", size = 1.5) +
+  geom_line(aes(x = age, y = LCIMF), linetype = 2, color =  "black", size = 1.5) +
+  geom_line(aes(x = age, y = UCIMF), linetype = 2, color = "black", size = 1.5) +
+  geom_line(aes(x = age, y = lJM), color = "grey", size = 1.5) +
+  geom_line(aes(x = age, y = LCIJM), linetype = 2, color = "grey", size = 1.5) +
+  geom_line(aes(x = age, y = UCIJM), linetype = 2, color = "grey", size = 1.5) +
+  geom_line(aes(x = age, y = lMM), color = "grey", size = 1.5) +
+  geom_line(aes(x = age, y = LCIMM), linetype = 2, color =  "grey", size = 1.5) +
+  geom_line(aes(x = age, y = UCIMM), linetype = 2, color = "grey", size = 1.5) +
+  scale_color_manual(values = sexPal) +
+  coord_cartesian(ylim = c(0, 85)) +
+  geom_text(aes(x = 4, y = 70), label = "Juvenile phase", size = 8) +
+  geom_text(aes(x = 17, y = 50), label = "Adult phase", size = 8) +
+  geom_text(aes(x = 19, y = 10), label = 'Female', color = "black", size = 20) +
+  geom_text(aes(x = 18.2, y = 0), label = 'Male', color = "grey", size = 20) +
+  labs (x = 'Age (years)', y = 'Length (cm)') +
+  simpleTheme +
+    theme(legend.position = 'none')
+
+
+  ggplot() +
+    geom_point(aes (x = Length_cm, y = Mass_g), data = leechStandard[leechStandard$Sex == "Female",]) +
+    geom_line(aes(x = lJF, y = massF), data = BiPred, linetype = 2, color = "blue", size = 1.5) +
+    geom_line(aes(x = lMF, y = massF), data = BiPred, color = "red", size = 1.5) +
+    labs (x = "Length (cm)", y = "Mass (g)") +
+    coord_cartesian(xlim = c(0, 100), ylim = c(0, 4100)) +
+    geom_text(aes(x = 10, y = 3500), label = "Female", size = 16) +
+    simpleTheme
+  
+  
+  ggplot() +
+    geom_point(aes (x = Length_cm, y = Mass_g), data = leechStandard[leechStandard$Sex == "Male",]) +
+    geom_line(aes(x = lJM, y = massM), data = BiPred, linetype = 2, color = "blue", size = 1.5) +
+    geom_line(aes(x = lMM, y = massM), data = BiPred, color = "red", size = 1.5) +
+    labs (x = "Length (cm)", y = "Mass (g)") +
+    coord_cartesian(xlim = c(0, 100), ylim = c(0, 4100)) +
+    geom_text(aes(x = 10, y = 3500), label = "Male", size = 16) +
+    theme_bw()+
+    simpleTheme
+  
+  
+  
+  
+  
+  ggplot() +
+    geom_point(aes (x = Age, y = Mass_g), data = leechStandard) +
+    geom_line(aes(x = age, y = massF), data = BiPred, color = "red") +
+    theme_bw()
+  
+  
+  
+  
+means <- data.frame(qMean = (apply(allSim, 2, mean))) %>%
+             mutate(param = colnames(allSim))
+  
+outTab <- data.frame(t(apply(allSim, 2,
+             quantile, prob = c(0.025, 0.975)))) %>%
+          mutate(param = colnames(allSim)) %>%
+             left_join(means, by = "param") %>%
+          select(param, qMean, X2.5., X97.5.) %>%
+          rename("Parameter" = param,
+                 "Mean" = qMean,
+                 "2.5% CI" = X2.5.,
+                 "97.5% CI" = X97.5.) %>%
+          kbl(digits = 4) %>%
+          kable_classic(full_width = F, html_font = "Times")
+
+    
+  
+  
+  # lAsym = 3h/g
+  # Female: 83.87116 (86.00047, 81.87428)
+  # Male: 63.36948 (64.35587, 62.45116)
+  
+mean(leechCreel$Length_cm[leechCreel$Kept == 0])
+mean(leechCreel$Length_cm[leechCreel$Kept == 1])
+
+# unique(year(leechCreel$Date))
+# Creel years: 2008, 2009, 2010, 2011, 2014, 2016, 2019
+
+# Fishing regulations
+## 2008: All from 18-26" must be immediately released. One over 26" allowed in possession. Possession limit four.
+## 2009: All from 18-26" must be immediately released. One over 26" allowed in possession. Possession limit four.
+## 2010: All from 18-26" must be immediately released. One over 26" allowed in possession. Possession limit four.
+## 2011: All from 18-26" must be immediately released. One over 26" allowed in possession.
+
+## 2014: All from 20-26" must be immediately released. One over 26" allowed in possession. Possession limit four.
+## 2016: All from 20-26" must be immediately released. One over 26" allowed in possession. Possession limit four.
+
+## 2019: Possession limit 4, only 1 over 20"
+## 2020: Possession limit 4, only 1 over 20"
+
+# Regs valid through the end of February of the next year
+
+leechCreel %>%
+  mutate()
+
+
+plot(leechCreel$Length_cm, leechCreel$Kept)
+
+# Just 2 reg sets. 
+# Leap years: 2008, 2012, 2016, so not an issue
+
+
+
+regs <- expand.grid(seq(from = as.Date("2008-05-10"),
+        to = as.Date("2019-09-30"), by = "days"), c(1,2,3)) %>%
+        rename("Date" = Var1, "Bin" = Var2) %>%
+        mutate(binMin = case_when(Bin == 1 ~ 1,
+                                  Bin == 2 & Date < as.Date("2012-03-01")~ 18,
+                                  Bin == 2 & Date >= as.Date("2014-01-01") &
+                                             Date < as.Date("2017-03-01")~ 20,
+                                  Bin == 3 & Date < as.Date("2017-03-01")~ 26.01),
+               binMax = case_when(Bin == 1 & Date < as.Date("2012-03-01")~ 17.99,
+                                  Bin == 1 & Date >= as.Date("2014-01-01") &
+                                             Date < as.Date("2017-03-01")~ 19.99,
+                                  Bin == 2 & Date < as.Date("2017-03-01")~ 26),
+               legal = NA)
+
+regs$binMin[regs$Bin == 1] <- 1
+
+regs$binMin[regs$Bin == 2 & regs$Date < as.Date("2012-03-01")] <- 18
+regs$binMin[regs$Bin == 2 & regs$Date >= as.Date("2014-01-01")] <- 20
+regs$binMin[regs$Bin == 3 & regs$Date < as.Date("2017-03-01")] <- 26
+regs[regs$Bin %in% c(2,3) & regs$Date > as.Date("2019-01-01"),] <- NULL
+regs$legal
+
+
+
+tes <- glm(Kept ~ Length_cm, data = leechCreel, family = "binomial")
+
+# I have just realized I can use case_when to put the regs right on the creel info.
+
+
+mean(leechCreel$Length_cm)
+mean(leechStandard$Length_cm)
+
+# Ok, before we do the harvest selectivity model, let's look at catch selectivity.
+
+# model structure: 
+
+# Length ~ source
+
+leechStandard %>%
+  mutate(Kept = 0) %>%
+  select(Study_Year, Length_cm, Catch, Kept) %>%
+  rbind(leechCreel %>% select(Study_Year, Length_cm, Catch, Kept)) -> catchKeep
+            
+
+
+fishLengths <- catchKeep$Length_cm
+Catch <- as.numeric(as.factor(catchKeep$Catch))
+Ncatch <- length(Catch)
+
+
+catchMod <-    
+  nimbleCode({
+    
+    # For each fish
+    
+    for (i in 1:Ncatch) { 
+      
+      # predict length as a function of source (0 = net, 1 = creel)
+      # structured by mean mu and precision tau
+      
+      fishLengths[i] ~ dnorm(mu[i], tau)
+      
+      # predict mu as a function of fish length
+      
+      mu[i] <-  muLength0 + muLengthCatch*Catch[i] 
+      
+    }
+    
+    # normally distributed priors on mean 
+    
+    muLength0 ~ T(dnorm(40, 0.001), 0.001,)
+    muLengthCatch ~ dnorm(0, 0.001)
+    
+    # gamma-distributed prior on precision
+    
+    tau ~ dgamma(0.01, 0.01)
+    
+  })
+
+
+
+constants <- list(Ncatch = Ncatch,
+                  Catch = Catch)
+
+# List data, still not 100% on the difference btw. constants and data
+
+data <- list(fishLengths = fishLengths)
+
+# make list of parameters to monitor
+
+params <- c('muLength0',
+            'muLengthCatch',
+            'tau')
+
+# Make list of inits.
+# We're going to just define these as reasonable values
+# b/c the model seems very sensitive to initial values
+# we can very easily end up accidentally taking a log (0)
+
+inits1 <- list(muLength0 = 45,
+               muLengthCatch = 1,
+               tau = c(0.01))
+
+
+inits2 <- list(muLength0 = 35,
+               muLengthCatch = 3,
+               tau = c(0.02))
+
+
+inits3 <- list(muLength0 = 40,
+               muLengthCatch = 5,
+               tau = c(0.03))
+
+
+
+inits <- list(inits1, inits2, inits3)
+
+# Run the model
+
+catchCall <- nimbleMCMC(code = catchMod,
+                        constants = constants,
+                        data = data,
+                        inits = inits,
+                        monitors = params,
+                        niter = 102000,
+                        thin = 10,
+                        nchains = 3,
+                        nburnin = 2000,
+                        samplesAsCodaMCMC = TRUE)
+
+# gillnet vs. creel
+
+ggplot() +
+  geom_density(aes(x = Length_cm), data = leechStandard, alpha = 0.5, adjust = 2,
+               fill = "darkgrey", color = "darkgrey", size = 2) +
+  geom_density(aes(x = Length_cm), data = leechCreel, adjust = 2,
+               fill = "black", color = "black", alpha = 0.5, size = 2) +
+  labs (x = "Fish length (cm)", y = "Density") +
+  geom_text(aes(x = 15, y = 0.025), label = "Gillnet", color = "darkgrey", size = 12) +
+  geom_text(aes(x = 75, y = 0.015), label = "Creel", color = "black", size = 12) +
+  simpleTheme
+
+# Catch vs. keep
+# Show by reg period
+
+
+ggplot() +
+  geom_density(aes(x = Length_cm), data = leechCreel, alpha = 0.5,
+               fill = "darkgrey", color = "darkgrey", size = 2, adjust = 2) +
+  #geom_density(aes(x = Length_cm), data = leechCreel, adjust = 2,
+               #fill = "black", color = "black", alpha = 0.5, size = 2) +
+  geom_density(aes(x = Length_cm), data = leechCreel[leechCreel$Kept == 1,], alpha = 0.5,
+               fill = "black", color = "black", size = 2, adjust = 2) +
+  labs (x = "Fish length (cm)", y = "Density") +
+  geom_text(aes(x = 15, y = 0.025), label = "Kept", color = "black", size = 12) +
+  geom_text(aes(x = 75, y = 0.015), label = "Caught", color = "darkgrey", size = 12) +
+  simpleTheme
+
+leechCreel <- leechCreel %>%
+  mutate(legal = case_when(Date < "2012-03-01" & Length_cm < 45.72 ~ 1,
+                           Date < "2012-03-01" & Length_cm >= 45.72 & Length_cm < 66.04 ~ 0,
+                           Date < "2012-03-01" & Length_cm >= 66.04 ~ 1,
+                           Date > "2014-01-01" & Date < "2019-03-01" & Length_cm < 50.8 ~ 1,
+                           Date > "2014-01-01" & Date < "2019-03-01" & Length_cm >= 50.8 & Length_cm < 66.04 ~ 0,
+                           Date > "2014-01-01" & Date < "2019-03-01" & Length_cm >= 66.04 ~ 1,
+                           Date > "2018-01-01" ~ 1),
+         bin = case_when(Date < "2012-03-01" & Length_cm < 45.72 ~ "small_liberal_1",
+                         Date < "2012-03-01" & Length_cm >= 45.72 & Length_cm < 66.04 ~ "illegal_1",
+                         Date < "2012-03-01" & Length_cm >= 66.04 ~ "large_restricted_1",
+                         Date > "2014-01-01" & Date < "2019-03-01" & Length_cm < 50.8 ~ "small_liberal_2",
+                         Date > "2014-01-01" & Date < "2019-03-01" & Length_cm >= 50.8 & Length_cm < 66.04 ~ "illegal_2",
+                         Date > "2014-01-01" & Date < "2019-03-01" & Length_cm >= 66.04 ~ "large_restricted_2",
+                         Date > "2018-01-01" & Length_cm < 50.8 ~ "small_liberal_3",
+                         Date > "2018-01-01" & Length_cm >= 50.8 ~ "large_restricted_3"),
+         regSet = case_when(Date < "2012-03-01" ~ "small_slot",
+                            Date > "2014-01-01" & Date < "2019-03-01" ~ "large_slot",
+                            Date > "2018-01-01" ~ "bin_min")
+  ) 
+
+leechCreel %>%
+filter(legal == 1) %>%
+  ggplot() +
+  geom_density(aes(x = Length_cm, group = as.factor(Kept), color = as.factor(Kept), fill = as.factor(Kept)), alpha = 0.5,
+               size = 2, adjust = 2) +
+  scale_color_manual(values = c("0" = "darkgrey", 
+                                   "1" = "black")) +
+  scale_fill_manual(values = c("0" = "darkgrey", 
+                                "1" = "black")) +
+  labs (x = "Fish length (cm)", y = "Density") +
+  geom_text(aes(x = 15, y = 0.025), label = "Released", color = "darkgrey", size = 12) +
+  geom_text(aes(x = 75, y = 0.015), label = "Kept", color = "black", size = 12) +
+  simpleTheme +
+  theme(legend.position = "none")
+
+
+  probTab <- leechCreel %>%
+              group_by(bin) %>%
+              summarise(n = n(),
+                        prop_kept = mean(Kept),
+                        mean_length = mean(Length_cm),
+                        se_length = sd(Length_cm)/sqrt(212990),
+                        mean_released = mean(Length_cm[Kept == 0]),
+                        se_released = sd(Length_cm[Kept == 0])/sqrt(212990),
+                        mean_kept = mean(Length_cm[Kept == 1]),
+                        se_kept = sd(Length_cm[Kept == 1])/sqrt(212990)) %>%
+              mutate(harvest_differential = (mean_kept/mean_released)-1,
+                     selection_differential = (mean_kept/mean_length)-1) %>%
+              kbl(digits = 2) %>%
+              kable_classic(full_width = F, html_font = "Times")
+ 
+  
+  ggplot(leechCreel) +
+    geom_point(aes(x = Length_cm, y = Kept), size = 4, alpha = 0.25) +
+    geom_smooth(aes(x = Length_cm, y = Kept, group = bin), method = "lm") +
+    simpleTheme +
+    facet_wrap(~regSet)
+             
+
+probTab$bin <- factor(probTab$bin,
+                      levels = c("small_liberal_1",
+                                 "small_liberal_2",
+                                 "small_liberal_3",
+                                 "illegal_1",
+                                 "illegal_2",
+                                 "large_restricted_1",
+                                 "large_restricted_2",
+                                 "large_restricted_3"))
+
+probTab  %>%
+  as.data.frame() %>%
+  pivot_longer(cols = -bin) %>%
+  mutate(regset = case_when(grepl("1", bin ) ~ "big_slot",
+                            grepl("2", bin) ~ "small_slot",
+                            grepl("3", bin) ~ "all_legal")) %>%
+  filter(name == "prop_kept") %>%
+  ggplot() +
+  geom_bar(aes(x = bin, y = value), stat = "identity", fill = "darkgrey", color = "black") +
+  labs (x = NULL, y = "Proportion harvested") +
+  simpleTheme +
+  facet_wrap(~regset, scales = "free_x")
+
+
+probTab  %>%
+  as.data.frame() %>%
+  pivot_longer(cols = -bin) %>%
+  mutate(regset = case_when(grepl("1", bin ) ~ "big_slot",
+                            grepl("2", bin) ~ "small_slot",
+                            grepl("3", bin) ~ "all_legal")) %>%
+  filter(name == "harvest_differential") %>%
+  ggplot() +
+  geom_bar(aes(x = bin, y = value), stat = "identity", fill = "darkgrey", color = "black") +
+  labs (x = NULL, y = "Harvest differential") +
+  geom_hline(aes(yintercept = 0), size = 2) +
+  simpleTheme +
+  facet_wrap(~regset, scales = "free_x")
+
+probTab  %>%
+  as.data.frame() %>%
+  #pivot_longer(cols = -bin) %>%
+  mutate(regset = case_when(grepl("1", bin ) ~ "big_slot",
+                            grepl("2", bin) ~ "small_slot",
+                            grepl("3", bin) ~ "all_legal")) %>%
+  ggplot() +
+  geom_bar(aes(x = bin, y = mean_kept), stat = "identity", fill = "darkgrey", color = "black") +
+  geom_bar(aes(x = bin, y = mean_released), stat = "identity", fill = "red", color = "black", alpha = 0.5) +
+  labs (x = NULL, y = "Mean length") +
+  simpleTheme +
+  facet_wrap(~regset, scales = "free_x")
+
+
+#Tomorrow, make plots showing size of fish caught and kept/released
+# People are more selective in the lower bracket than the upper bracket: suggests
+# a cut-off at "eating size"
+
+# Figures to add:
+## Mass figure
+
+
+
+## harvested for gillnet
+
+ggplot()+
+  geom_density(aes(x = Length_cm), alpha = 0.5, color = "darkgrey", fill = "darkgrey",
+               data = leechStandard, size = 2, adjust = 2) +
+  geom_density(aes(x = Length_cm), alpha = 0.5, color = "black", fill = "black",
+               data = leechCreel[leechCreel$Kept == 1,], size = 2, adjust = 2) +
+  geom_text(aes(x = 15, y = 0.025), label = "Gillnet", color = "darkgrey", size = 12) +
+  geom_text(aes(x = 75, y = 0.015), label = "Kept", color = "black", size = 12) +
+  labs (x = "Fish length (cm)", y = "Density") +
+  simpleTheme
+
+
+mean(leechStandard$Length_cm)
+mean(leechCreel$Length_cm[leechCreel$Kept == 1])
+mean(leechCreel$Length_cm[leechCreel$Kept == 1])
+mean(leechCreel$Length_cm[leechCreel$Kept == 0])
+mean(leechCreel$Length_cm)
+
+mean(leechCreel$Length_cm[leechCreel$Kept == 1 & leechCreel$legal == 1]) # 39.62554
+mean(leechCreel$Length_cm[leechCreel$Kept == 0 & leechCreel$legal == 1]) # 38.14464
+
+

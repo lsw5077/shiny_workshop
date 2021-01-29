@@ -12,8 +12,11 @@ Many course participants are interested in displaying spatial information in the
 The goal of this assignment is to improve this app. More specifically, we would like you to:
 
 1. Add a title to this app
+
 2. Add a drop down list to allow users to subset only the cities that belong to a particular country
+
 3. Add a radio button that allow users to subset only the capital cities.
+
 4. Create a side bar that will collect all the input that we want from the user (e.g., minimum population size and desired country)
 
 Download the attached .zip file and open assignment_map.R. Make the above changes and then check your answers against assignment_map_solution.R. 

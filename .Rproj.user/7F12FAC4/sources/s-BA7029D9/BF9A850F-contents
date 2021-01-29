@@ -22,7 +22,9 @@ install.packages(c("tidyverse",
                    "shiny",
                    "leaflet",
                    "remotes",
-                   "rfishbase"))
+                   "rfishbase",
+                   "viridis",
+                   "shinydashboard"))
 
 # install the wingspan data package from github
 
@@ -43,8 +45,8 @@ This course consists of 5 morning blocks spread throughout 5 weeks. The first 4 
 ```{r, echo=FALSE}
 
           data.frame(Time = c("Prior to event",
-                                "09:00-11:00 EST",
-                                "11:00-12:00 EST"),
+                                "08:30-10:30 EST",
+                                "10:30-11:30 EST"),
                        Description = c("Watch pre-recorded lectures/coding sessions (these                                     videos are available in the corresponding module link)",
                                        "Group activity",
                                        "Wrap-up session")) %>%

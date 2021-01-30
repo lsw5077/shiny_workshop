@@ -24,7 +24,10 @@ install.packages(c("tidyverse",
                    "remotes",
                    "rfishbase",
                    "viridis",
-                   "shinydashboard"))
+                   "shinydashboard",
+                   "rgdal",
+                   "raster",
+                   "sp"))
 
 # install the wingspan data package from github
 

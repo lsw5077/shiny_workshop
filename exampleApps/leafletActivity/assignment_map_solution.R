@@ -39,7 +39,7 @@ ui <- fluidPage(
     sidebarPanel(
       sliderInput(inputId = "pop.thresh",
                    label='Minimum Population size',
-                   min = 1000000,
+                   min = 500000,
                    max = 20000000,
                    value = 3000000,
                    width = NULL,
@@ -70,9 +70,9 @@ ui <- fluidPage(
 server <- function(input, output, session) {
 
   # build an output object using renderLeaflet({}) a reactive object!
-  
-  pointDat <- reactive({
 
+  output$mymap <- renderLeaflet({
+    
     # filter world pop to only those cities with population larger than
     # the user's input in the numeric input
     # If the user selects capitals only, filter to capitals, otherwise keep all rows
@@ -80,16 +80,16 @@ server <- function(input, output, session) {
     # filter to only the country the user selects
     
     points <- world.cities %>%
-              filter(pop >= input$pop.thresh) 
+      filter(pop >= input$pop.thresh) 
     
     
     # Add a radio button that allow users to subset only the capital cities.
     
     if(input$capital == "Yes") {
-
+      
       points <- points %>%
-                filter(capital == 1)
-
+        filter(capital == 1)
+      
     } else{points <- points}
     
     
@@ -102,13 +102,6 @@ server <- function(input, output, session) {
       
     } else{points <- points %>% filter (country.etc == input$country)}
     
-
-  })
-  
-
-  output$mymap <- renderLeaflet({
-    
-    points <- pointDat()
     
     # make a leaflet map using the stamen tonerlite provider
     # Add NDVI using our custom color pallette. 

@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1612041037875.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "B40B672B",
+    "lastKnownWriteTime" : 1612066283,
+    "last_content_update" : 1612066283882,
+    "path" : "~/GitHub/shiny_workshop/exampleApps/leafletActivity/assignment_map_solution.R",
+    "project_path" : "exampleApps/leafletActivity/assignment_map_solution.R",
+    "properties" : {
+        "cursorPosition" : "21,35",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

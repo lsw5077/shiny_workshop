@@ -19,6 +19,8 @@ The goal of this assignment is to improve this app. More specifically, we would 
 
 4. Create a side bar that will collect all the input that we want from the user (e.g., minimum population size and desired country)
 
+5. ***Bonus challenge!*** If you get through the first four challenges, add the Normalized difference vegetation index (NDVI_lite.tif) raster file to the leaflet map to visualize global vegetation distribution. Visualize the variation in vegetation using the ```r_colors``` palette created at the top of the script.   
+
 Download the attached .zip file and open assignment_map.R. Make the above changes and then check your answers against assignment_map_solution.R. 
 
 ## **[Leaflet activity files](exampleApps/leafletActivity.zip)**

@@ -27,7 +27,8 @@ install.packages(c("tidyverse",
                    "shinydashboard",
                    "rgdal",
                    "raster",
-                   "sp"))
+                   "sp",
+                   "maps"))
 
 # install the wingspan data package from github
 

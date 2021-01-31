@@ -12,8 +12,9 @@ library(rgdal)
 library(tidyverse)
 
 # Make a list of colors for us to use
+# in the next step.
 
-r_colors <- rev(colorspace::terrain_hcl(n = length(unique(NDVI))))
+r_colors <- rev(colorspace::terrain_hcl(n = 254))
 
 # define user interface using fluid page
 

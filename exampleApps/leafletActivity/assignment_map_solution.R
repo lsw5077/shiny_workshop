@@ -21,7 +21,7 @@ NDVI <- raster("NDVI_lite.tif")
 
 # Make a list of NDVI-suggestive colors for us to use
 
-r_colors <- rev(colorspace::terrain_hcl(n = length(unique(NDVI))))
+r_colors <- rev(colorspace::terrain_hcl(n = 254))
 
 # define user interface using fluid page
 

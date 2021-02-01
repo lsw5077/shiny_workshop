@@ -1,9 +1,0 @@
-library(tidyverse)
-library(lme4)
-library(readr)
-
-# Larkin's crane game.
-# Objectives:
-
-## 1.Provide recreational opportunity consistent with population objectives
-## 2.Sustain population index of 343-465,000 birds in the Midcontinent Population 

@@ -21,5 +21,8 @@ The goal of this assignment is to improve this app. More specifically, we would 
 
 5. ***Bonus challenge!*** If you get through the first four challenges, add the [global May 2020 Normalized difference vegetation index](https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD_NDVI_M) raster file (NDVI_lite.tif) to the leaflet map to visualize global "greenness." Visualize the variation in vegetation distribution using the ```r_colors``` palette created at the top of the script. If you get stuck, check out the [leaflet raster documentation](https://rstudio.github.io/leaflet/raster.html).  
 
+6. ***Special Double Bonus challenge!*** Add a legend for the NDVI raster
+
+
 Once you make the changes described above, check your answers against assignment_map_solution.R. There are multiple ways to accomplish the challenges, so your solution might be different than ours!
 

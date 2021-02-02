@@ -23,6 +23,14 @@ NDVI <- raster("NDVI_lite.tif")
 
 r_colors <- rev(colorspace::terrain_hcl(n = 254))
 
+# legend colors for leaflet map
+
+legend_colors <- r_colors[seq(25, 254, 25)]
+
+# legend labels for leaflet map
+
+legend_labels <- seq(25, 254, 25)
+
 # define user interface using fluid page
 
 ui <- fluidPage(
@@ -111,7 +119,10 @@ server <- function(input, output, session) {
                        options = providerTileOptions(noWrap = FALSE)) %>%
       addRasterImage(NDVI,
                      opacity = 0.5,
-                     colors = r_colors)
+                     colors = r_colors) %>%
+      addLegend(colors = legend_colors,
+                labels = legend_labels,
+                title = 'NDVI')
     
     
     # If the user's inputs result in a dataframe with at least one row, 

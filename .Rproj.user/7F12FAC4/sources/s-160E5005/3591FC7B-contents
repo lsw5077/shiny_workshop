@@ -1,0 +1,13 @@
+
+input <- c(pop.thresh = 500, capital = "No", country = ""
+
+
+
+world.cities %>%
+  filter(pop >= input$pop.thresh)  %>%
+  filter(case_when(input$country == "All" ~ !is.na(pop),
+                   input$country != "All" & length(input$country > 0) ~
+                     country.etc %in% input$country,
+                   input$country == "" ~ 1==2)) %>%
+  filter(case_when(input$capital == "Yes" ~ capital == 1,
+                   input$capital == "No" ~ !is.na(pop)))

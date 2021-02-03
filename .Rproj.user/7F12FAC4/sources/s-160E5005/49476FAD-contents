@@ -76,3 +76,15 @@ data.frame(preference = c(1, 0.5, 0.5, 0, 0, 0),
 ## select scenario
 ## Roll climate
 ## make p-matrix/educated guesses
+
+
+
+
+points <- world.cities %>%
+  filter(pop >= input$pop.thresh) %>%
+  filter(case_when(input$capital == "Yes" ~ capital == 1,
+                   input$capital == "No" ~ !is.na(pop))) %>%
+  filter(case_when(input$country == "All" ~ !is.na(pop),
+                   input$country != "All" & length(input$country > 0) ~
+                    country.etc %in% input$country,
+                   is.null(input$country) ~ pop < 1))

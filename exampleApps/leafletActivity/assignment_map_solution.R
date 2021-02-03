@@ -122,7 +122,11 @@ server <- function(input, output, session) {
                      colors = r_colors) %>%
       addLegend(colors = legend_colors,
                 labels = legend_labels,
-                title = 'NDVI')
+                title = 'NDVI') %>%
+      fitBounds(lat1 = min(points$lat),
+                lat2 = max(points$lat),
+                lng1 = min(points$lon),
+                lng2 = max(points$lon))
     
     
     # If the user's inputs result in a dataframe with at least one row, 

@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1612314401453.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "ABC39BE3",
+    "lastKnownWriteTime" : 1612064267,
+    "last_content_update" : 1612064267,
+    "path" : "~/GitHub/shiny_workshop/exampleApps/leafletActivity/raster_cleaning.R",
+    "project_path" : "exampleApps/leafletActivity/raster_cleaning.R",
+    "properties" : {
+        "cursorPosition" : "8,0",
+        "scrollLine" : "0",
+        "tempName" : "Untitled2"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

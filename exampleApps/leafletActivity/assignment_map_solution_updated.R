@@ -11,22 +11,18 @@ library(raster)
 library(rgdal)
 library(tidyverse)
 
-
-# 
+# make world.cities a little lighter so our app can run a little faster
 
 world.cities <- world.cities %>%
-                filter(pop >= 500000) %>%
-                rbind(data.frame(name = "None",
-                                 country.etc = "None",
-                                 pop = 30000000,
-                                 lat = NA,
-                                 long = NA,
-                                 capital = 0))
+                filter(pop >= 100000) 
 
+# Make options for selectize input
 
-# make a list of cities for choices
+unique.cities = c("All", sort(unique(world.cities$country.etc)))
 
-unique.cities = c(sort(unique(world.cities$country.etc)))
+# Make a custom "not in" function for filtering
+
+`%nin%` <- negate(`%in%`)
 
 # read in the raster
 
@@ -60,19 +56,18 @@ ui <- fluidPage(
     sidebarPanel(
       sliderInput(inputId = "pop.thresh",
                    label='Minimum Population size',
-                   min = 500000,
+                   min = 400000,
                    max = 20000000,
                    value = 3000000,
                    width = NULL,
                    dragRange = FALSE),
       
-      # 2)	Add a drop down list to allow users to subset 
-      # only the cities that belong to a particular country
+      # 2)	Add a selectize input so users can select multiple countries
       
       selectizeInput(inputId = 'country',
                      label = 'Select country',
                      choices = unique.cities,
-                     selected = "None",
+                     selected = "All",
                      multiple = TRUE),
       
       # 3)	Add a radio button that allow users to subset 
@@ -85,44 +80,21 @@ ui <- fluidPage(
     ),
     # Adjust map size to deal with map reapeating issue
     # You can make this look nicer if you really want
+    
     mainPanel(
       leafletOutput("mymap",
-                    width = "150%",
-                    height = 600),  
+                    width = "95%",
+                    height = 650)
       
-      textOutput("countries")
     )
   )
 )
 
-server <- function(input, output, session) {
-
-  # build an output object using renderLeaflet({}) a reactive object!
-
-  output$countries <- renderText({(input$country)})
+server <- function(input, output){
   
+  # build an output object using renderLeaflet({}) a reactive object!
   
   output$mymap <- renderLeaflet({
-
-    # make a leaflet map using the stamen tonerlite provider
-    # Add NDVI using our custom color pallette. 
-    
-    my_map <- leaflet() %>%
-      # Set the map zoom to pan to the center of the selected points
-      setView(lng = 0,
-              lat = 0,
-              zoom = 2) %>% 
-      # Add fun watercolor tiles
-      addProviderTiles(providers$Stamen.Watercolor,
-                       options = providerTileOptions(noWrap = FALSE)) %>%
-      # Add raster
-      addRasterImage(NDVI,
-                     opacity = 0.5,
-                     colors = r_colors) %>%
-      # Add legends using our colors and labels from above
-      addLegend(colors = legend_colors,
-                labels = legend_labels,
-                title = 'NDVI')
     
     # filter world pop to only those cities with population larger than
     # the user's input in the numeric input
@@ -131,42 +103,55 @@ server <- function(input, output, session) {
     # filter to only the country the user selects
     
     points <- world.cities %>%
-              filter(pop >= input$pop.thresh)  %>%
-              filter(case_when(input$country == "None" ~ !is.na(pop),
-                               input$country != "None" & ~ country.etc %in% list(input$country))) %>%
-              filter(case_when(input$capital == "Yes" ~ capital == 1))
+      rowwise() %>%
+      filter(pop >= input$pop.thresh) %>%
+      filter(case_when("All" %in% input$country ~ pop >= input$pop.thresh
+                       ,length(input$country) == 0 ~ country.etc == "None"
+                       ,length(input$country) > 0 & "All" %nin% input$country ~
+                         country.etc %in% input$country)) %>%
+      filter(case_when(input$capital == "Yes" ~ capital == 1
+                       ,input$capital == "No" ~ capital == 1 | capital == 0)) %>%
+      as.data.frame()
+    
+    # Calculate the number of points in the dataframe
+    
+    npoints <- nrow(points)
 
-    # Add a radio button that allow users to subset only the capital cities.
-  
+    # If the dataframe is empty, overwrite it with a prompt to 
+    # choose a better combination
     
-    
-    # 2. Add a drop down list to allow users to subset 
-    # only the cities that belong to a particular country
-    
-    # if(input$country == "All") {
-    #   
-    #   points <- points 
-    #   
-    #   # filter to include dataframe in list of input countries.
-    #   
-    # } else{points <- points %>%
-    #        filter (country.etc %in% input$country)}
-    
-
-    # If the user's inputs result in a dataframe with at least one row, 
-    # add labels.
-    
-    if (nrow(points) >= 1) {
+    if(npoints == 0) {
       
-      my_map <- my_map %>%
-                addMarkers(lng = points$long,
-                           lat = points$lat,
-                           label = points$name) %>%
-                setView(lng = mean(points$lon, na.rm = TRUE), 
-                        lat = mean(points$lat, na.rm = TRUE),
-                        zoom = 2)
- 
-    } else{my_map <- my_map}
+      points <- data.frame(name = "Select a valid population-country-capital combination to view cities!",
+                           country.etc = NA,
+                           pop = NA,
+                           lat = 36,
+                           long = -40,
+                           capital = NA)
+    }
+    
+    my_map <- leaflet(options = leafletOptions(nowrap = TRUE)) %>%
+      # Add fun watercolor tiles
+      addProviderTiles(providers$Stamen.Watercolor,
+                       options = providerTileOptions(noWrap = TRUE)) %>%
+      #Add raster
+      addRasterImage(NDVI,
+                     opacity = 0.5,
+                     colors = r_colors) %>%
+      #Add legends using our colors and labels from above
+      addLegend(colors = legend_colors,
+                labels = legend_labels,
+                title = 'NDVI') %>%
+      addMarkers(lng = points$long,
+                 lat = points$lat, 
+                 label = points$name) %>%
+      # addMarkers(lng = points$long,
+      #            lat =  points$lat, 
+      #            label = points$name) %>%
+      # Set the map zoom to pan to the center of the selected points
+      setView(lng = mean(points$long, na.rm = TRUE),
+              lat = mean(points$lat, na.rm = TRUE),
+              zoom = 2)
 
     # print my map
     

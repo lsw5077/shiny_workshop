@@ -1,13 +1,37 @@
-
-input <- c(pop.thresh = 500, capital = "No", country = ""
-
+`%nin%` <- negate(`%in%`)
 
 
-world.cities %>%
-  filter(pop >= input$pop.thresh)  %>%
-  filter(case_when(input$country == "All" ~ !is.na(pop),
-                   input$country != "All" & length(input$country > 0) ~
-                     country.etc %in% input$country,
-                   input$country == "" ~ 1==2)) %>%
-  filter(case_when(input$capital == "Yes" ~ capital == 1,
-                   input$capital == "No" ~ !is.na(pop)))
+input <- data.frame(pop.thresh = 500, capital = "No", country = c("Angola"))
+
+points <- world.cities %>%
+          filter(pop >= 500000) %>%
+          filter(pop <1)
+
+npoints <- nrow(points)
+
+points %>% 
+  mutate(name = if(npoints == 0){"Select a valid population-country-capital combination to view cities!", name), name)),
+         
+         
+         
+         
+         country.etc = case_when(npoints == 0 ~ NA_character_,
+                                 npoints > 0 ~ country.etc)),
+         pop = case_when(npoints > 0 ~ pop,
+                         npoints == 0 ~ NA_integer_),
+         lat = case_when(npoints > 0 ~ lat,
+                         npoints == 0 ~ 36),
+         long = case_when(npoints > 0 ~ long,
+                          npoints == 0 ~ -40),
+         capital = case_when(npoints > 0 ~ capital,
+                             npoints == 0 ~ NA_integer_))
+
+if(npoints == 0) {
+  
+  points <- data.frame(name = "Select a valid population-country-capital combination to view cities!",
+                       country.etc = NA,
+                       pop = NA,
+                       lat = 36,
+                       long = -40,
+                       capital = NA)
+}

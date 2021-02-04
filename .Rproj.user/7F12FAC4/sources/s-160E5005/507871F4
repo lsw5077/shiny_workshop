@@ -7,13 +7,13 @@
     "folds" : "",
     "hash" : "0",
     "id" : "507871F4",
-    "lastKnownWriteTime" : 1612406780,
-    "last_content_update" : 1612406780055,
+    "lastKnownWriteTime" : 1612446395,
+    "last_content_update" : 1612446395474,
     "path" : "~/GitHub/shiny_workshop/exampleApps/leafletActivity/assignment_map_solution_updated.R",
     "project_path" : "exampleApps/leafletActivity/assignment_map_solution_updated.R",
     "properties" : {
-        "cursorPosition" : "162,20",
-        "scrollLine" : "142"
+        "cursorPosition" : "106,41",
+        "scrollLine" : "96"
     },
     "read_only" : false,
     "read_only_alternatives" : [

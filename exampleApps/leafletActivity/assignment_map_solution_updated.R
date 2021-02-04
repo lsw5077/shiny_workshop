@@ -145,10 +145,6 @@ server <- function(input, output){
       addMarkers(lng = points$long,
                  lat = points$lat, 
                  label = points$name) %>%
-      # addMarkers(lng = points$long,
-      #            lat =  points$lat, 
-      #            label = points$name) %>%
-      # Set the map zoom to pan to the center of the selected points
       setView(lng = mean(points$long, na.rm = TRUE),
               lat = mean(points$lat, na.rm = TRUE),
               zoom = 2)

@@ -2180,10 +2180,17 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>The goal of this assignment is to improve this app. More specifically, we would like you to:</p>
 <ol type="1">
 <li><p>Add a title to this app</p></li>
-<li><p>Add a drop down list to allow users to subset only the cities that belong to a particular country</p></li>
+<li><p>Add a <a href="https://shiny.rstudio.com/reference/shiny/latest/selectInput.html">select input</a> to allow users to subset only the cities that belong to a particular country</p></li>
 <li><p>Add a radio button that allow users to subset only the capital cities.</p></li>
 <li><p>Create a side bar that will collect all the input that we want from the user (e.g., minimum population size and desired country)</p></li>
-<li><p><strong><em>Bonus challenge!</em></strong> If you get through the first four challenges, add the <a href="https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD_NDVI_M">global May 2020 Normalized difference vegetation index</a> raster file (NDVI_lite.tif) to the leaflet map to visualize global “greenness.” Visualize the variation in vegetation distribution using the <code>r_colors</code> palette created at the top of the script. If you get stuck, check out the <a href="https://rstudio.github.io/leaflet/raster.html">leaflet raster documentation</a>.</p></li>
+</ol>
+<p><strong><em>Bonus challenges! If you get through the first four challenges, tackle these in the order you find them most interesting</em></strong></p>
+<ol start="5" type="1">
+<li><p>Add the <a href="https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD_NDVI_M">global May 2020 Normalized difference vegetation index</a> raster file (NDVI_lite.tif) to the leaflet map to visualize global “greenness.” Visualize the variation in vegetation distribution using the <code>r_colors</code> palette created at the top of the script. If you get stuck, check out the <a href="https://rstudio.github.io/leaflet/raster.html">leaflet raster documentation</a>.</p></li>
+<li><p>Add a legend for the NDVI raster</p></li>
+<li><p>Try adding different <a href="https://rstudio.github.io/leaflet/basemaps.html">provider tiles</a></p></li>
+<li><p>If you feel like a real data challenge, try swapping out the dropdown list for a <a href="https://shiny.rstudio.com/articles/selectize.html">selectize</a> input and let users select multiple countries.</p></li>
+<li><p>What happens if a user chooses an invalid combination of filters (e.g., a capital city with too large of a population)? Come up with a way to prompt users to choose a valid filter combination.</p></li>
 </ol>
 <p>Once you make the changes described above, check your answers against assignment_map_solution.R. There are multiple ways to accomplish the challenges, so your solution might be different than ours!</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>

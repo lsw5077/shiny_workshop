@@ -13,16 +13,23 @@ The goal of this assignment is to improve this app. More specifically, we would 
 
 1. Add a title to this app
 
-2. Add a drop down list to allow users to subset only the cities that belong to a particular country
+2. Add a [select input](https://shiny.rstudio.com/reference/shiny/latest/selectInput.html) to allow users to subset only the cities that belong to a particular country
 
 3. Add a radio button that allow users to subset only the capital cities.
 
 4. Create a side bar that will collect all the input that we want from the user (e.g., minimum population size and desired country)
 
-5. ***Bonus challenge!*** If you get through the first four challenges, add the [global May 2020 Normalized difference vegetation index](https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD_NDVI_M) raster file (NDVI_lite.tif) to the leaflet map to visualize global "greenness." Visualize the variation in vegetation distribution using the ```r_colors``` palette created at the top of the script. If you get stuck, check out the [leaflet raster documentation](https://rstudio.github.io/leaflet/raster.html).  
+ ***Bonus challenges!  If you get through the first four challenges, tackle these in the order you find them most interesting***
 
-6. ***Special Double Bonus challenge!*** Add a legend for the NDVI raster
+5. Add the [global May 2020 Normalized difference vegetation index](https://neo.sci.gsfc.nasa.gov/view.php?datasetId=MOD_NDVI_M) raster file (NDVI_lite.tif) to the leaflet map to visualize global "greenness." Visualize the variation in vegetation distribution using the ```r_colors``` palette created at the top of the script. If you get stuck, check out the [leaflet raster documentation](https://rstudio.github.io/leaflet/raster.html).  
 
+6. Add a legend for the NDVI raster
+
+7. Try adding different [provider tiles](https://rstudio.github.io/leaflet/basemaps.html)
+
+8. If you feel like a real data challenge, try swapping out the dropdown list for a [selectize](https://shiny.rstudio.com/articles/selectize.html) input and let users select multiple countries. 
+
+9. What happens if a user chooses an invalid combination of filters (e.g., a capital city with too large of a population)? Come up with a way to prompt users to choose a valid filter combination.  
 
 Once you make the changes described above, check your answers against assignment_map_solution.R. There are multiple ways to accomplish the challenges, so your solution might be different than ours!
 

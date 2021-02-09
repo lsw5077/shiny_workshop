@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1612868139682.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "BD1C9CD0",
+    "lastKnownWriteTime" : 1612860428,
+    "last_content_update" : 1612860428,
+    "path" : "~/GitHub/shiny_workshop/exampleApps/craneGame/data/cranesDataProcessing.R",
+    "project_path" : "exampleApps/craneGame/data/cranesDataProcessing.R",
+    "properties" : {
+        "cursorPosition" : "15,0",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

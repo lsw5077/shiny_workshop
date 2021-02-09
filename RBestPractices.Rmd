@@ -1,5 +1,5 @@
 ---
-title: "Some best practices"
+title: "Basic R Best Practices"
 description: "Any fool can write code that a computer can understand. Good programmers write code that humans can understand. -- Martin Fowler, 2008."
 
 ---
@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = FALSE)
 library(wingspan)
 library(colorblindr)
 library(tidyverse)
+
 ```
 
 The purpose of this tutorial is to illustrate R best practices that facilitate efficient Shiny app development and debugging. All of these best practices pertain to writing R code in general beyond Shiny apps. We bring them up as part of the Shiny course because Shiny apps have many moving parts. Keeping our code as human-readable, automated, and compartmentalized as possible will help us spend less of our time debugging and more of our time communicating science. 
@@ -276,8 +277,44 @@ cvd_grid(victory_plot)
 
 ```
 
-It's much harder to distinguish the difference between predators and non-predators! That's because even though the darkred and darkgreen colors have different hues, they have similar values. Let's try distinguishing between predators and non-predators using colors that differ in value as well as hue. We'll call our revised plot victory_plot_cbf for "colorblind friendly."
+It's much harder to distinguish the difference between predators and non-predators! That's because even though the darkred and darkgreen colors have different hues, they have similar values. Let's try distinguishing between predators and non-predators using colors that differ in value as well as hue. We'll also make the text bigger and visually simplify the plot by removing the panel lines and adjusting the y scale (the last two are more preferences than accessibility issues). We'll call our revised plot victory_plot_cbf for "colorblind friendly."
 
+```{r, echo=TRUE, eval=FALSE}
+
+# Make a scatter plot called victory_point
+# displaying wingspan on the x axis and victory points on the y axis
+# Make non-predators light blue and predators dark green
+
+victory_plot_cbf <- ggplot(birds) +
+                     geom_point(aes(x = wingspan,
+                                    y = victory_points, 
+                                    color = predator),
+                                    size = 5) +
+                     scale_color_manual(values = c("FALSE" = "#67a9cf",
+                                        "TRUE" = "#016c59")) +
+                     labs (x = "Wingspan", y = "Victory points") +
+                     scale_y_continuous(breaks = seq(0, 8, 2)) +
+                     theme_bw() +
+                     theme(axis.text = element_text(size = 24,
+                                                    color = "black"),
+                           axis.title = element_text(size = 36),
+                           panel.grid = element_blank(),
+                           legend.title = element_text(size = 24),
+                           legend.text = element_text(size = 20))
+
+# print victory_plot
+
+victory_plot_cbf
+
+# Simulate what victory_plot would look like to people with different
+# kinds of color blindness.
+
+cvd_grid(victory_plot_cbf)
+
+# Much more colorblind friendly!
+
+
+```
 ```{r, echo=TRUE}
 
 # Make a scatter plot called victory_point
@@ -285,17 +322,27 @@ It's much harder to distinguish the difference between predators and non-predato
 # Make non-predators light blue and predators dark green
 
 victory_plot_cbf <- ggplot(birds) +
-                 geom_point(aes(x = wingspan,
-                                y = victory_points, 
-                                color = predator),
-                                size = 3) +
-                 scale_color_manual(values = c("FALSE" = "#67a9cf",
-                                    "TRUE" = "#016c59")) +
-                 theme_bw()
+                     geom_point(aes(x = wingspan,
+                                    y = victory_points, 
+                                    color = predator),
+                                    size = 5) +
+                     scale_color_manual(values = c("FALSE" = "#67a9cf",
+                                        "TRUE" = "#016c59")) +
+                     labs (x = "Wingspan", y = "Victory points") +
+                     scale_y_continuous(breaks = seq(0, 8, 2)) +
+                     theme_bw() +
+                     theme(axis.text = element_text(color = "black"),
+                           panel.grid = element_blank())
 
 # print victory_plot
 
-victory_plot_cbf
+victory_plot_cbf +
+       theme(axis.text = element_text(size = 24,
+             color = "black"),
+             axis.title = element_text(size = 30),
+             panel.grid = element_blank(),
+             legend.title = element_text(size = 24),
+             legend.text = element_text(size = 20))
 
 # Simulate what victory_plot would look like to people with different
 # kinds of color blindness.

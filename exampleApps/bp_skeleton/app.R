@@ -8,6 +8,13 @@ library(shiny)
 # Load data:
 ## datasets to display
 ## supporting datasets like palettes and options
+## If you were loading an R data file,
+## remembering that we use
+## relative paths
+##it would look like:
+
+# data <- readRDS("data/data.rds")
+
 
 # Source functions, remembering that we use
 # relative paths

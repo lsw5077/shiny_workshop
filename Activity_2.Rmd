@@ -22,12 +22,9 @@ Our goal is to create groups of course participants that have similar interests.
 Participants will apply Structured Decision Making (SDM) to their own decision support tool. More specifically, working in small groups, participants will identify problems relevant to their work that can be informed by their model results using the storyboard. 
 They will then map out how to use reactive elements and interactive visualization in conjunction with their model to facilitate the visualization of alternative decisions and their consequences as well as the identification of potential tradeoffs. Please remember that the envisioned app has to be simple enough so that it can be created within this course.
 
-How to use the storyboard:
+**How to use the storyboard:** 
 
 As you work through the pages of the storyboard, write or draw the scientific or communication problem your app addresses. Then plan out how you will use shiny widgets and reactive visuals to help your audience apply evidence to their decision-making process.
-
-[Storyboard files](images/storyboard.pdf)
-
 
 **Actual app development (i.e., code development):** 
 

@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1612868121244.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "5A47EBB",
+    "lastKnownWriteTime" : 1612868524,
+    "last_content_update" : 1612868524041,
+    "path" : "~/GitHub/shiny_workshop/exampleApps/craneGame/app.R",
+    "project_path" : "exampleApps/craneGame/app.R",
+    "properties" : {
+        "cursorPosition" : "6,0",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

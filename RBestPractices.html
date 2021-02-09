@@ -84,14 +84,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>Shiny Workshop: Some best practices</title>
+  <title>Shiny Workshop: Basic R Best Practices</title>
   
   <meta property="description" itemprop="description" content="Any fool can write code that a computer can understand. Good programmers write code that humans can understand. -- Martin Fowler, 2008."/>
   
   
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Shiny Workshop: Some best practices"/>
+  <meta property="og:title" content="Shiny Workshop: Basic R Best Practices"/>
   <meta property="og:type" content="article"/>
   <meta property="og:description" content="Any fool can write code that a computer can understand. Good programmers write code that humans can understand. -- Martin Fowler, 2008."/>
   <meta property="og:locale" content="en_US"/>
@@ -99,14 +99,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Shiny Workshop: Some best practices"/>
+  <meta property="twitter:title" content="Shiny Workshop: Basic R Best Practices"/>
   <meta property="twitter:description" content="Any fool can write code that a computer can understand. Good programmers write code that humans can understand. -- Martin Fowler, 2008."/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["Some best practices"]},{"type":"character","attributes":{},"value":["Any fool can write code that a computer can understand. Good programmers write code that humans can understand. -- Martin Fowler, 2008."]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["Basic R Best Practices"]},{"type":"character","attributes":{},"value":["Any fool can write code that a computer can understand. Good programmers write code that humans can understand. -- Martin Fowler, 2008."]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2142,7 +2142,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Some best practices","description":"Any fool can write code that a computer can understand. Good programmers write code that humans can understand. -- Martin Fowler, 2008.","authors":[]}
+{"title":"Basic R Best Practices","description":"Any fool can write code that a computer can understand. Good programmers write code that humans can understand. -- Martin Fowler, 2008.","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2171,7 +2171,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Some best practices</h1>
+<h1>Basic R Best Practices</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 <p>Any fool can write code that a computer can understand. Good programmers write code that humans can understand. – Martin Fowler, 2008.</p>
@@ -2459,7 +2459,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </code></pre>
 </div>
 </div>
-<p>It’s much harder to distinguish the difference between predators and non-predators! That’s because even though the darkred and darkgreen colors have different hues, they have similar values. Let’s try distinguishing between predators and non-predators using colors that differ in value as well as hue. We’ll call our revised plot victory_plot_cbf for “colorblind friendly.”</p>
+<p>It’s much harder to distinguish the difference between predators and non-predators! That’s because even though the darkred and darkgreen colors have different hues, they have similar values. Let’s try distinguishing between predators and non-predators using colors that differ in value as well as hue. We’ll also make the text bigger and visually simplify the plot by removing the panel lines and adjusting the y scale (the last two are more preferences than accessibility issues). We’ll call our revised plot victory_plot_cbf for “colorblind friendly.”</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Make a scatter plot called victory_point</span>
@@ -2467,20 +2467,66 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span class='co'># Make non-predators light blue and predators dark green</span>
 
 <span class='va'>victory_plot_cbf</span> <span class='op'>&lt;-</span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='va'>birds</span><span class='op'>)</span> <span class='op'>+</span>
-                 <span class='fu'>geom_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wingspan</span>,
-                                y <span class='op'>=</span> <span class='va'>victory_points</span>, 
-                                color <span class='op'>=</span> <span class='va'>predator</span><span class='op'>)</span>,
-                                size <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span>
-                 <span class='fu'>scale_color_manual</span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"FALSE"</span> <span class='op'>=</span> <span class='st'>"#67a9cf"</span>,
-                                    <span class='st'>"TRUE"</span> <span class='op'>=</span> <span class='st'>"#016c59"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-                 <span class='fu'>theme_bw</span><span class='op'>(</span><span class='op'>)</span>
+                     <span class='fu'>geom_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wingspan</span>,
+                                    y <span class='op'>=</span> <span class='va'>victory_points</span>, 
+                                    color <span class='op'>=</span> <span class='va'>predator</span><span class='op'>)</span>,
+                                    size <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span> <span class='op'>+</span>
+                     <span class='fu'>scale_color_manual</span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"FALSE"</span> <span class='op'>=</span> <span class='st'>"#67a9cf"</span>,
+                                        <span class='st'>"TRUE"</span> <span class='op'>=</span> <span class='st'>"#016c59"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+                     <span class='fu'>labs</span> <span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Wingspan"</span>, y <span class='op'>=</span> <span class='st'>"Victory points"</span><span class='op'>)</span> <span class='op'>+</span>
+                     <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>8</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+                     <span class='fu'>theme_bw</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+                     <span class='fu'>theme</span><span class='op'>(</span>axis.text <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>24</span>,
+                                                    color <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+                           axis.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>36</span><span class='op'>)</span>,
+                           panel.grid <span class='op'>=</span> <span class='fu'>element_blank</span><span class='op'>(</span><span class='op'>)</span>,
+                           legend.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>24</span><span class='op'>)</span>,
+                           legend.text <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># print victory_plot</span>
 
 <span class='va'>victory_plot_cbf</span>
+
+<span class='co'># Simulate what victory_plot would look like to people with different</span>
+<span class='co'># kinds of color blindness.</span>
+
+<span class='fu'><a href='https://rdrr.io/pkg/colorblindr/man/cvd_grid.html'>cvd_grid</a></span><span class='op'>(</span><span class='va'>victory_plot_cbf</span><span class='op'>)</span>
+
+<span class='co'># Much more colorblind friendly!</span>
 </code></pre>
 </div>
-<img src="RBestPractices_files/figure-html5/unnamed-chunk-12-1.png" width="624" />
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Make a scatter plot called victory_point</span>
+<span class='co'># displaying wingspan on the x axis and victory points on the y axis</span>
+<span class='co'># Make non-predators light blue and predators dark green</span>
+
+<span class='va'>victory_plot_cbf</span> <span class='op'>&lt;-</span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='va'>birds</span><span class='op'>)</span> <span class='op'>+</span>
+                     <span class='fu'>geom_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>wingspan</span>,
+                                    y <span class='op'>=</span> <span class='va'>victory_points</span>, 
+                                    color <span class='op'>=</span> <span class='va'>predator</span><span class='op'>)</span>,
+                                    size <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span> <span class='op'>+</span>
+                     <span class='fu'>scale_color_manual</span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"FALSE"</span> <span class='op'>=</span> <span class='st'>"#67a9cf"</span>,
+                                        <span class='st'>"TRUE"</span> <span class='op'>=</span> <span class='st'>"#016c59"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+                     <span class='fu'>labs</span> <span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Wingspan"</span>, y <span class='op'>=</span> <span class='st'>"Victory points"</span><span class='op'>)</span> <span class='op'>+</span>
+                     <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>8</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+                     <span class='fu'>theme_bw</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+                     <span class='fu'>theme</span><span class='op'>(</span>axis.text <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+                           panel.grid <span class='op'>=</span> <span class='fu'>element_blank</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># print victory_plot</span>
+
+<span class='va'>victory_plot_cbf</span> <span class='op'>+</span>
+       <span class='fu'>theme</span><span class='op'>(</span>axis.text <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>24</span>,
+             color <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+             axis.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>30</span><span class='op'>)</span>,
+             panel.grid <span class='op'>=</span> <span class='fu'>element_blank</span><span class='op'>(</span><span class='op'>)</span>,
+             legend.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>24</span><span class='op'>)</span>,
+             legend.text <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<img src="RBestPractices_files/figure-html5/unnamed-chunk-13-1.png" width="624" />
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Simulate what victory_plot would look like to people with different</span>
 <span class='co'># kinds of color blindness.</span>
@@ -2488,7 +2534,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span class='fu'><a href='https://rdrr.io/pkg/colorblindr/man/cvd_grid.html'>cvd_grid</a></span><span class='op'>(</span><span class='va'>victory_plot_cbf</span><span class='op'>)</span>
 </code></pre>
 </div>
-<img src="RBestPractices_files/figure-html5/unnamed-chunk-12-2.png" width="624" />
+<img src="RBestPractices_files/figure-html5/unnamed-chunk-13-2.png" width="624" />
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Much more colorblind friendly!</span>
 </code></pre>

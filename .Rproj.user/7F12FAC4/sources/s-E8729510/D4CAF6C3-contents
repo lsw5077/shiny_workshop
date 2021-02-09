@@ -1,0 +1,31 @@
+---
+title: "Activity 2: Group formation and Storyboard"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Group formation: 
+
+Our goal is to create groups of course participants that have similar interests. To this end: 
+
+1)	We ask that course participants provide a brief summary (max. 250 words) of the shiny app that they would like to develop as part of this course. Please post this summary, together with your name, stage, and affiliation in the top line of each project slot, in the following [google document.](https://docs.google.com/spreadsheets/d/18dBgeOJDxJykeElnFtqvwZM75DlwrmFOgyrlrfH0uj0/edit?usp=sharing) You do not have to post a summary if you don’t have an idea for an app or if you believe that your idea is too undeveloped.  
+
+2)	After all summaries have been posted, people will be able to choose which group they would like to join. This will be done in the [google document](https://docs.google.com/spreadsheets/d/18dBgeOJDxJykeElnFtqvwZM75DlwrmFOgyrlrfH0uj0/edit?usp=sharing) by people putting their names (and affiliation) below the author of the project they are interested in. The main restriction is that people can just join a single group and each group should have a maximum of 4 members.
+
+# App brainstorming:
+
+**Conceptual app development:** 
+
+Participants will apply Structured Decision Making (SDM) to their own decision support tool. More specifically, working in small groups, participants will identify problems relevant to their work that can be informed by their model results using the storyboard. 
+They will then map out how to use reactive elements and interactive visualization in conjunction with their model to facilitate the visualization of alternative decisions and their consequences as well as the identification of potential tradeoffs. Please remember that the envisioned app has to be simple enough so that it can be created within this course.
+
+**How to use the storyboard:** 
+
+As you work through the pages of the storyboard, write or draw the scientific or communication problem your app addresses. Then plan out how you will use shiny widgets and reactive visuals to help your audience apply evidence to their decision-making process.
+
+**Actual app development (i.e., code development):** 
+
+As time allows, participants will work on building a decision support interface around the model visualization they have already begun. To do this, people can keep working on group or start developing their own app. By the end of this module, participants will then present their work to the larger group and discuss how they are linking models, decision making frameworks, and code.

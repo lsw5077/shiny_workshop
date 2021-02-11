@@ -2195,8 +2195,18 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <span class='va'>Data1</span> <span class='op'>&lt;-</span> <span class='va'>birds</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span>
 <span class='va'>data_2</span> <span class='op'>&lt;-</span> <span class='va'>birds</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span>
+
+<span class='va'>Data1</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span>
 </code></pre>
 </div>
+<pre><code># A tibble: 5 x 5
+  common_name    scientific_name    set    power_color power_category 
+  &lt;chr&gt;          &lt;chr&gt;              &lt;chr&gt;  &lt;chr&gt;       &lt;chr&gt;          
+1 Abbott&#39;s Booby Papasula abbotti   ocean~ White       &lt;NA&gt;           
+2 American Bitt~ Botaurus lentigin~ core   Brown       Card-drawing   
+3 American Coot  Fulica americana   core   Brown       Flocking       
+4 American Crow  Corvus brachyrhyn~ core   Brown       Food from Supp~
+5 Anhinga        Anhinga anhinga    core   Brown       Hunting/Fishing</code></pre>
 </div>
 <p>These names are concise and they work just fine from the computer’s perspective. However, it will be easier for us as humans to organize our code and our thoughts if our data structures and modeling components follow one framework for naming. Some popular frameworks include <code>camelCase/CamelCase</code> where we use capital letters to mark breaks between words or <code>snake_case</code> where we use underscores to separate words. Since we’re focusing on human readability, you should go with whatever format works for you as long as you use it to build a consistent naming convention. The <a href="http://adv-r.had.co.nz/">Advanced R book</a> suggests using lower-case nouns for variables and dataframes, so that’s what we’ll do here:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2243,8 +2253,18 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span class='va'>birds</span> <span class='op'>&lt;-</span> <span class='fu'>wingspan</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/wingspan/man/birds.html'>birds</a></span>
 <span class='va'>platform_nesters</span> <span class='op'>&lt;-</span> <span class='va'>birds</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Platform"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>common_name</span>, <span class='va'>scientific_name</span>, <span class='va'>nest_type</span>, <span class='va'>egg_capacity</span>, <span class='va'>wingspan</span>, <span class='va'>forest</span>, <span class='va'>grassland</span>, <span class='va'>wetland</span>, <span class='va'>invertebrate</span>, <span class='va'>seed</span>, <span class='va'>fish</span>, <span class='va'>fruit</span>, <span class='va'>rodent</span>, <span class='va'>nectar</span>, <span class='va'>any_food</span><span class='op'>)</span>
 <span class='va'>cavity_nesters</span> <span class='op'>&lt;-</span> <span class='va'>birds</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>nest_type</span> <span class='op'>==</span> <span class='st'>"Cavity"</span><span class='op'>)</span><span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>common_name</span>, <span class='va'>scientific_name</span>, <span class='va'>nest_type</span>, <span class='va'>egg_capacity</span>, <span class='va'>wingspan</span>, <span class='va'>forest</span>, <span class='va'>grassland</span>, <span class='va'>wetland</span>, <span class='va'>invertebrate</span>, <span class='va'>seed</span>, <span class='va'>fish</span>, <span class='va'>fruit</span>, <span class='va'>rodent</span>, <span class='va'>nectar</span>, <span class='va'>any_food</span><span class='op'>)</span>
+
+<span class='va'>platform_nesters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span>
 </code></pre>
 </div>
+<pre><code># A tibble: 5 x 5
+  common_name      scientific_name     nest_type egg_capacity wingspan
+  &lt;chr&gt;            &lt;chr&gt;               &lt;chr&gt;            &lt;dbl&gt;    &lt;dbl&gt;
+1 Abbott&#39;s Booby   Papasula abbotti    Platform             1      190
+2 American Bittern Botaurus lentigino~ Platform             2      107
+3 American Coot    Fulica americana    Platform             5       61
+4 American Crow    Corvus brachyrhync~ Platform             2       99
+5 Anhinga          Anhinga anhinga     Platform             2      114</code></pre>
 </div>
 <p>Breaking up our code over several lines at the pipes <code>%&gt;%</code> and commas between selected columns gives us a much cleaner code block that’s easier to navigate. Advanced R recommends limiting lines to 80 characters or fewer as a rule of thumb. From here forward, we’ll use the platform_nesters and cavity_nesters dataframes and add on to them.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2545,7 +2565,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>These best practices are based on the <a href="http://adv-r.had.co.nz/">Advanced R book</a> and <a href="https://r4ds.had.co.nz/">R for Data Science books</a>. If you want to learn more about best practices from expert software engineers, I would absolutely check out those books, as well as recorded talks from conferences like <a href="https://www.youtube.com/channel/UC_R5smHVXRYGhZYDJsnXTwg/videos">UseR</a> and <a href="https://www.youtube.com/channel/UC3xfbCMLCw1Hh4dWop3XtHg">Rstudio::conf</a>.</p>
 <hr />
 <p>Article by Lyndsie Wszola</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

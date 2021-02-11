@@ -1,0 +1,42 @@
+---
+title: "Module 3: Enabling value-based parameters (02-16-2021)"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+<div class = "boxBorder">
+
+## Upon completion of this module, learners should be able to:
+
+-	### Describe how interactive web applications can enable the use of value-based parameters and how these parameters are critical to solve “wicked” problems
+
+- ### Describe and use R best practices
+
+- ### Describe and use Shiny-specific best practices
+</div>
+
+</break>
+
+<div class = "grayBox">
+
+
+- ### [Value-based parameters: a road routing example (Denis)](https://ufl.zoom.us/rec/share/dMR7RaNlRbHC1Z-VF-T2IZCnSYhRfDKcAEtLlaShX2Xc_2KKs2x_zUoOboKTQS93.AzigM0mReKuCjljt)
+  - [Road routing app](https://kokbent.shinyapps.io/hf-update/)
+  - [Road routing code](exampleApps/road_routing_tool.zip)
+
+- ### Best practices (Lyndsie + class discussion)
+  - [Basic R best practices](https://www.youtube.com/watch?v=Xlk4Au0C6TE)
+    - [R best Practices tutorial](RBestPractices.html)
+  - [Sidenote: skeleton app](https://www.youtube.com/watch?v=l0cwhtJf0_k)
+    - [Download app skeleton](exampleApps/bp_skeleton.zip)
+  - [Shiny best practices 1](https://www.youtube.com/watch?v=-Df0eOuCSTA)
+  - [Shiny best practices 2](https://www.youtube.com/watch?v=W9P01SvVwUg)
+    - [Crane app](https://pheasant.shinyapps.io/craneGame/)
+    - [Download Crane app code](https://drive.google.com/drive/folders/1AWWpd8pXBAikyn-KgIPbdxcJEpFZK1zC?usp=sharing)
+
+- ### [Activity 3: A very crappie fish app](Activity_3.html)
+  
+</div>

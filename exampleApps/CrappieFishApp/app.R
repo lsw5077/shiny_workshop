@@ -1,17 +1,17 @@
 
 library(shiny)
 library(tidyverse)
+library(rfishbase)
 
-ui <- fluidPage(
-      navbarPage("A very crappie fish app",
+ui <- navbarPage("A very crappie fish app",
       tabPanel("fish lengths",
       sidebarLayout(
       sidebarPanel(selectInput(inputId = "fishChoices",label = "chose some fish",choices = c("Walleye","Lake trout","Yellow perch","Northern pike","Muskellunge","Burbot", "Lake sturgeon"))),
       mainPanel(plotOutput("lengthPlot"),img(src = "length.png", align = "center")))),
       tabPanel("fish weights",sidebarLayout(sidebarPanel(selectInput(inputId = "fishChoices2",label = "chose some fish",choices = c("Walleye","Lake trout",
-      "Yellow perch","Northern pike","Muskellunge","Burbot","Lake sturgeon"))),mainPanel(plotOutput("weightPlot"),img(src = "mass.png", align = "center"))))))
-server <- function(input, output) {output$lengthPlot <- renderPlot({
-              library(rfishbase)
+      "Yellow perch","Northern pike","Muskellunge","Burbot","Lake sturgeon"))),mainPanel(plotOutput("weightPlot"),img(src = "mass.png", align = "center")))))
+server <- function(input, output) {
+  output$lengthPlot <- renderPlot({
               List <- data.frame(Species = c("Sander vitreus","Salvelinus namaycush","Perca flavescens", "Esox lucius","Esox masquinongy","Lota lota","Acipenser fulvescens"),
               Common_Name = c("Walleye","Lake trout","Yellow perch","Northern pike","Muskellunge", "Burbot","Lake sturgeon")) 
               fish <- popgrowth()

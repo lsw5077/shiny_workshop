@@ -55,6 +55,8 @@ birds <- wingspan::birds
 Data1 <- birds %>% filter(nest_type == "Platform")
 data_2 <- birds %>% filter(nest_type == "Cavity")
 
+Data1[1:5, 1:5]
+
 ```
 These names are concise and they work just fine from the computer's perspective. However, it will be easier for us as humans to organize our code and our thoughts if our data structures and modeling components follow one framework for naming. Some popular frameworks include ```camelCase/CamelCase``` where we use capital letters to mark breaks between words or ```snake_case``` where we use underscores to separate words. Since we're focusing on human readability, you should go with whatever format works for you as long as you use it to build a consistent naming convention. The [Advanced R book](http://adv-r.had.co.nz/) suggests using lower-case nouns for variables and dataframes, so that's what we'll do here:
 
@@ -108,6 +110,8 @@ In addition to supplementing our code with abundant, descriptive comments, we ca
 birds <- wingspan::birds
 platform_nesters <- birds %>% filter(nest_type == "Platform") %>% select(common_name, scientific_name, nest_type, egg_capacity, wingspan, forest, grassland, wetland, invertebrate, seed, fish, fruit, rodent, nectar, any_food)
 cavity_nesters <- birds %>% filter(nest_type == "Cavity")%>% select(common_name, scientific_name, nest_type, egg_capacity, wingspan, forest, grassland, wetland, invertebrate, seed, fish, fruit, rodent, nectar, any_food)
+
+platform_nesters[1:5, 1:5]
 
 ```
 

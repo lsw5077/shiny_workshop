@@ -28,8 +28,14 @@ knitr::opts_chunk$set(echo = FALSE)
   - [Road routing code](exampleApps/road_routing_tool.zip)
 
 - ### Best practices (Lyndsie + class discussion)
-  - [Basic R best practices](RBestPractices.html)
-  - Shiny-specific Best practices  
+  - [Basic R best practices](https://www.youtube.com/watch?v=Xlk4Au0C6TE)
+    - [R best Practices tutorial](RBestPractices.html)
+  - [Sidenote: skeleton app](https://www.youtube.com/watch?v=l0cwhtJf0_k)
+    - [Download app skeleton](exampleApps/bp_skeleton.zip)
+  - [Shiny best practices 1](https://www.youtube.com/watch?v=-Df0eOuCSTA)
+  - [Shiny best practices 2](https://www.youtube.com/watch?v=W9P01SvVwUg)
+    - [Crane app](https://pheasant.shinyapps.io/craneGame/)
+    - [Download Crane app code](https://drive.google.com/drive/folders/1AWWpd8pXBAikyn-KgIPbdxcJEpFZK1zC?usp=sharing)
 
 - ### [Activity 3: A very crappie fish app](Activity_3.html)
   

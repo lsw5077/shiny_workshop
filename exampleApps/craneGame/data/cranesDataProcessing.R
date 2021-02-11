@@ -1,3 +1,6 @@
+library(tidyverse)
+library(lubridate)
+
 # Crane picture shuffling 
 
 # Make a vector of image paths
@@ -57,15 +60,15 @@ cranePics <- data.frame(cbind(pic, fact, alt))
 
 # write to file
 
-write.csv(cranePics, file = 'C:/Users/Lyndsie/Documents/GitHub/shiny_workshop/exampleApps/craneGame/data/cranePics.csv')
+write.csv(cranePics, file = 'data/cranePics.csv')
 
 # read in BBS routes
 
-routes <- read.csv('C:/Users/Lyndsie/Documents/GitHub/shiny_workshop/exampleApps/craneGame/data/routes.csv')
+routes <- read.csv('data/routes.csv')
 
 # read in crane count data
 
-counts <- read.csv('C:/Users/Lyndsie/Documents/GitHub/shiny_workshop/exampleApps/craneGame/data/counts.csv')
+counts <- read.csv('data/counts.csv')
 
 # join routes to get coordinates for maps
 
@@ -74,4 +77,20 @@ count_routes <- counts %>%
 
 # write joined data to file
 
-write.csv(count_routes, file = "C:/Users/Lyndsie/Documents/GitHub/shiny_workshop/exampleApps/craneGame/data/countRoutes.csv")
+write.csv(count_routes, file = "data/countRoutes.csv")
+
+# cranes from ebird
+
+ecranes <- read.delim("data/cranesRaw.txt") %>%
+             select(LATITUDE,
+                    LONGITUDE,
+                    OBSERVATION.DATE,
+                    LOCALITY) %>%
+             filter(year(as.Date(OBSERVATION.DATE)) > 2015) %>%
+             mutate(Month = month(OBSERVATION.DATE,
+                                  label = TRUE,
+                                  abbr = FALSE))
+
+# write to file
+
+write.csv(ecranes, file = "data/ecranes.csv")

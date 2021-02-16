@@ -30,7 +30,7 @@ knitr::opts_chunk$set(echo = FALSE)
   - Example App: [Pheasant habitat simulator](https://pheasant.shinyapps.io/pheasanthabitatsimulator/)
 
   
-- ### Shiny hosting and long-term maintenance (Lyndsie)
+- ### [Shiny hosting and long-term maintenance (Lyndsie)](https://youtu.be/aZFD8g0syxw)
 
 - ### [Activity 4: Peer review](Activity_4.html)
 

@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1613445752257.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "6E10CD9C",
+    "lastKnownWriteTime" : 1613446185,
+    "last_content_update" : 1613446185493,
+    "path" : "~/GitHub/shiny_workshop/Activity_4.Rmd",
+    "project_path" : "Activity_4.Rmd",
+    "properties" : {
+        "cursorPosition" : "13,12",
+        "scrollLine" : "10"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

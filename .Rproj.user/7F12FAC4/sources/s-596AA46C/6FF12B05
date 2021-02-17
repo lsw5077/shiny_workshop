@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1613507849889.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "6FF12B05",
+    "lastKnownWriteTime" : 1613507820,
+    "last_content_update" : 1613507820,
+    "path" : "~/GitHub/shiny_workshop/exampleApps/improved_crappie_app/data/fishy_data.R",
+    "project_path" : "exampleApps/improved_crappie_app/data/fishy_data.R",
+    "properties" : {
+        "cursorPosition" : "29,0",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,8 @@
+The data for this app came from the Breeding Bird Survey and Ebird.
+The app was designed by Lyndsie Wszola purely for educational purposes
+and does not consitute policy advice or any official position. 
+
+countRoutes.csv, counts.csv, and cranesRaw.txt, and routes.csv 
+contain the raw data files. Data processing is described in 
+cranesDataProcessing.R, and data used in the app is contained in
+ecranes.csv, cranePics.csv, and countRoutes.csv

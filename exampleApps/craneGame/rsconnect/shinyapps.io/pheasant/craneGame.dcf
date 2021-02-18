@@ -4,9 +4,9 @@ username:
 account: pheasant
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
-appId: 3619466
-bundleId: 4208282
+appId: 3656598
+bundleId: 4238866
 url: https://pheasant.shinyapps.io/craneGame/
-when: 1613012433.02873
+when: 1613626446.06446
 asMultiple: FALSE
 asStatic: FALSE

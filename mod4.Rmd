@@ -33,8 +33,9 @@ knitr::opts_chunk$set(echo = FALSE)
   
 - ### [Shiny hosting and long-term maintenance (Lyndsie)](https://youtu.be/aZFD8g0syxw)
   - [Tutorial: sharing apps on github](shiny_packages.html.html)
-  - [Supplementary video: hosting on shinyapps.io](https://www.youtube.com/watch?v=VlRB5e8pgkA&feature=youtu.be)
   - [Supplementary video: sharing apps on github](https://www.youtube.com/watch?v=zIRNv3kH79w&feature=youtu.be)
+  - [Supplementary video: hosting on shinyapps.io](https://www.youtube.com/watch?v=VlRB5e8pgkA&feature=youtu.be)
+
 
 - ### [Activity 4: Peer review](Activity_4.html)
 

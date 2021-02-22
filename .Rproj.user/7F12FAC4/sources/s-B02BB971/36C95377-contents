@@ -1,0 +1,246 @@
+---
+title: "Life history invariants notes"
+author: "Lyndsie S. Wszola"
+date: "1/19/2021"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+setwd("D:/Documents/Reading")
+library(tidyverse)
+```
+
+# Chapter 1. Introduction: invariants imply deeper symmetries
+
+## 1.1 Introduction (with examples)
+
+**Invariants:** characteristics that do not change in the life histories of plants and animals (no love for fungi and protists apparently)
+  - Prospective: symmetry (when some traits of an object remain unchanged despite transformations) describes not only physical relationships but also relationships between concepts and life history traits
+  
+### Example 1: protygonous fish
+
+![](images/lyretail.jpg). 
+
+Anthias squamipinnis (lyretails) start as female, then become male as they grow. The largest 20-30 % of fish are always male, no matter what absolute size that 20-30 % actually are.
+
+```{r, echo = FALSE, message=FALSE}
+
+data.frame(site = c(rep("big", 50), rep("small", 50)),
+           male = c(rnorm(50, mean = 62, sd = 5),
+                    rnorm(50, mean = 47, sd = 5)),
+           female = c(rnorm(50, mean = 47, sd = 7),
+                      rnorm(50, mean = 32, sd = 7))) %>%
+ggplot() +
+  geom_histogram(aes(x = female), color = "black", fill = "grey") +
+  geom_histogram(aes(x = male), color = "black", fill = "black") +
+  labs (x = "Standard length (mm)", y = "Number of fish") +
+  theme_classic() +
+  facet_wrap(~site, nrow = 2)
+
+```
+
+Fig 1.1: Males and females retain the same relative body size distribution regardless of their absolute body size.
+
+
+```{r}
+
+data.frame(x = seq(-4, 1, 0.1)) %>%
+          mutate(y = 1.6 + 1.1*x) %>%
+ggplot() +
+  geom_line(aes(x = x, y = y)) +
+  labs(x = "log instantaneous bird mortality rate", y = "log bird clutch size per year") +
+  theme_classic()
+
+```
+
+Because mortality rate and clutch size per year are both on units of time, their ratio makes a dimensionless number. The ratio between clutch size and mortality rate is constant despite the magnitude of either value. Birds with a higher average mortality rate have larger clutch sizes, indicating that they are allocating more energy to reproduction than to survival.
+
+```{r}
+
+data.frame(x = seq(-1, 3, 0.1)) %>%
+          mutate(y = 0.52 - x) %>%
+ggplot() +
+  geom_line(aes(x = x, y = y)) +  
+  geom_point(aes(x = x, y = jitter(y, 5))) +
+  labs(x = "log mammal age at maturity", y = "log mammal clutch size") +
+  theme_classic()
+
+```
+
+Mammal clutch size per year decreases as mammal age ag maturity increases. This is also indicative of a tradeoff between investing in reproduction vs. survival. Mammals that take a long time to mature experience a high degree of parental care and much investment per offspring, compared to mammals that mature young and focus on producing lots of offspring. 
+
+In general it is easier to identify tradeoffs like this than it is to assign a cause to them. The patterns we see in nature are the emergent outcomes of symetric and non-symetric processes. 
+
+## 1.2 Population dynamics
+
+- Processes may be either density dependent or density-independent
+- Populations are characterized by changes in size and time
+
+### Example: stable age distribution
+
+- If a population is neither increasing or decreasing and has a monotonic likelihood of survival across life ages/stages, it can produce a stable age distribution, the number of individuals in each age class. SAD's rarely exist in the real world, but are a useful theoretical construct.
+
+The expected distribution of ages $N_{a}$ should be described by:
+
+$N_{a} = N_{0}(1-\mu)^{a}$
+
+Where $N_{0}$ equals the number of age 0 individuals, $\mu$ is mortality rate, and $a$ is age.
+
+```{r}
+
+data.frame(Age = seq(0, 40)) %>%
+  mutate(N = (40000*(1-0.2)^Age),
+         propN = N/40000) %>%
+ggplot() +
+  geom_bar(aes(x = Age, y = propN), stat = "identity") +
+  geom_line(aes(x = Age, y = propN), stat = "identity", color = "red", size = 2) +
+  labs (x = "Age", y = "Proportion remaining") +
+  theme_classic()
+
+```
+
+For stationary (stable in size) populations, the standard age distribution is equivalent to the mortality schedule. The reflection of mortality in standard age distributions gives us a way to quantify mortality in life histories.
+
+## 1.3 Fitness and life history evolution 
+
+- The rest of this book will assume stationary populations, which means it also assumes stabilizing selection. 
+
+- The consequence of this assumption is that the ultimate evoultionary goal reduces to maximizing $R_{0}$, the intrinsic rate of increase. 
+
+- If we're going to assume that populations are stable AND that individuals are competing to reproduce, then density dependence has to come in somewhere. 
+
+- The ultimate outcome is that the book deals with populations at equilibriums, studying "statics" rather than eco-evolutionary dynamics. 
+
+**Assumption: all density dependence is applied in juvenile survival, so the average population intrinsic rate of increase, $R_{0}$ can be described by:**  
+<br />
+
+
+$R_{0} = \int_{\alpha}^{\infty} L(x)b(x)dx$
+
+<br />
+
+Where $L(x)$ is the probability of surviving to age $x$, $\alpha$ is the age at maturity, and $b(x)$ is the birth rate. So the $R_{0}$ at any given age would be equal to the likelihood of surviving to that age multiplied by the reproductive output at that age. We can also write it as:
+
+$R_{0} = S(\alpha)V(\alpha)$
+
+or
+
+$log_{e}R_{0} = log_{e}V(\alpha) + log_{e}S(\alpha)$
+
+Let's break this down. We'll assume that instantaneous rate of mortality, $\mu$ is equal to 0.2 and age at maturity, $\alpha$ = 5. Lifetime likelihood of survival ($L(x)$) over ages x is defined by:
+
+$L(x) = (1-\mu)^x$
+
+
+```{r}
+
+data.frame(x = seq(0, 40)) %>%
+  mutate(Lx = 0.8^x) %>%
+  ggplot() +
+  geom_line(aes(x = x, y = Lx), size = 2, color = "red") +
+  geom_point(aes(x = x, y = Lx), size = 3) +
+  theme_classic()
+
+```
+
+And Let's say that reproduction is defined by a piecewise function where birth rate $b(x)$ before age 5 = 0 and the birth rate, $b(x)$, at ages 5 and up is 4:
+
+```{r equation}
+eq <-  noquote(paste(expression("x < 5, 0\\\\x >= 5, 4")))
+```
+
+$b(x) = \begin{cases} `r eq` \end{cases}$
+
+```{r}
+
+data.frame(x = seq(0, 40)) %>%
+  mutate(bx = ifelse(x < 5, 0, 4)) %>%
+  ggplot() +
+  geom_line(aes(x = x, y = bx), size = 2, color = "red") +
+  geom_point(aes(x = x, y = bx), size = 3) +
+  theme_classic()
+
+```
+
+So putting $L(x)$ and $b(x)$ together, we can estimate the change in $R_{0}$ over age as:
+
+$R_{0} = L(x)b(x)$
+
+
+```{r}
+
+data.frame(x = seq(0, 40)) %>%
+    mutate(Lx = 0.8^x,
+           bx = ifelse(x < 5, 0, 4),
+           R0 = Lx*bx) %>%
+    ggplot() +
+    geom_line(aes(x = x, y = R0), size = 2, color = "red") +
+    geom_point(aes(x = x, y = R0), size = 3) +
+    theme_classic()
+
+```
+
+The definite integral calculates the area under the curve from 5, the age at maturity to infinity/maximum of age distribution. 
+
+```{r}
+
+R0 <- data.frame(x = seq(0, 40)) %>%
+        mutate(Lx = 0.8^x,
+               bx = ifelse(x < 5, 0, 4),
+               R0 = Lx*bx) 
+
+    ggplot() +
+    geom_bar(aes(x = x, y = R0), stat = "identity", data = R0) +
+    geom_line(aes(x = x, y = R0), size = 2, color = "red", data = R0[R0$x > 4,]) +
+    theme_classic()
+    
+```
+
+
+```{r, echo=TRUE}
+
+integrand <- function(x) {0.8^x*4}
+
+## integrate the function from 0 to infinity
+
+integrate(integrand, lower = 5, upper = Inf)[1]$value
+
+# Ok, proof of concept. Let's integrate by parts
+
+sum(R0$R0)
+
+# Not exactly the same, but close enough for government work. 
+
+```
+
+$R_{0}$ can also be defined by:
+
+$R_{0} = S(\alpha)V(\alpha)$
+
+where $S(\alpha)$ is the chance of living to age $\alpha$ and $V(\alpha)$ is hte average number of daughters produced over a female's lifespan up to age $\alpha$. If we hold $R_{0}$ stable, than increasing $S(\alpha)$ will necessarily decrease $V(\alpha)$.
+
+Equlibrium occurs when $\displaystyle \frac{\partial log_{e}R_{0}}{\partial \alpha} = 0$  
+
+Creating the rule:
+
+$\displaystyle \frac{\partial log_{e}V(\alpha)}{\partial \alpha} =    \displaystyle -\frac{\partial \log_{e}S}{\partial\alpha}$
+ 
+i.e., positive changes in Survival as $\alpha$ increases equate to negative changes in S fecundity. Let $S(\alpha) = exp(-\phi(\alpha))$ so $log_{e}S(\alpha) = -\phi(\alpha)$ gives us an ESS:
+
+$\displaystyle \frac{\partial log_{e}V(\alpha)}{\partial \alpha} =    \displaystyle \frac{\partial \phi(\alpha)} {\partial\alpha}$
+
+
+The point of this whole discussion is to justify the use of $R_{0}$ as the fitness measure. The assumption that $R_{0} = 1$ means that populations are at equilibrium and creates a kind of finite currency that organisms must trade off against. 
+
+```{r}
+
+
+
+```
+
+
+
+
+

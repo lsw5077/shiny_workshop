@@ -84,26 +84,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>Shiny Workshop: Module 4: The importance of user experience (February 23, 2021)</title>
+  <title>Shiny Workshop: A workflow for sharing apps</title>
   
   
   
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Shiny Workshop: Module 4: The importance of user experience (February 23, 2021)"/>
+  <meta property="og:title" content="Shiny Workshop: A workflow for sharing apps"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Shiny Workshop"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Shiny Workshop: Module 4: The importance of user experience (February 23, 2021)"/>
+  <meta property="twitter:title" content="Shiny Workshop: A workflow for sharing apps"/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Module 4: The importance of user experience (February 23, 2021)"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["A workflow for sharing apps"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2139,7 +2139,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Module 4: The importance of user experience (February 23, 2021)","authors":[]}
+{"title":"A workflow for sharing apps","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2168,7 +2168,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Module 4: The importance of user experience (February 23, 2021)</h1>
+<h1>A workflow for sharing apps</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2176,35 +2176,89 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
 <div class="d-article">
-<div class="boxBorder">
-<h2 id="upon-completion-of-this-module-learners-should-be-able-to">Upon completion of this module, learners should be able to:</h2>
+<p>By request, this tutorial describes how to share a shiny app with a DOI. If you aren’t interested in sharing your code with a DOI but you still want to learn about an easy way to share your app with an R-savvy audience, just follow along for the first part of the tutorial! The code we build in this tutorial is available <a href="https://github.com/lsw5077/cranes">here</a>. If you’re just looking for info on how to host your app on shinyapps.io, check out the tutorial from <a href="https://shiny.rstudio.com/articles/shinyapps.html">RStudio</a>, which is way more comprehensive than I could be.</p>
+<h2 id="step-1-make-a-new-github-repo">Step 1: Make a new github repo</h2>
+<p>This tutorial uses github, the version control and code sharing platform, to share our app code. Github is a great tool for <a href="https://guides.github.com/">version control</a> and collaborative development, topics that are beyond the purview of this course but absolutely worth <a href="https://swcarpentry.github.io/git-novice/">learning about.</a> For this tutorial, and for sharing your own app code, all we need to know is that github lets us store and share code and data.</p>
+<p>If you don’t have a github account, check out <a href="https://docs.github.com/en/github/getting-started-with-github/signing-up-for-a-new-github-account">this resource</a> on how to make one. For the sake of simplicity, I’m going to use github.com’s point-and-click interface. However, everything we’re going to do can be done from the <a href="https://docs.gitlab.com/ee/gitlab-basics/start-using-git.html">command line</a> or the <a href="https://desktop.github.com/">github desktop application.</a></p>
+<p>Once we all have github accounts, we’ll make a new repository, which is an online directory to hold code, data, and metadata. Navigate to your profile page and click the green “New” button.</p>
+<figure>
+<img src="images/new_repo.PNG" alt="Screenshot of a github user profile page initiating a new repository" /><figcaption>Screenshot of a github user profile page initiating a new repository</figcaption>
+</figure>
+<p>We’ll be prompted to choose a name for our repository, decide whether it’s public or private, and have the options to add a Readme and license. We’ll call our repo “cranes,” make it public because we want to share it, and choose the <a href="https://choosealicense.com/">MIT license</a>, a common choice for sharing open source projects.</p>
+<figure>
+<img src="images/new_repo_dialogue.PNG" alt="Screenshot of github repo options" /><figcaption>Screenshot of github repo options</figcaption>
+</figure>
+<h2 id="step-2-add-a-readme">Step 2: Add a readme</h2>
+<p>Next, we’ll add a Readme so that we can give people some guidance on how to use our project. We’ll instruct readers on how to access the version of the app hosted on shinyapps.io, download the app, and run the code from github.</p>
+<figure>
+<img src="images/readme.PNG" alt="Screenshot of new repo with readme" /><figcaption>Screenshot of new repo with readme</figcaption>
+</figure>
+<h2 id="step-3-prep-our-code">Step 3: Prep our code</h2>
+<p>Now let’s get our code ready to upload. We’re going to upload two versions: a zipped version for folks who just want to download the code, and an unzipped version for folks who want to run the app from github. We’ll make a copy of the main crane app that we used in module 3 called “craneShare” and delete the rsconnect directory from the app code. The file structure in our craneshare folder looks like the image below, with a /data folder, a /www image folder, and app.R app code. We’ll also make a zipped copy of craneShare, so now we have a zipped and unzipped version of the same app directory.</p>
+<figure>
+<img src="images/craneShare.PNG" alt="Screenshot of an app file structure with app.R file, data folder, and www folder" /><figcaption>Screenshot of an app file structure with app.R file, data folder, and www folder</figcaption>
+</figure>
+<h2 id="step-4-release-our-code-into-the-world">Step 4: Release our code into the world!</h2>
+<p>Our zipped file is too big to upload to github using the drag and drop utility, so we’ll host it elsewhere (google drive in this case) and link to it in the Readme. The unzipped version is simpler to deal with. We simply open our unzipped /craneShare folder and then drag and drop the /data folder, /www folder, and app.R files into the repository and click “commit changes.”</p>
+<p>And there we have it! One reasonably presentable landing page with three ways to share our app:</p>
 <ul>
-<li><h3 id="explain-what-is-collaborative-tool-development-and-why-it-is-important">Explain what is collaborative tool development and why it is important</h3></li>
-<li><h3 id="illustrate-the-iterative-process-of-creating-an-interactive-web-application">Illustrate the iterative process of creating an interactive web application</h3></li>
-<li><h3 id="explain-the-main-options-for-shiny-hosting-and-for-long-term-app-maintenance">Explain the main options for shiny hosting and for long-term app maintenance</h3></li>
+<li>Hosted on shinyapps.io</li>
+<li>A zipped app package hosted on google drive and linked to our github page</li>
+<li>An unzipped set of app files that we can run from github.</li>
 </ul>
-</div>
-<p></break></p>
-<div class="grayBox">
-<ul>
-<li><h3 id="oyster-example-and-usability-chad"><a href="https://ufl.zoom.us/rec/share/rP5OW6GuzPjsRnZXThdxkZG441DlxshZdGRcl96lndtAKMx0RBY6McO4h0xQqL-r.p20kMEenBw0xOLw8">Oyster example and usability (Chad)</a></h3>
-<ul>
-<li><a href="exampleApps/HarvestEffort.zip">Example App: oyster harvest effort</a></li>
-</ul></li>
-<li><h3 id="pheasant-management-app-and-collaborative-tool-development-lyndsie"><a href="https://youtu.be/SPVE2XwU9Vg">Pheasant management app and collaborative tool development (Lyndsie)</a></h3>
-<ul>
-<li>Example App: <a href="https://pheasant.shinyapps.io/pheasanthabitatsimulator/">Pheasant habitat simulator</a></li>
-</ul></li>
-<li><h3 id="shiny-hosting-and-long-term-maintenance-lyndsie"><a href="https://youtu.be/aZFD8g0syxw">Shiny hosting and long-term maintenance (Lyndsie)</a></h3>
-<ul>
-<li><a href="shiny_sharing.html">Tutorial: sharing apps on github</a></li>
-<li><a href="https://www.youtube.com/watch?v=zIRNv3kH79w&amp;feature=youtu.be">Supplementary video: sharing apps on github</a></li>
-<li><a href="https://youtu.be/fd2KDUEEp68">Supplementary video: adding a DOI to a shiny app</a></li>
-<li><a href="https://www.youtube.com/watch?v=VlRB5e8pgkA&amp;feature=youtu.be">Supplementary video: hosting on shinyapps.io</a></li>
-</ul></li>
-<li><h3 id="activity-4-peer-review"><a href="Activity_4.html">Activity 4: Peer review</a></h3></li>
-</ul>
-</div>
+<figure>
+<img src="images/finishedRepo.PNG" alt="Screenshot of a github repository with structure with app.R file, data folder, and www folder" /><figcaption>Screenshot of a github repository with structure with app.R file, data folder, and www folder</figcaption>
+</figure>
+<p>Now, any user can run our app from github simply by loading the shiny library and then running the following lines in the RStudio console or from an R script, which tells R to look for a repository called “cranes” from a user called “lsw5077” in a branch called “main.”</p>
+<h2 id="step-5-adding-a-doi-to-your-code-using-zenodo">Step 5: Adding a DOI to your code using Zenodo</h2>
+<p>Sharing our code on github is a nice, quick way to get it out in the world, especially if we need to share it quickly with collaborators or create the ability to use it offline. If that’s all you need, you can stop here. If you want to <a href="https://guides.github.com/activities/citable-code/">add a DOI to your github repo</a> in order to share it as a stable research product, e.g., as supplemental material for a publication, read on!</p>
+<h3 id="step-5.1-linking-github-and-zenodo">Step 5.1: Linking github and Zenodo</h3>
+<p>We’re going to use zenodo to mint a DOI for the cranes app repository. <a href="https://zenodo.org/">Zenodo</a> is an open access repository service (like github but for research papers and datasets) that also mints DOI’s. If you connect your github account to zenodo, you can create a DOI for the github repository holding your shiny app in a few straightforward steps. First, we need to link your github account to zenodo. Simply log in to zenodo using your github account by navigating to zenodo.org and clicking “login” in the upper right-hand corner.</p>
+<figure>
+<img src="images/zenodo_login.png" alt="Screenshot of the zenodo homepage with the login link highlighted in a red box" /><figcaption>Screenshot of the zenodo homepage with the login link highlighted in a red box</figcaption>
+</figure>
+<p>Use your github login credentials to sign in by clicking “log in with github” on the sign in screen.</p>
+<figure>
+<img src="images/zenodo_github_login.png" alt="Screenshot of the zenodo homepage with the “login with github” link highlighted in a red box" /><figcaption>Screenshot of the zenodo homepage with the “login with github” link highlighted in a red box</figcaption>
+</figure>
+<h3 id="step-5.2-enabling-repositories">Step 5.2: Enabling repositories</h3>
+<p>Once you are logged in, click on your username/email where it appears in the upper right-hand corner of the screen, where the login link had been.</p>
+<figure>
+<img src="images/logged_in_profile_click.png" alt="Screenshot of the zenodo homepage with the authenticated user profile link highlighted in a red box" /><figcaption>Screenshot of the zenodo homepage with the authenticated user profile link highlighted in a red box</figcaption>
+</figure>
+<p>Select the “github” tab from the profile menu. On the page, we’ll see a list of github repositories. We’ll see a very helpful set of instructions at the top of the page. Following the zenodo instructions, we’ll set the toggle switch next to the “cranes” repository to “on” to enable zenodo to interact with the repository. Note that this screenshot already has a DOI because I was working with it previously, but yours won’t yet.</p>
+<figure>
+<img src="images/zenodo_profile.PNG" alt="Screenshot of the zenodo profile page github tab" /><figcaption>Screenshot of the zenodo profile page github tab</figcaption>
+</figure>
+<h3 id="step-5.3-make-a-release-of-our-shiny-app-repository">Step 5.3: Make a release of our shiny app repository</h3>
+<p>For this step, we need to switch over to github (you could also do this step immediately after adding your code to the repository in Step 4). On the cranes repository page, click we’ll click “Releases,” which brings up a list of stable, versioned code versions that we’ve published previously.</p>
+<p><img src="images/cranes_home.png" alt="Screenshot of the cranes github repo page" /> The Releases page shows us all the existing releases and provides zip and tar files to download. This code structure is how developers can publish multiple versions of a package or tool.</p>
+<figure>
+<img src="images/releases_tab.PNG" alt="Screenshot of the cranes github Releases page" /><figcaption>Screenshot of the cranes github Releases page</figcaption>
+</figure>
+<p>Now, we’ll click the “Draft a new release” button in the upper right hand corner to start a new code release. In the new code release, we’ll be prompted to choose a release version tag, title, and description. Once you fill out a version tag (e.g., v1.0), title and description, click “Publish release.” Back on the repo home page, you should now be able to see the release listed on the right hand side of the repo home page.</p>
+<figure>
+<img src="images/new_release.PNG" alt="Screenshot of the cranes github new release form" /><figcaption>Screenshot of the cranes github new release form</figcaption>
+</figure>
+<h3 id="step-5.4-mint-the-doi">Step 5.4: Mint the DOI</h3>
+<p>Back at zenodo, refresh the page and you should see a shiny new DOI by your sharing-enabled repository! Click the DOI for a handly little bit of markdown syntax that we can copy and paste into our cranes readme to display the DOI to users. <img src="images/doi_badge.PNG" alt="Screenshot of the zenodo doi syntax" /> If we navigate to the DOI link, it will take us to a zenodo page with an archive of our code and data that users can use to download stable code versions with metadata (sorry I forgot to show you this in the video). We can use this DOI exactly like any other: reference it in research papers, include it as supplemental material, and share it with collaborators. This might sound like a lot of steps, but I promise it’s very doable and makes a very nice shiny sharing interface for scientific papers.</p>
+<figure>
+<img src="images/zenodo_doi.PNG" alt="Screenshot of the zenodo sandhill crane archive" /><figcaption>Screenshot of the zenodo sandhill crane archive</figcaption>
+</figure>
+<h2 id="next-steps-shiny-packages-and-desktop-applications">Next Steps: Shiny packages and desktop applications</h2>
+<p>As I mentioned in my overview video on hosting shiny apps, we can take our shiny deployment to the next level by creating a package for our shiny app. We can then share that packaged shiny app on github or another code sharing platform, build a desktop app around it, and even publish it to cran!</p>
+<p>I absolutely recommend checking out package development for shiny and in general. However, a detailed tutorial and video (or more likely several tutorials and videos), would require us to get into concepts like package development and unit testing that are outside the scope of this course. Therefore, while I’m not going to create any new content about shiny package development, I will provide a suggested workflow with a list of excellent existing tutorials for the intrepid shiny developer:</p>
+<ol type="1">
+<li>In preparation, read through <a href="https://engineering-shiny.org/">Engineering Shiny</a> for a deep dive into production-grade shiny apps.</li>
+<li>Refactor your shiny code using <a href="https://shiny.rstudio.com/articles/modules.html">shiny modules</a>, which will make it much easier to develop your app into a package.</li>
+<li>Use the <a href="https://thinkr-open.github.io/golem/articles/a_start.html">golem package</a> to build your refactored code into a package.</li>
+<li>Distribute your package using github as we’ve discussed, and instruct users on how to install it using <a href="https://www.r-project.org/nosvn/pandoc/devtools.html">devtools</a></li>
+<li>If you are especially intrepid, consider publishing your project to <a href="https://r-pkgs.org/index.html">cran,</a> if desired.</li>
+<li>Consider converting your shiny package to a desktop application using <a href="https://chasemc.github.io/electricShine/">electrocShine</a></li>
+<li>Test your package using <a href="https://testthat.r-lib.org/">testthat</a></li>
+</ol>
+<hr />
+<p>Article by Lyndsie Wszola</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
